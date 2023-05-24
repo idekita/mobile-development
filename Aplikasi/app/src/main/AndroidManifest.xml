@@ -12,7 +12,10 @@
         android:theme="@style/Theme.IdeKita"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.tes.testes"
+            android:exported="false" />
+        <activity
+            android:name=".ui.splashScreen.SplashScreenActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
