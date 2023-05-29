@@ -4,5 +4,6 @@
     <string name="desc_register">
         Isikan data - data berikut :
     </string>
+    <string name="splash_screen_outer_circle">splash_screen_outer_circle</string>
 
 </resources>

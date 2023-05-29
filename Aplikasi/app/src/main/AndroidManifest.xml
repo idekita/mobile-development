@@ -21,10 +21,10 @@
             android:name=".ui.tes.testes"
             android:exported="false" />
         <activity
-            android:name=".ui.splashScreen.SplashScreenActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.splashScreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
