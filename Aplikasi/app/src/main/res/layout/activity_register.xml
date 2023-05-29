@@ -30,8 +30,8 @@
 
         <TextView
             android:id="@+id/descRegister"
-            android:layout_width="264dp"
-            android:layout_height="28dp"
+            android:layout_width="293dp"
+            android:layout_height="54dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:padding="0dp"
@@ -134,13 +134,14 @@
 
         <Button
             android:id="@+id/btnRegister"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="DAFTAR"
+            android:backgroundTint="@color/btn_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
