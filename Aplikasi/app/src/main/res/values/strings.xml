@@ -5,5 +5,12 @@
         Isikan data - data berikut :
     </string>
     <string name="splash_screen_outer_circle">splash_screen_outer_circle</string>
+    <string name="have_idea">Punya ide, tapi ga mau ngerjai ide kamu sendirian ?</string>
+    <string name="tv_1_title">Disini kamu bisa cari temen buat sama-sama bikin ide kamu jadi nyata</string>
+    <string name="tittle_2">Atau kamu lagi gabut, tapi tetep pingin produktif ?</string>
+    <string name="desc_2">Kamu juga bisa gabung ke projek yang sesuai dengan minat kamu</string>
+    <string name="tittle_page_3">Apa ide-mu hari ini ?</string>
+    <string name="desc_page_3">cari teman, dan mulai kerjain proyek sama-sama</string>
+    <string name="lanjut">Lanjut</string>
 
 </resources>
