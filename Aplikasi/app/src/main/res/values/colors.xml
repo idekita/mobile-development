@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
+    <color name="blue_primary">#1E4798</color>
+    <color name="blue_secondary">#749CEC</color>
+
     <color name="bg_login_register">#D7E3FC</color>
     <color name="btn_color">#37639C</color>
 
