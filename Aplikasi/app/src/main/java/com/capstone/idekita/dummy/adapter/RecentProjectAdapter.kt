@@ -13,8 +13,8 @@ import com.capstone.idekita.dummy.data.Response
 
 class RecentProjectAdapter(private val listReview: ArrayList<Response>) :
     RecyclerView.Adapter<RecentProjectAdapter.ViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
@@ -35,7 +35,7 @@ class RecentProjectAdapter(private val listReview: ArrayList<Response>) :
         viewHolder.img.setImageResource(item.photo)
         viewHolder.tvName.text = item.name
         viewHolder.tvDate.text = item.date
-        viewHolder.btJoin.setOnClickListener {
+        viewHolder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listReview[viewHolder.adapterPosition])
         }
     }

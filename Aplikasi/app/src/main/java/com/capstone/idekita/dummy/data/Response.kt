@@ -1,6 +1,5 @@
 package com.capstone.idekita.dummy.data
 
-import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import com.capstone.idekita.R
 import kotlinx.parcelize.Parcelize
