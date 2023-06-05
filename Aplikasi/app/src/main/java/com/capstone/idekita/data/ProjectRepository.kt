@@ -5,8 +5,8 @@ import com.capstone.idekita.model.wisataEntity
 
 class ProjectRepository {
 
-    fun getWisata():List<wisataEntity>{
-        return wisataData.wisatas
-    }
+//    fun getWisata():List<wisataEntity>{
+//        return wisataData.wisatas
+//    }
 
 }
