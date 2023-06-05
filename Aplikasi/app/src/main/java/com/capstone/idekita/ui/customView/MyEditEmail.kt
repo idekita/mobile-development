@@ -33,12 +33,12 @@ class MyEditEmail :AppCompatEditText {
             }
 
             override fun onTextChanged(email: CharSequence, start: Int, before: Int, count: Int) {
-                error = null
-                if (email.isEmpty() || !email.contains("@")){
-                    error = "harus mempunyai symbol '@' "
-                }else{
-                    error = null
-                }
+//                error = null
+//                if (email.isEmpty() || !email.contains("@")){
+//                    error = "harus mempunyai symbol '@' "
+//                }else{
+//                    error = null
+//                }
             }
 
             override fun afterTextChanged(p0: Editable?) {
