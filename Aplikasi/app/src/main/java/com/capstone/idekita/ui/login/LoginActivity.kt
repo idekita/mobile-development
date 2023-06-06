@@ -1,25 +1,34 @@
 package com.capstone.idekita.ui.login
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import com.capstone.idekita.MainActivity
 import com.capstone.idekita.R
+import com.capstone.idekita.UserPreference
 import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.databinding.ActivityLoginBinding
+import com.capstone.idekita.model.UserModel
 import com.capstone.idekita.response.LoginResponse
 import com.capstone.idekita.ui.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private val Context.dataStore:DataStore<Preferences> by preferencesDataStore(name = "settings")
 class LoginActivity : AppCompatActivity() {
 
     companion object{
         const val TAG = "LoginActivity"
     }
 
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,17 +37,16 @@ class LoginActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-//        binding.LinkKedaftar.setOnClickListener {
-//            val intent = Intent(this@LoginActivity,RegisterActivity::class.java)
-//            startActivity(intent)
-//        }
-
-//        binding.btnLogin.setOnClickListener {
-//            val intent = Intent(this@LoginActivity,MainActivity::class.java)
-//            startActivity(intent)
-//        }
         setAction()
+        setViewModel()
 
+    }
+
+
+    private fun setViewModel(){
+        loginViewModel = ViewModelProvider(this,
+            LoginViewModelFactory(UserPreference.getInstance(dataStore))
+        )[LoginViewModel::class.java]
     }
 
     private fun setAction(){
@@ -67,25 +75,25 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(){
         //showLoading(true)
-        val email = binding.UsernameEditText.text.toString()
+        val username = binding.UsernameEditText.text.toString()
         val pasword = binding.PassworEditText.text.toString()
 
-        val client = ApiConfig.getApiService().postLogin(email,pasword)
+        val client = ApiConfig.getApiService().postLogin(username,pasword)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null){
                    // showLoading(false)
 
-                    responseBody.user.username
-                    responseBody.user.password
-//                    LoginViewModel.saveUser(
-//                        UserModel(
-//                            responseBody.loginResult.name,
-//                            responseBody.loginResult.token,
-//                            isLogin = true
-//                        )
-//                    )
+//                    responseBody.user.username
+//                    responseBody.user.password
+                    loginViewModel.saveUser(
+                        UserModel(
+                            responseBody.user.username,
+                            responseBody.user.token,
+                            isLogin = true
+                        )
+                    )
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                     finish()

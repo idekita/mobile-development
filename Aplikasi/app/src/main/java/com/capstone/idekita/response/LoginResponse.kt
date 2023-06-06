@@ -13,8 +13,7 @@ data class LoginResponse(
 	@field:SerializedName("status")
 	val status: String,
 
-	@field:SerializedName("token")
-	val token: String
+
 )
 
 data class User(
@@ -29,5 +28,8 @@ data class User(
 	val username: String,
 
 	@field:SerializedName("password")
-	val password: String
+	val password: String,
+
+	@field:SerializedName("token")
+	val token: String
 )

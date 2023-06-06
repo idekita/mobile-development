@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.capstone.idekita.MainActivity
 import com.capstone.idekita.databinding.ActivityIntroBinding
 import com.capstone.idekita.dummy.data.DummyDataStore
 import com.capstone.idekita.dummy.data.dataStore
@@ -30,7 +31,7 @@ class IntroActivity : AppCompatActivity() {
         binding.btToLogin.setOnClickListener{
             viewModel.saveToken(true)
             startActivity(
-                Intent(this,LoginActivity::class.java)
+                Intent(this,MainActivity::class.java)
             )
             finish()
         }
