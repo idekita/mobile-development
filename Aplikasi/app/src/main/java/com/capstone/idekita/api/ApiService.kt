@@ -1,11 +1,10 @@
 package com.capstone.idekita.api
 
+import com.capstone.idekita.response.GetAllProjectResponse
 import com.capstone.idekita.response.LoginResponse
 import com.capstone.idekita.response.RegisterResponse
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
     @FormUrlEncoded
@@ -23,6 +22,11 @@ interface ApiService {
         @Field("password") password: String,
         @Field("username") username: String,
     ) : Call<RegisterResponse>
+
+    @GET("proyek")
+    fun getProjectList(
+        @Header("Authorization") token: String,
+    ):Call<GetAllProjectResponse>
 
 
 

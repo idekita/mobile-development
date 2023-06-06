@@ -90,6 +90,7 @@ class LoginActivity : AppCompatActivity() {
                     loginViewModel.saveUser(
                         UserModel(
                             responseBody.user.username,
+                            responseBody.user.email,
                             responseBody.user.token,
                             isLogin = true
                         )

@@ -10,9 +10,9 @@ class DetailProjectActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityDetailProjectBinding
 
-    companion object {
-        const val EXTRA_DATA = "extra_data"
-    }
+//    companion object {
+//        const val EXTRA_DATA = "extra_data"
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class DetailProjectActivity : AppCompatActivity() {
             val dataPhoto = extras.getInt("extra_photo")
             binding.nameTV.text = extras.getString("extra_name")
             binding.descTV.text = extras.getString("extra_desc")
-            binding.ivDetail.setImageResource(dataPhoto)
+            //binding.ivDetail.setImageResource(dataPhoto)
 //            Glide.with(this)
 //                .load(dataPhoto)
 //                .into(binding.ivDetail)
