@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.ViewModelProvider
+import com.capstone.idekita.MainActivity
 import com.capstone.idekita.databinding.ActivitySplashScreenBinding
 import com.capstone.idekita.dummy.data.DummyDataStore
 import com.capstone.idekita.dummy.data.dataStore
@@ -42,7 +43,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun cek(bool : Boolean){
         if(bool){
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this,MainActivity::class.java))
         }else{
             startActivity(Intent(this,IntroActivity::class.java))
         }

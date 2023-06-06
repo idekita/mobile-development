@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.capstone.idekita.databinding.ActivityDetailProjectBinding
-import com.capstone.idekita.model.wisataEntity
+//import com.capstone.idekita.model.wisataEntity
 
 class DetailProjectActivity : AppCompatActivity() {
 

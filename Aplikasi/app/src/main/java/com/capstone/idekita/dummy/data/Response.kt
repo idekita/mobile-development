@@ -12,6 +12,16 @@ data class Response (
     val date : String
 ):Parcelable
 
+@Parcelize
+data class MyProject (
+    val name : String,
+    val pmName : String,
+    val projImg : Int,
+    val pmImg : Int,
+    val category : String,
+    val status : String,
+):Parcelable
+
 object DummyList {
     fun getTheList() : List<Response>{
         val theList = ArrayList<Response>()
@@ -21,8 +31,6 @@ object DummyList {
                 R.drawable.logo_ide_kita_ik,
                 "ini hanyalah dummy data",
                 "12/12/12"
-
-
             )
             theList.add(list)
         }
@@ -41,6 +49,40 @@ object DummyListHorizotal {
                 "12/12/12"
 
 
+            )
+            theList.add(list)
+        }
+        return theList
+    }
+}
+
+object Ongoing {
+    fun getTheList() : List<MyProject>{
+        val theList = ArrayList<MyProject>()
+        for (i in 0..5) {
+            val list= MyProject(
+                "Projek saya",
+                "Project Manager",
+                R.drawable.page_2_gabut_idekita,
+                R.drawable.holder_person,
+                "Category : Some Category",
+                "Sedang Berlangsung"
+            )
+            theList.add(list)
+        }
+        return theList
+    }
+
+    fun getTheDone() : List<MyProject>{
+        val theList = ArrayList<MyProject>()
+        for (i in 0..1) {
+            val list= MyProject(
+                "Projek saya",
+                "Project Manager",
+                R.drawable.page_2_gabut_idekita,
+                R.drawable.holder_person,
+                "Category : Some Category",
+                "Selesai"
             )
             theList.add(list)
         }

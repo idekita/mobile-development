@@ -17,5 +17,15 @@
     <string name="tab_text_1">Berlangsung</string>
     <string name="tab_text_2">Selesai</string>
     <string name="tab_context">just a text</string>
+    <string name="add_project">Buat Project</string>
+    <string name="input_proj_name">Masukkan judul projek</string>
+
+    <string-array name = "kategori">
+        <item>Sosial</item>
+        <item>Pendidikan</item>
+        <item>Kesehatan</item>
+        <item>Budaya</item>
+        <item>Politik</item>
+    </string-array>
 
 </resources>
