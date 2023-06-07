@@ -19,6 +19,17 @@
     <string name="tab_context">just a text</string>
     <string name="add_project">Buat Project</string>
     <string name="input_proj_name">Masukkan judul projek</string>
+    <string name="judul_projek">Judul Projek</string>
+    <string name="bt_buat_projek">Buat Projek</string>
+    <string name="date_finish">Finish</string>
+    <string name="date_start">Start</string>
+    <string name="text_waktu_pengerjaan_proyek">Waktu pengerjaan proyek</string>
+    <string name="teks_deskripsi">Deskripsi</string>
+    <string name="tex_choose_image">Choose Image</string>
+    <string name="text_pilih_gambar">Pilih Gambar</string>
+    <string name="text_kategori">Kategori</string>
+    <string name="hint_pilih_kategori">Pilih Kategori</string>
+    <string name="desc_proj_image">proj_image</string>
 
     <string-array name = "kategori">
         <item>Sosial</item>

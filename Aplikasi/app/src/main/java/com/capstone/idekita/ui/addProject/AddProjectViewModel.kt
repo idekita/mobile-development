@@ -31,7 +31,7 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository): Vie
     @SuppressLint("SimpleDateFormat")
     fun getTodayDate(): String {
         val calendar = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val formatter = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
         return formatter.format(calendar)
     }

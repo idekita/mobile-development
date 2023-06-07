@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -44,13 +46,14 @@ class AddProjectActivity : AppCompatActivity() {
 
         binding.btGallery.setOnClickListener { startGallery() }
 
-        binding.edDate.setOnClickListener { setFinishDate() }
+        binding.edFinishDate.setOnClickListener { setDate(binding.edFinishDate) }
 
         binding.btSubmit.setOnClickListener {
             val dateToday = viewModel.getTodayDate()
-            val dateFinish = binding.edDate.text
+            val dateFinish = binding.edFinishDate.text
             val kategori = binding.dropdownItem.text
             val isKategori = viewModel.cekKategori(kategori.toString())
+            Toast.makeText(this,dateFinish,Toast.LENGTH_SHORT).show()
             viewModel.getToken().observe(this) {
                 uploadProject(it.token, "$edProjName", isKategori, "$edDesc", dateToday, "$dateFinish")
             }
@@ -119,11 +122,13 @@ class AddProjectActivity : AppCompatActivity() {
 
 
     // set Tanggal proyek selesai
-    private fun setFinishDate() {
+    private fun setDate(edText : EditText) {
         val cal = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yy/MM/dd", Locale.getDefault())
+        dateFormat.format(cal.time)
         try {
-            val checkCal = dateFormat.parse(binding.edDate.text.toString())
+//            val checkCal = dateFormat.parse(binding.edDate.text.toString())
+            val checkCal = dateFormat.parse(edText.text.toString())
             if (checkCal != null) {
                 cal.time = checkCal
             }
@@ -136,8 +141,8 @@ class AddProjectActivity : AppCompatActivity() {
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
         DatePickerDialog(this, { _, myear, mmonth, mday ->
-            val z = "$mday/${mmonth + 1}/$myear"
-            binding.edDate.setText(z)
+            val z = "$myear/${mmonth + 1}/$mday"
+            edText.setText(z)
         }, year, month, day).show()
     }
 
