@@ -1,33 +1,64 @@
 package com.capstone.idekita.data
 
-import android.content.ContentValues
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
 import com.capstone.idekita.UserPreference
-import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.api.ApiService
 import com.capstone.idekita.model.UserModel
-import com.capstone.idekita.model.wisataData
-import com.capstone.idekita.model.wisataEntity
-import com.capstone.idekita.response.GetAllProjectResponse
-import com.capstone.idekita.response.ProjectsItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.capstone.idekita.response.CreateProjectResponse
+import com.capstone.idekita.result.TheResult
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import retrofit2.HttpException
 
-class ProjectRepository(private val apiService: ApiService,private val pref:UserPreference) {
+class ProjectRepository(private val apiService: ApiService, private val pref: UserPreference) {
 
-    fun getUser():LiveData<UserModel>{
+    fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
 
-    suspend fun logout(){
+    suspend fun logout() {
         pref.logout()
     }
 
+    // Fungsi add project
+    fun postAddProject(
+        token: String,
+        projName: String,
+        categoryId: String,
+        deskripsi: String,
+        dateStart: String,
+        dateFinish: String,
+        imgProj: MultipartBody.Part
+    ): LiveData<TheResult<CreateProjectResponse>> = liveData {
+        emit(TheResult.Loading)
+        try {
+            val projNameTo = projName.toRequestBody("text/plain".toMediaType())
+            val catIdTo = categoryId.toRequestBody("text/plain".toMediaType())
+            val deskripsiTo = deskripsi.toRequestBody("text/plain".toMediaType())
+            val dateStartTo = dateStart.toRequestBody("text/plain".toMediaType())
+            val dateFinishTo = dateFinish.toRequestBody("text/plain".toMediaType())
+            val response = apiService.postAddProject(
+                "Bearer $token",
+                projNameTo,
+                catIdTo,
+                deskripsiTo,
+                dateStartTo,
+                dateFinishTo,
+                imgProj,
+            )
+            val successPost = TheResult.Success(response)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
 
 
 }
