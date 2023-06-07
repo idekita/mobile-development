@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.idekita.MainActivity
 import com.capstone.idekita.R
 import com.capstone.idekita.databinding.ActivityAddProjectBinding
 import com.capstone.idekita.result.TheResult
+import com.capstone.idekita.ui.home.HomeFragment
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -95,8 +97,9 @@ class AddProjectActivity : AppCompatActivity() {
 
                         }
                         is TheResult.Success -> {
-
                             Toast.makeText(this, "berhasil dikirim", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@AddProjectActivity,MainActivity::class.java)
+                            startActivity(intent)
                         }
                         is TheResult.Error -> {
                             Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()

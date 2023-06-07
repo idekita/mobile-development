@@ -50,7 +50,10 @@ data class ProjectsItem(
 	val category: Category,
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String,
+
+	@field:SerializedName("gambar")
+	val gambar: String
 )
 
 data class Category(

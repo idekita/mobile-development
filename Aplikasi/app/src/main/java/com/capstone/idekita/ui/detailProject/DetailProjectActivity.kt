@@ -21,13 +21,17 @@ class DetailProjectActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null){
-            val dataPhoto = extras.getInt("extra_photo")
+            val dataPhoto = extras.getString("extra_photo")
             binding.nameTV.text = extras.getString("extra_name")
             binding.descTV.text = extras.getString("extra_desc")
-            //binding.ivDetail.setImageResource(dataPhoto)
-//            Glide.with(this)
-//                .load(dataPhoto)
-//                .into(binding.ivDetail)
+            binding.creatorTV.text = extras.getString("extra_creator")
+            binding.statusTV.text = extras.getString("extra_status")
+            binding.mulaiTV.text = extras.getString("extra_start")
+            binding.endTV.text = extras.getString("extra_end")
+            binding.kategoriTV.text = extras.getString("extra_category")
+            Glide.with(this)
+                .load(dataPhoto)
+                .into(binding.ivDetail)
         }
 
     }

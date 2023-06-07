@@ -38,18 +38,18 @@ class ProfileFragment : Fragment() {
 
     private fun setViewModel(){
         homeViewModel.getUser().observe(viewLifecycleOwner,{user ->
-            //if (user.isLogin){
+            if (user.isLogin){
                 binding.nameTV.text = user.name
                 binding.emailTV.text = user.gmail
                 binding.btnLogout.setOnClickListener {
                     homeViewModel.logout()
                 }
-            //}
-//            else{
-//                val intent = Intent(requireContext(), LoginActivity::class.java)
-//                startActivity(intent)
-//
-//            }
+            }
+            else{
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+
+            }
         })
     }
 

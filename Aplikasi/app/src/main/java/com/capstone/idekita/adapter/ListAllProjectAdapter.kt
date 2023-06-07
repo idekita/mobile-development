@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.idekita.R
@@ -29,6 +31,7 @@ class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):Recycler
 
         val imgPhoto: ImageView = itemView.findViewById(R.id.img_projectIV)
         val judul: TextView = itemView.findViewById(R.id.TitleProjectTV)
+        val date:TextView = itemView.findViewById(R.id.dateTV)
 
     }
 
@@ -39,19 +42,34 @@ class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):Recycler
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
-        val (id,name,photo,lokasi,desc) = listProject[position]
-        holder.judul.text = name
-//        Glide.with(holder.itemView.context)
-//            .load(photo)
-//            .into(holder.imgPhoto)
+        val item = listProject[position]
+        //val item2 = differ.currentList[position]
+        //val (id,name,photo,lokasi,tanggalmulai) = listProject[position]
+        holder.judul.text = item.nmProyek
+        holder.date.text = item.tanggalMulai
+        //holder.imgPhoto.setImageR esource(R.drawable)
+        Glide.with(holder.itemView.context)
+            .load(item.gambar)
+            .into(holder.imgPhoto)
         holder.itemView.setOnClickListener {
-
             onItemClickCallback.onItemClicked(listProject[position])
         }
 
     }
 
     override fun getItemCount(): Int  = listProject.size
+
+
+    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ProjectsItem>(){
+            override fun areItemsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
+                return oldItem.tanggalMulai == oldItem.tanggalMulai
+            }
+    }
+    val differ = AsyncListDiffer(this,DIFF_CALLBACK)
+
 
 }

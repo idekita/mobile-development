@@ -85,7 +85,12 @@ class HomeFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString("extra_name",data.nmProyek)
                 bundle.putString("extra_desc",data.deskripsi)
-                //bundle.putInt("extra_photo",data)
+                bundle.putString("extra_photo",data.gambar)
+                bundle.putString("extra_creator",data.creator)
+                bundle.putString("extra_status",data.status)
+                bundle.putString("extra_start",data.tanggalMulai)
+                bundle.putString("extra_end",data.tanggalSelesai)
+                bundle.putString("extra_category",data.category.nmKategori)
 
                 intent.putExtras(bundle)
 
@@ -95,7 +100,8 @@ class HomeFragment : Fragment() {
 
 
         //Recycle View Latest
-        binding.rvRecent.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+        val LayoutManager = LinearLayoutManager(requireContext())
+        binding.rvRecent.layoutManager = LayoutManager
         val projectListAdapter2 = ListAllProjectAdapter(listProject)
         binding.rvRecent.adapter = projectListAdapter2
 
@@ -106,7 +112,12 @@ class HomeFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString("extra_name",data.nmProyek)
                 bundle.putString("extra_desc",data.deskripsi)
-                //bundle.putInt("extra_photo",data)
+                bundle.putString("extra_photo",data.gambar)
+                bundle.putString("extra_creator",data.creator)
+                bundle.putString("extra_status",data.status)
+                bundle.putString("extra_start",data.tanggalMulai)
+                bundle.putString("extra_end",data.tanggalSelesai)
+                bundle.putString("extra_category",data.category.nmKategori)
 
                 intent.putExtras(bundle)
 
