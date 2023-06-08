@@ -3,10 +3,15 @@ package com.capstone.idekita.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.capstone.idekita.UserPreference
 import com.capstone.idekita.api.ApiService
 import com.capstone.idekita.model.UserModel
 import com.capstone.idekita.response.CreateProjectResponse
+import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.result.TheResult
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -22,6 +27,18 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
 
     suspend fun logout() {
         pref.logout()
+    }
+
+    fun getStoryPaging(token: String):LiveData<PagingData<ProjectsItem>>{
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                ProjectPagingSource(apiService,"Bearer ${token}")
+            }
+        ).liveData
     }
 
     // Fungsi add project

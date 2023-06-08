@@ -31,7 +31,7 @@
     <string name="hint_pilih_kategori">Pilih Kategori</string>
     <string name="desc_proj_image">proj_image</string>
 
-    <string-array name = "kategori">
+    <string-array name="kategori">
         <item>Sosial</item>
         <item>Pendidikan</item>
         <item>Kesehatan</item>

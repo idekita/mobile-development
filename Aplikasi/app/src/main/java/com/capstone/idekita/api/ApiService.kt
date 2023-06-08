@@ -1,12 +1,10 @@
 package com.capstone.idekita.api
 
-import com.capstone.idekita.response.CreateProjectResponse
-import com.capstone.idekita.response.GetAllProjectResponse
-import com.capstone.idekita.response.LoginResponse
-import com.capstone.idekita.response.RegisterResponse
+import com.capstone.idekita.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -30,6 +28,22 @@ interface ApiService {
     fun getProjectList(
         @Header("Authorization") token: String,
     ):Call<GetAllProjectResponse>
+
+
+    @GET("proyek")
+    suspend fun getProjectListPaging(
+        @Header("Authorization") token: String,
+        @Query("Page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("category") nmKategori : String
+    ):Response<GetAllProjectResponse>
+
+
+    @GET("kontributor/:id_proyek")
+    fun geContributor(
+        @Header("Authorization") token: String,
+        @Query("id_kontributor") id_kontributor:Int,
+    ):Call<GetContributorProjectResponse>
 
     @Multipart
     @POST("proyek")

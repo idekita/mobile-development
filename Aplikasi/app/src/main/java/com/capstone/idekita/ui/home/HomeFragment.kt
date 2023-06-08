@@ -6,29 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
-import com.capstone.idekita.MainViewModel
 import com.capstone.idekita.MainViewModelFactory
-import com.capstone.idekita.R
 import com.capstone.idekita.adapter.ListAllProjectAdapter
 import com.capstone.idekita.databinding.FragmentHomeBinding
-import com.capstone.idekita.databinding.FragmentMyProjectBinding
 import com.capstone.idekita.dummy.adapter.RecentProjectAdapter
 import com.capstone.idekita.dummy.data.DummyList
 import com.capstone.idekita.dummy.data.DummyListHorizotal
 import com.capstone.idekita.dummy.data.Response
 import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
+import com.capstone.idekita.ui.listKategori.ListKategoriActivity
 import com.capstone.idekita.ui.login.LoginActivity
-import com.capstone.idekita.ui.myProject.MyProjectFragment
-import com.capstone.idekita.ui.myProject.SectionsPagerAdapter
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+
 
 
 class HomeFragment : Fragment() {
@@ -46,8 +38,12 @@ class HomeFragment : Fragment() {
 
         //setAction()
         setViewModel()
-//        showdata()
+        //showdata()
+
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
         return binding.root
 
 
@@ -55,19 +51,25 @@ class HomeFragment : Fragment() {
 
 
     private fun setViewModel(){
-        homeViewModel.getUser().observe(viewLifecycleOwner,{user ->
-            if (user.isLogin){
-                homeViewModel.listProject.observe(viewLifecycleOwner){
+        homeViewModel.getUser().observe(viewLifecycleOwner) { user ->
+            if (user.isLogin) {
+                homeViewModel.listProject.observe(viewLifecycleOwner) {
                     ShowRecycleList(it)
                 }
                 homeViewModel.getAllProject("Bearer ${user.token}")
-            }
-            else{
+
+
+                binding.btnKeKategori.setOnClickListener() {
+                    val intent = Intent(requireContext(), ListKategoriActivity::class.java)
+                    startActivity(intent)
+                }
+
+            } else {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
 
             }
-        })
+        }
     }
 
 
@@ -100,8 +102,8 @@ class HomeFragment : Fragment() {
 
 
         //Recycle View Latest
-        val LayoutManager = LinearLayoutManager(requireContext())
-        binding.rvRecent.layoutManager = LayoutManager
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvRecent.layoutManager = layoutManager
         val projectListAdapter2 = ListAllProjectAdapter(listProject)
         binding.rvRecent.adapter = projectListAdapter2
 

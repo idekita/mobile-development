@@ -3,6 +3,8 @@ package com.capstone.idekita.ui.home
 import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.data.ProjectRepository
 import com.capstone.idekita.model.wisataData
@@ -23,6 +25,10 @@ class HomeViewModel(private val projectRepository: ProjectRepository):ViewModel(
         viewModelScope.launch {
             projectRepository.logout()
         }
+    }
+
+    fun getAllProjectPaging (token: String) : LiveData<PagingData<ProjectsItem>>{
+        return projectRepository.getStoryPaging(token).cachedIn(viewModelScope)
     }
 
     private val _listProject = MutableLiveData<List<ProjectsItem>>()

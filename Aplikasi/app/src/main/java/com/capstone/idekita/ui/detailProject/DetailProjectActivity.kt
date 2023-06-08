@@ -2,17 +2,23 @@ package com.capstone.idekita.ui.detailProject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.databinding.ActivityDetailProjectBinding
+import com.capstone.idekita.ui.home.HomeViewModel
+
 //import com.capstone.idekita.model.wisataEntity
 
 class DetailProjectActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityDetailProjectBinding
 
-//    companion object {
-//        const val EXTRA_DATA = "extra_data"
-//    }
+    private val homeViewModel by viewModels<HomeViewModel> {
+        MainViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,20 @@ class DetailProjectActivity : AppCompatActivity() {
                 .load(dataPhoto)
                 .into(binding.ivDetail)
         }
+
+
+        homeViewModel.getUser().observe(this,{user ->
+            if (extras != null) {
+                if (user.name == extras.getString("extra_creator")){
+                    binding.btnDaftarContributor.visibility = View.VISIBLE
+                    binding.btnJoin.visibility = View.GONE
+                }else{
+                    binding.btnDaftarContributor.visibility = View.GONE
+                }
+            }
+        })
+
+
 
     }
 
