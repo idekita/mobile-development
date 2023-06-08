@@ -38,7 +38,6 @@ interface ApiService {
         @Query("category") nmKategori : String
     ):Response<GetAllProjectResponse>
 
-
     @GET("kontributor/:id_proyek")
     fun geContributor(
         @Header("Authorization") token: String,

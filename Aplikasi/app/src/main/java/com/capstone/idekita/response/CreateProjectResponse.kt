@@ -50,5 +50,9 @@ data class Project(
 	val gambar: String,
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String,
+
+	@field:SerializedName("postedAt")
+	val postedAt: String
+
 )

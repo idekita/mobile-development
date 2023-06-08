@@ -60,16 +60,4 @@ class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):Recycler
     override fun getItemCount(): Int  = listProject.size
 
 
-    private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ProjectsItem>(){
-            override fun areItemsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
-                return oldItem.tanggalMulai == oldItem.tanggalMulai
-            }
-    }
-    val differ = AsyncListDiffer(this,DIFF_CALLBACK)
-
-
 }
