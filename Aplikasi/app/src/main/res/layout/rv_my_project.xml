@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp"
         android:paddingHorizontal="15dp"
+        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/img_story"
         app:layout_constraintTop_toBottomOf="@+id/img_story">
 
@@ -36,13 +36,13 @@
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:layout_marginStart="10dp"
+            android:ellipsize="end"
             android:maxLines="2"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/img_story"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_story"
             app:layout_constraintTop_toTopOf="@+id/img_story"
 
             tools:text="tes nama" />
@@ -53,8 +53,8 @@
             android:layout_height="20dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="@+id/tv_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/tv_name">
+
             <ImageView
                 android:id="@+id/img_pm"
                 android:layout_width="match_parent"
@@ -68,14 +68,14 @@
             android:id="@+id/tv_pm_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:layout_marginStart="5dp"
+            android:ellipsize="end"
             android:maxLines="2"
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/cv_img_pm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cv_img_pm"
             app:layout_constraintBottom_toBottomOf="@+id/cv_img_pm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cv_img_pm"
+            app:layout_constraintTop_toTopOf="@+id/cv_img_pm"
             tools:text="tes nama" />
 
         <TextView
@@ -83,11 +83,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Category : Some Category"
+            android:text="Category :"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/img_story"
-            app:layout_constraintStart_toStartOf="@id/cv_img_pm"
-            />
+            app:layout_constraintStart_toStartOf="@id/cv_img_pm" />
+
+        <TextView
+            android:id="@+id/isi_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Ini Kategori"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_category"
+            app:layout_constraintStart_toEndOf="@+id/tv_category"
+            app:layout_constraintTop_toTopOf="@+id/tv_category" />
 
         <View
             android:id="@+id/just_a_line"
@@ -95,10 +105,10 @@
             android:layout_height="1dp"
             android:layout_marginHorizontal="20dp"
             android:background="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/img_story"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/img_story" />
 
         <TextView
             android:id="@+id/tv_status"
@@ -109,11 +119,10 @@
             android:text="sedang berlangsung"
             android:textSize="10sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/just_a_line"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/just_a_line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

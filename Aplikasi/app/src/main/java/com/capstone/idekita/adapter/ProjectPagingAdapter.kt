@@ -18,6 +18,7 @@ class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapte
 
         fun bind(data: ProjectsItem) {
             binding.tvName.text = data.nmProyek
+            binding.isiCategory.text = data.category.nmKategori
             Glide.with(itemView.context)
                 .load(data.gambar)
                 .into(binding.imgStory)

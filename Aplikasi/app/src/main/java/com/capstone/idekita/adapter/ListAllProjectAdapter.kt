@@ -28,6 +28,7 @@ class ListAllProjectAdapter(private val listProject: List<ProjectsItem>) :
 
         val imgPhoto: ImageView = itemView.findViewById(R.id.img_projectIV)
         val judul: TextView = itemView.findViewById(R.id.TitleProjectTV)
+        val kategori:TextView = itemView.findViewById(R.id.tv_Category)
         val date: TextView = itemView.findViewById(R.id.dateTV)
 
     }
@@ -43,6 +44,7 @@ class ListAllProjectAdapter(private val listProject: List<ProjectsItem>) :
         val item = listProject[position]
         holder.judul.text = item.nmProyek
         holder.date.text = item.tanggalMulai
+        holder.kategori.text = item.category.nmKategori
         Glide.with(holder.itemView.context)
             .load(item.gambar)
             .into(holder.imgPhoto)

@@ -60,14 +60,6 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.getAllCategori("Bearer ${user.token}")
 
-//                binding.btnKeKategori.setOnClickListener() {
-//                    val intent = Intent(requireContext(), ListKategoriActivity::class.java)
-//                    val kategori = binding.tvCategoriSosial.text.toString()
-//                    val bundle = Bundle()
-//                    bundle.putString("extra_kategori",kategori)
-//                    intent.putExtras(bundle)
-//                    startActivity(intent)
-//                }
 
             } else {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -129,7 +121,7 @@ class HomeFragment : Fragment() {
 
 
         //Recycle View Latest
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvRecent.layoutManager = layoutManager
         val projectListAdapter2 = ListAllProjectAdapter(listProject)
         binding.rvRecent.adapter = projectListAdapter2
