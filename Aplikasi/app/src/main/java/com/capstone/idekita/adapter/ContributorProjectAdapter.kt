@@ -13,7 +13,7 @@ class ContributorProjectAdapter(private val listContributor: List<ContributorsIt
     RecyclerView.Adapter<ContributorProjectAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val imgPhoto: ImageView = itemView.findViewById(R.id.iv_contributor)
+        //val imgPhoto: ImageView = itemView.findViewById(R.id.iv_contributor)
         val nama: TextView = itemView.findViewById(R.id.name_contributor)
         val role: TextView = itemView.findViewById(R.id.role_contributor)
 

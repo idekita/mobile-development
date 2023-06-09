@@ -66,7 +66,7 @@ class SearchFragment : Fragment() {
             }
         )
 
-        searchViewModel.getAllProjectPaging(token).observe(this) {
+        searchViewModel.getAllProjectPaging(token,query).observe(this) {
             adapter.submitData(lifecycle, it)
         }
 

@@ -41,11 +41,8 @@ class ListAllProjectAdapter(private val listProject: List<ProjectsItem>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = listProject[position]
-        //val item2 = differ.currentList[position]
-        //val (id,name,photo,lokasi,tanggalmulai) = listProject[position]
         holder.judul.text = item.nmProyek
         holder.date.text = item.tanggalMulai
-        //holder.imgPhoto.setImageR esource(R.drawable)
         Glide.with(holder.itemView.context)
             .load(item.gambar)
             .into(holder.imgPhoto)

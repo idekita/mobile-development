@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.adapter.ListAllProjectAdapter
+import com.capstone.idekita.adapter.ListKategoriAdapter
 import com.capstone.idekita.databinding.FragmentHomeBinding
 import com.capstone.idekita.dummy.adapter.RecentProjectAdapter
 import com.capstone.idekita.dummy.data.DummyList
 import com.capstone.idekita.dummy.data.DummyListHorizotal
 import com.capstone.idekita.dummy.data.Response
+import com.capstone.idekita.response.CategoriesItem
 import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
 import com.capstone.idekita.ui.listKategori.ListKategoriActivity
@@ -35,11 +37,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //setAction()
         setViewModel()
-        //showdata()
-
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
@@ -57,11 +55,19 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.getAllProject("Bearer ${user.token}")
 
-
-                binding.btnKeKategori.setOnClickListener() {
-                    val intent = Intent(requireContext(), ListKategoriActivity::class.java)
-                    startActivity(intent)
+                homeViewModel.listCategori.observe(viewLifecycleOwner){
+                    showKategori(it)
                 }
+                homeViewModel.getAllCategori("Bearer ${user.token}")
+
+//                binding.btnKeKategori.setOnClickListener() {
+//                    val intent = Intent(requireContext(), ListKategoriActivity::class.java)
+//                    val kategori = binding.tvCategoriSosial.text.toString()
+//                    val bundle = Bundle()
+//                    bundle.putString("extra_kategori",kategori)
+//                    intent.putExtras(bundle)
+//                    startActivity(intent)
+//                }
 
             } else {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -72,11 +78,30 @@ class HomeFragment : Fragment() {
     }
 
 
+    private fun showKategori(listKategori:List<CategoriesItem>){
+        binding.rvKategori.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val kategoriAdapter = ListKategoriAdapter(listKategori)
+        binding.rvKategori.adapter = kategoriAdapter
+
+        kategoriAdapter.setOnItemClickCallback(object : ListKategoriAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: CategoriesItem) {
+                val intent = Intent(requireContext(), ListKategoriActivity::class.java)
+
+                val bundle = Bundle()
+                bundle.putString("extra_kategori",data.nmKategori)
+                intent.putExtras(bundle)
+                startActivity(intent)
+
+            }
+
+        })
+
+    }
+
     private fun ShowRecycleList(listProject: List<ProjectsItem>) {
 
         //Recycle View Rekomendasi
-        binding.rvRekomendasi.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val projectListAdapter = ListAllProjectAdapter(listProject)
         binding.rvRekomendasi.adapter = projectListAdapter
 

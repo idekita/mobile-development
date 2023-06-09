@@ -28,13 +28,21 @@ class ListKategoriActivity : AppCompatActivity() {
     }
 
     private fun setUpView() {
-        mainViewModel.getUser().observe(this) { user ->
-            getData(user.token)
 
+        val extras = intent.extras
+        if (extras != null){
+            val kategori = extras.getString("extra_kategori").toString()
+
+            mainViewModel.getUser().observe(this) { user ->
+                getData(user.token,kategori)
+
+            }
         }
+
+
     }
 
-    private fun getData(token: String) {
+    private fun getData(token: String,kategori:String) {
         val adapter = ProjectPagingAdapter()
         binding.rvListProjectCateogry.layoutManager = LinearLayoutManager(this)
         binding.rvListProjectCateogry.adapter = adapter.withLoadStateFooter(
@@ -43,9 +51,9 @@ class ListKategoriActivity : AppCompatActivity() {
             }
         )
 
-        mainViewModel.getAllProjectPaging(token).observe(this, {
+        mainViewModel.getAllProjectPaging(token,kategori).observe(this) {
             adapter.submitData(lifecycle, it)
-        })
+        }
 
     }
 

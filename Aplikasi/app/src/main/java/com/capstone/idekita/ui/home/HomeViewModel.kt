@@ -7,10 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.data.ProjectRepository
-import com.capstone.idekita.response.ContributorsItem
-import com.capstone.idekita.response.GetAllProjectResponse
-import com.capstone.idekita.response.GetContributorProjectResponse
-import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.response.*
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,10 +24,12 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         }
     }
 
-    fun getAllProjectPaging(token: String): LiveData<PagingData<ProjectsItem>> {
-        return projectRepository.getStoryPaging(token).cachedIn(viewModelScope)
+    fun getAllProjectPaging(token: String,kategori:String): LiveData<PagingData<ProjectsItem>> {
+        return projectRepository.getStoryPaging(token,kategori).cachedIn(viewModelScope)
     }
 
+
+    //listProject
     private val _listProject = MutableLiveData<List<ProjectsItem>>()
     val listProject: LiveData<List<ProjectsItem>> = _listProject
 
@@ -85,6 +84,35 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
             }
         })
         return result2
+    }
+
+
+    //listKategori
+    private val _listCategori = MutableLiveData<List<CategoriesItem>>()
+    val listCategori: LiveData<List<CategoriesItem>> = _listCategori
+
+    private val result3 = MediatorLiveData<Result<List<CategoriesItem>>>()
+    fun getAllCategori(token: String): LiveData<Result<List<CategoriesItem>>> {
+
+        val client = ApiConfig.getApiService().getCategori(token)
+        client.enqueue(object : Callback<ListKategoriResponse> {
+            override fun onResponse(
+                call: Call<ListKategoriResponse>,
+                response: Response<ListKategoriResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _listCategori.value = response.body()?.categories
+                }
+                Log.e(ContentValues.TAG, response.message())
+
+            }
+
+            override fun onFailure(call: Call<ListKategoriResponse>, t: Throwable) {
+
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+            }
+        })
+        return result3
     }
 
 }

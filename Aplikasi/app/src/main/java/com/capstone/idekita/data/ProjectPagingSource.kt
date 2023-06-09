@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.capstone.idekita.api.ApiService
 import com.capstone.idekita.response.ProjectsItem
 
-class ProjectPagingSource(private val apiService: ApiService, val token: String) :
+class ProjectPagingSource(private val apiService: ApiService, val token: String, val kategori:String) :
     PagingSource<Int, ProjectsItem>() {
 
     private companion object {
@@ -22,10 +22,10 @@ class ProjectPagingSource(private val apiService: ApiService, val token: String)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ProjectsItem> {
         return try {
 
-            val category = "Politik"
+            //val category = "Politik"
             val position = params.key ?: INITIAL_PAGE_INDEX
             val responseData =
-                apiService.getProjectListPaging(token, position, params.loadSize, category)
+                apiService.getProjectByCategori(token, kategori,position, params.loadSize)
 
             LoadResult.Page(
                 data = responseData.body()?.projects ?: emptyList(),

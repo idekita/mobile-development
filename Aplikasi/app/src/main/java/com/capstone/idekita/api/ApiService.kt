@@ -38,6 +38,19 @@ interface ApiService {
         @Query("category") nmKategori: String
     ): Response<GetAllProjectResponse>
 
+    @GET("proyek/kategori/{kategori}")
+    suspend fun getProjectByCategori(
+        @Header("Authorization") token: String,
+        @Path("kategori") kategori:String,
+        @Query("Page") page: Int?,
+        @Query("size") size: Int?,
+    ):Response<GetAllProjectResponse>
+
+    @GET("kategori")
+    fun getCategori(
+        @Header("Authorization") token: String,
+    ):Call<ListKategoriResponse>
+
     @GET("kontributor/{id}")
     fun getContributor(
         @Header("Authorization") token: String,

@@ -28,14 +28,14 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         pref.logout()
     }
 
-    fun getStoryPaging(token: String): LiveData<PagingData<ProjectsItem>> {
+    fun getStoryPaging(token: String,kategori:String): LiveData<PagingData<ProjectsItem>> {
 
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                ProjectPagingSource(apiService, "Bearer ${token}")
+                ProjectPagingSource(apiService, "Bearer ${token}",kategori)
             }
         ).liveData
     }
