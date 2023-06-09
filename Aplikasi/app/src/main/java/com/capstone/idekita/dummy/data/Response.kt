@@ -5,28 +5,28 @@ import com.capstone.idekita.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Response (
-    val name : String,
-    val photo : Int,
-    val desc : String,
-    val date : String
-):Parcelable
+data class Response(
+    val name: String,
+    val photo: Int,
+    val desc: String,
+    val date: String
+) : Parcelable
 
 @Parcelize
-data class MyProject (
-    val name : String,
-    val pmName : String,
-    val projImg : Int,
-    val pmImg : Int,
-    val category : String,
-    val status : String,
-):Parcelable
+data class MyProject(
+    val name: String,
+    val pmName: String,
+    val projImg: Int,
+    val pmImg: Int,
+    val category: String,
+    val status: String,
+) : Parcelable
 
 object DummyList {
-    fun getTheList() : List<Response>{
+    fun getTheList(): List<Response> {
         val theList = ArrayList<Response>()
         for (i in 0..10) {
-            val list= Response(
+            val list = Response(
                 "Adi suhardi",
                 R.drawable.logo_ide_kita_ik,
                 "ini hanyalah dummy data",
@@ -39,10 +39,10 @@ object DummyList {
 }
 
 object DummyListHorizotal {
-    fun getTheList() : List<Response>{
+    fun getTheList(): List<Response> {
         val theList = ArrayList<Response>()
         for (i in 0..10) {
-            val list= Response(
+            val list = Response(
                 "Projek saya",
                 R.drawable.page_2_gabut_idekita,
                 "ini hanyalah dummy data",
@@ -57,10 +57,10 @@ object DummyListHorizotal {
 }
 
 object Ongoing {
-    fun getTheList() : List<MyProject>{
+    fun getTheList(): List<MyProject> {
         val theList = ArrayList<MyProject>()
         for (i in 0..5) {
-            val list= MyProject(
+            val list = MyProject(
                 "Projek saya",
                 "Project Manager",
                 R.drawable.page_2_gabut_idekita,
@@ -73,10 +73,10 @@ object Ongoing {
         return theList
     }
 
-    fun getTheDone() : List<MyProject>{
+    fun getTheDone(): List<MyProject> {
         val theList = ArrayList<MyProject>()
         for (i in 0..1) {
-            val list= MyProject(
+            val list = MyProject(
                 "Projek saya",
                 "Project Manager",
                 R.drawable.page_2_gabut_idekita,

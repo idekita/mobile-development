@@ -2,7 +2,6 @@ package com.capstone.idekita.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +9,14 @@ import com.bumptech.glide.Glide
 import com.capstone.idekita.databinding.RvMyProjectBinding
 import com.capstone.idekita.response.ProjectsItem
 
-class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem,ProjectPagingAdapter.MyViewHolder>(
-    DIFF_CALLBACK) {
+class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapter.MyViewHolder>(
+    DIFF_CALLBACK
+) {
 
-    class MyViewHolder(private val binding: RvMyProjectBinding):RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: RvMyProjectBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: ProjectsItem){
+        fun bind(data: ProjectsItem) {
             binding.tvName.text = data.nmProyek
             Glide.with(itemView.context)
                 .load(data.gambar)
@@ -30,7 +31,7 @@ class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem,ProjectPagingAdapter
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = getItem(position)
-        if (data != null){
+        if (data != null) {
             holder.bind(data)
         }
     }
@@ -39,7 +40,7 @@ class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem,ProjectPagingAdapter
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        val binding = RvMyProjectBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = RvMyProjectBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 

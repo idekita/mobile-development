@@ -7,23 +7,25 @@ import okhttp3.MultipartBody
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddProjectViewModel(private val projectRepository: ProjectRepository): ViewModel() {
+class AddProjectViewModel(private val projectRepository: ProjectRepository) : ViewModel() {
 
     fun addProject(
-        token : String,
-        projName : String,
-        idCat : String,
-        desc : String,
-        dateStart : String,
-        dateFinish : String,
-        img : MultipartBody.Part
-    )=projectRepository.postAddProject(
+        token: String,
+        projName: String,
+        idCat: String,
+        desc: String,
+        dateStart: String,
+        dateFinish: String,
+//        datePost : String,
+        img: MultipartBody.Part
+    ) = projectRepository.postAddProject(
         token,
         projName,
         idCat,
         desc,
         dateStart,
         dateFinish,
+//        datePost,
         img
     )
 
@@ -36,11 +38,19 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository): Vie
         return formatter.format(calendar)
     }
 
-    fun getToken()=projectRepository.getUser()
+    fun getProfil(token: String, username: String) = projectRepository.profil(token, username)
+    fun regisKon(token: String, id_proj: Int) = projectRepository.regisKon(token, id_proj)
+    fun reqKon(token: String, id: Int, statLamaran: String, role: String) =
+        projectRepository.reqKon(token, id, statLamaran, role)
 
-    fun cekKategori(cat : String) : String{
+    fun changeStatus(token: String, id: Int, status: String) =
+        projectRepository.changeStatusProject(token, id, status)
+
+    fun getToken() = projectRepository.getUser()
+
+    fun cekKategori(cat: String): String {
         var ret = ""
-        when(cat){
+        when (cat) {
             "Sosial" -> ret = "1"
             "Pendidikan" -> ret = "2"
             "Kesehatan" -> ret = "3"

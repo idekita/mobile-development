@@ -1,7 +1,7 @@
 package com.capstone.idekita.ui.tes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.idekita.R
 
 class testes : AppCompatActivity() {

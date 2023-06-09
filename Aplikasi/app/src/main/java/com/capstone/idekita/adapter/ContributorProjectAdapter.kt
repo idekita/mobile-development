@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.capstone.idekita.R
 import com.capstone.idekita.response.ContributorsItem
 
-class ContributorProjectAdapter(private val listContributor: List<ContributorsItem>): RecyclerView.Adapter<ContributorProjectAdapter.ViewHolder>() {
+class ContributorProjectAdapter(private val listContributor: List<ContributorsItem>) :
+    RecyclerView.Adapter<ContributorProjectAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val imgPhoto:ImageView = itemView.findViewById(R.id.iv_contributor)
-        val nama:TextView = itemView.findViewById(R.id.name_contributor)
-        val role:TextView = itemView.findViewById(R.id.role_contributor)
+        val imgPhoto: ImageView = itemView.findViewById(R.id.iv_contributor)
+        val nama: TextView = itemView.findViewById(R.id.name_contributor)
+        val role: TextView = itemView.findViewById(R.id.role_contributor)
 
 
     }
@@ -23,7 +24,8 @@ class ContributorProjectAdapter(private val listContributor: List<ContributorsIt
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_contributor,parent,false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_contributor, parent, false)
         return ViewHolder(view)
     }
 

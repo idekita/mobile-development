@@ -3,11 +3,9 @@ package com.capstone.idekita.dummy.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.idekita.databinding.RvLayoutBinding
 import com.capstone.idekita.databinding.RvMyProjectBinding
 import com.capstone.idekita.dummy.data.MyProject
 import com.capstone.idekita.dummy.data.Response
@@ -41,7 +39,7 @@ class MyProjectAdapter(private val listReview: ArrayList<MyProject>) :
         viewHolder.tvCat.text = item.category
         viewHolder.status.text = item.status
 
-        if(item.status == "Selesai"){
+        if (item.status == "Selesai") {
             viewHolder.status.setTextColor(Color.parseColor("#2C62A7"))
         }
     }
@@ -54,7 +52,7 @@ class MyProjectAdapter(private val listReview: ArrayList<MyProject>) :
         val img: ImageView = binding.imgStory
         val pmImg: ImageView = binding.imgPm
         val tvCat: TextView = binding.tvCategory
-        val status : TextView = binding.tvStatus
+        val status: TextView = binding.tvStatus
     }
 
     interface OnItemClickCallback {

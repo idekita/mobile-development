@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.capstone.idekita.data.ProjectRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val projectRepository: ProjectRepository):ViewModel() {
+class MainViewModel(private val projectRepository: ProjectRepository) : ViewModel() {
 
     fun getUser() = projectRepository.getUser()
 
-    fun logout(){
+    fun logout() {
         viewModelScope.launch {
             projectRepository.logout()
         }

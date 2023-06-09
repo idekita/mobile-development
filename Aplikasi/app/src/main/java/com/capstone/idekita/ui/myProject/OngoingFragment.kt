@@ -1,19 +1,14 @@
 package com.capstone.idekita.ui.myProject
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.idekita.R
-import com.capstone.idekita.databinding.FragmentHomeBinding
 import com.capstone.idekita.databinding.FragmentOngoingBinding
-import com.capstone.idekita.dummy.adapter.MyProjectAdapter
-import com.capstone.idekita.dummy.adapter.RecentProjectAdapter
-import com.capstone.idekita.dummy.data.*
+import com.capstone.idekita.result.TheResult
 
 
 class OngoingFragment : Fragment() {
@@ -21,10 +16,16 @@ class OngoingFragment : Fragment() {
     private var _binding: FragmentOngoingBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel by viewModels<MyProjectViewModel> {
+        MyProjectFactory.getInstance(requireContext())
+    }
+
+    val theAdapter = MyProjectAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentOngoingBinding.inflate(inflater, container, false)
         return binding.root
@@ -34,18 +35,45 @@ class OngoingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // dummy projek rekomendasi
 
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvOngoing.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
-        binding.rvOngoing.addItemDecoration(itemDecoration)
 
-        val adapter = MyProjectAdapter(Ongoing.getTheList() as ArrayList<MyProject>)
 
-        binding.rvOngoing.adapter = adapter
+        viewModel.getToken().observe(viewLifecycleOwner) { token ->
+            getData(token.token, "berlangsung")
+
+        }
+
 
     }
 
+    private fun getData(token: String, status: String) {
+        viewModel.getMyproject(token, status).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val myProjData = result.data
+                        if (myProjData.isEmpty()) {
+                            binding.tvNoData.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNoData.visibility = View.GONE
+                            theAdapter.submitList(myProjData)
+                            binding.rvOngoing.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = theAdapter
+                            }
+                        }
+
+                    }
+                    is TheResult.Error -> {
+                    }
+                }
+            }
+        }
+    }
 
 }
+
+

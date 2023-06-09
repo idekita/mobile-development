@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.idekita.databinding.RvLayoutBinding
-import com.capstone.idekita.dummy.data.DummyList
 import com.capstone.idekita.dummy.data.Response
 
 
@@ -46,7 +45,7 @@ class RecentProjectAdapter(private val listReview: ArrayList<Response>) :
         val tvName: TextView = binding.tvName
         val img: ImageView = binding.imgStory
         val tvDate: TextView = binding.tvDate
-        val btJoin : Button = binding.button
+        val btJoin: Button = binding.button
     }
 
     interface OnItemClickCallback {

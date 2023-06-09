@@ -1,9 +1,9 @@
 package com.capstone.idekita.ui.splashScreen
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.idekita.MainActivity
 import com.capstone.idekita.databinding.ActivitySplashScreenBinding
@@ -11,7 +11,6 @@ import com.capstone.idekita.dummy.data.DummyDataStore
 import com.capstone.idekita.dummy.data.dataStore
 import com.capstone.idekita.dummy.vm.DummyFactory
 import com.capstone.idekita.dummy.vm.DummyViewModel
-import com.capstone.idekita.ui.login.LoginActivity
 
 
 @Suppress("DEPRECATION")
@@ -35,22 +34,23 @@ class SplashScreenActivity : AppCompatActivity() {
             viewModel.getToken().observe(this) {
                 cek(it)
             }
-            finish()},DELAY)
+            finish()
+        }, DELAY)
 
         supportActionBar?.hide()
 
     }
 
-    private fun cek(bool : Boolean){
-        if(bool){
-            startActivity(Intent(this,MainActivity::class.java))
-        }else{
-            startActivity(Intent(this,IntroActivity::class.java))
+    private fun cek(bool: Boolean) {
+        if (bool) {
+            startActivity(Intent(this, MainActivity::class.java))
+        } else {
+            startActivity(Intent(this, IntroActivity::class.java))
         }
     }
 
 
-    companion object{
-        const val DELAY : Long = 2000
+    companion object {
+        const val DELAY: Long = 2000
     }
 }

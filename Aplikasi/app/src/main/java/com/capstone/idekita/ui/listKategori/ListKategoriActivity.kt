@@ -1,12 +1,10 @@
 package com.capstone.idekita.ui.listKategori
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.idekita.MainViewModel
 import com.capstone.idekita.MainViewModelFactory
-import com.capstone.idekita.R
 import com.capstone.idekita.adapter.LoadingStateAdapter
 import com.capstone.idekita.adapter.ProjectPagingAdapter
 import com.capstone.idekita.databinding.ActivityListKategoriBinding
@@ -29,24 +27,24 @@ class ListKategoriActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpView(){
-        mainViewModel.getUser().observe(this){user->
+    private fun setUpView() {
+        mainViewModel.getUser().observe(this) { user ->
             getData(user.token)
 
         }
     }
 
-    private fun getData(token:String){
+    private fun getData(token: String) {
         val adapter = ProjectPagingAdapter()
         binding.rvListProjectCateogry.layoutManager = LinearLayoutManager(this)
         binding.rvListProjectCateogry.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter{
+            footer = LoadingStateAdapter {
                 adapter.retry()
             }
         )
 
-        mainViewModel.getAllProjectPaging(token).observe(this,{
-            adapter.submitData(lifecycle,it)
+        mainViewModel.getAllProjectPaging(token).observe(this, {
+            adapter.submitData(lifecycle, it)
         })
 
     }

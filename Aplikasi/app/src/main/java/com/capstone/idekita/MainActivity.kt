@@ -1,15 +1,13 @@
 package com.capstone.idekita
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.capstone.idekita.databinding.ActivityMainBinding
 import com.capstone.idekita.ui.addProject.AddProjectActivity
-import com.capstone.idekita.ui.home.HomeFragment
-import com.capstone.idekita.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         MainViewModelFactory.getInstance(this)
     }
 
-    private  lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,18 +28,17 @@ class MainActivity : AppCompatActivity() {
         //setViewModel()
 
         binding.fabAddProject.setOnClickListener {
-            val intent = Intent(this@MainActivity,AddProjectActivity::class.java)
+            val intent = Intent(this@MainActivity, AddProjectActivity::class.java)
             startActivity(intent)
         }
 
-        val navView:BottomNavigationView = binding.navView
+        val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         navView.setupWithNavController(navController)
 
     }
-
 
 
 }

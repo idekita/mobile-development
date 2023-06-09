@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 
-class MyEditPassword :AppCompatEditText {
+class MyEditPassword : AppCompatEditText {
 
     constructor(context: Context) : super(context) {
         init()
@@ -17,7 +17,12 @@ class MyEditPassword :AppCompatEditText {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -36,11 +41,11 @@ class MyEditPassword :AppCompatEditText {
                 //
             }
 
-            override fun onTextChanged(text:CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
                 error = null
-                if (text.length < 8){
+                if (text.length < 8) {
                     error = "Minimal jumlah karakter 8"
-                }else if(text.isNotEmpty() && text.length > 8){
+                } else if (text.isNotEmpty() && text.length > 8) {
                     error = null
                 }
             }

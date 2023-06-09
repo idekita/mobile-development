@@ -13,7 +13,7 @@ interface ApiService {
     fun postLogin(
         @Field("username") username: String,
         @Field("password") password: String,
-    ) : Call<LoginResponse>
+    ): Call<LoginResponse>
 
     @FormUrlEncoded
     @POST("register")
@@ -22,12 +22,12 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("username") username: String,
-    ) : Call<RegisterResponse>
+    ): Call<RegisterResponse>
 
     @GET("proyek")
     fun getProjectList(
         @Header("Authorization") token: String,
-    ):Call<GetAllProjectResponse>
+    ): Call<GetAllProjectResponse>
 
 
     @GET("proyek")
@@ -35,14 +35,14 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("Page") page: Int?,
         @Query("size") size: Int?,
-        @Query("category") nmKategori : String
-    ):Response<GetAllProjectResponse>
+        @Query("category") nmKategori: String
+    ): Response<GetAllProjectResponse>
 
     @GET("kontributor/:id_proyek")
     fun geContributor(
         @Header("Authorization") token: String,
-        @Query("id_kontributor") id_kontributor:Int,
-    ):Call<GetContributorProjectResponse>
+        @Query("id_kontributor") id_kontributor: Int,
+    ): Call<GetContributorProjectResponse>
 
     @Multipart
     @POST("proyek")
@@ -53,9 +53,44 @@ interface ApiService {
         @Part("deskripsi") desc: RequestBody,
         @Part("tanggal_mulai") dateStart: RequestBody,
         @Part("tanggal_selesai") dateEnd: RequestBody,
+//        @Part("postedAt") datePost: RequestBody,
         @Part imgProj: MultipartBody.Part,
-    ) : CreateProjectResponse
+    ): CreateProjectResponse
 
+    @GET("proyek/status/{status}")
+    suspend fun myProject(
+        @Header("Authorization") token: String,
+        @Path("status") status: String,
+    ): MyProjectResponse
 
+    @GET("profil/{username}")
+    suspend fun profil(
+        @Header("Authorization") token: String,
+        @Path("username") id: String,
+    ): ProfilResponse
+
+    @FormUrlEncoded
+    @PUT("proyek/{id}")
+    suspend fun changeStatus(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Field("status") status: String
+    ): ChangeStatusResponse
+
+    @FormUrlEncoded
+    @POST("kontributor")
+    suspend fun regisKontributor(
+        @Header("Authorization") token: String,
+        @Field("id_proyek") id_proyek: Int
+    ): RegisContributorResponse
+
+    @FormUrlEncoded
+    @PUT("kontributor/{id_kontributor}")
+    suspend fun reqKontributor(
+        @Header("Authorization") token: String,
+        @Path("id_kontributor") id_kontributor: Int,
+        @Field("status_lamaran") status_lamaran: String,
+        @Field("role") role: String,
+    ): UpdateContributorResponse
 
 }

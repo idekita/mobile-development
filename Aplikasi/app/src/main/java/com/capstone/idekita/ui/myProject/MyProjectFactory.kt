@@ -1,4 +1,4 @@
-package com.capstone.idekita.ui.addProject
+package com.capstone.idekita.ui.myProject
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -6,27 +6,29 @@ import androidx.lifecycle.ViewModelProvider
 import com.capstone.idekita.data.ProjectRepository
 import com.capstone.idekita.di.Injection
 
-class AddProjectFactory(private val repository: ProjectRepository) :
+
+class MyProjectFactory(private val project: ProjectRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(AddProjectViewModel::class.java) -> {
-                AddProjectViewModel(repository) as T
+            modelClass.isAssignableFrom(MyProjectViewModel::class.java) -> {
+                MyProjectViewModel(project) as T
             }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
 
     companion object {
         @Volatile
-        private var INSTANCE: AddProjectFactory? = null
+        private var INSTANCE: MyProjectFactory? = null
 
-        fun getInstance(context: Context): AddProjectFactory {
+        fun getInstance(context: Context): MyProjectFactory {
             return INSTANCE
                 ?: synchronized(this) {
-                    AddProjectFactory(
+                    MyProjectFactory(
                         Injection.provideRepository(context)
                     )
                 }

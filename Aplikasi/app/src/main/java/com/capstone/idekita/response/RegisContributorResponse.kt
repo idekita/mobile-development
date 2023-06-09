@@ -2,10 +2,10 @@ package com.capstone.idekita.response
 
 import com.google.gson.annotations.SerializedName
 
-data class GetContributorProjectResponse(
+data class RegisContributorResponse(
 
-    @field:SerializedName("contributors")
-    val contributors: List<ContributorsItem>,
+    @field:SerializedName("contributor")
+    val contributor: Contributor,
 
     @field:SerializedName("message")
     val message: String,
@@ -14,13 +14,19 @@ data class GetContributorProjectResponse(
     val status: String
 )
 
-data class ContributorsItem(
+data class Contributor(
 
     @field:SerializedName("role")
     val role: String,
 
-    @field:SerializedName("name")
-    val name: String,
+    @field:SerializedName("id_proyek")
+    val idProyek: Int,
+
+    @field:SerializedName("id")
+    val id: Int,
+
+    @field:SerializedName("status_lamaran")
+    val statusLamaran: String,
 
     @field:SerializedName("username")
     val username: String

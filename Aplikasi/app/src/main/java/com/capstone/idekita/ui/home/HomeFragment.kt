@@ -2,10 +2,10 @@ package com.capstone.idekita.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +20,6 @@ import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
 import com.capstone.idekita.ui.listKategori.ListKategoriActivity
 import com.capstone.idekita.ui.login.LoginActivity
-
 
 
 class HomeFragment : Fragment() {
@@ -50,7 +49,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun setViewModel(){
+    private fun setViewModel() {
         homeViewModel.getUser().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
                 homeViewModel.listProject.observe(viewLifecycleOwner) {
@@ -73,26 +72,28 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun ShowRecycleList(listProject : List<ProjectsItem>){
+    private fun ShowRecycleList(listProject: List<ProjectsItem>) {
 
         //Recycle View Rekomendasi
-        binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+        binding.rvRekomendasi.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val projectListAdapter = ListAllProjectAdapter(listProject)
         binding.rvRekomendasi.adapter = projectListAdapter
 
-        projectListAdapter.setOnItemClickCallback(object : ListAllProjectAdapter.OnItemClickCallback{
+        projectListAdapter.setOnItemClickCallback(object :
+            ListAllProjectAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ProjectsItem) {
-                val intent = Intent(requireContext(),DetailProjectActivity::class.java)
+                val intent = Intent(requireContext(), DetailProjectActivity::class.java)
 
                 val bundle = Bundle()
-                bundle.putString("extra_name",data.nmProyek)
-                bundle.putString("extra_desc",data.deskripsi)
-                bundle.putString("extra_photo",data.gambar)
-                bundle.putString("extra_creator",data.creator)
-                bundle.putString("extra_status",data.status)
-                bundle.putString("extra_start",data.tanggalMulai)
-                bundle.putString("extra_end",data.tanggalSelesai)
-                bundle.putString("extra_category",data.category.nmKategori)
+                bundle.putString("extra_name", data.nmProyek)
+                bundle.putString("extra_desc", data.deskripsi)
+                bundle.putString("extra_photo", data.gambar)
+                bundle.putString("extra_creator", data.creator)
+                bundle.putString("extra_status", data.status)
+                bundle.putString("extra_start", data.tanggalMulai)
+                bundle.putString("extra_end", data.tanggalSelesai)
+                bundle.putString("extra_category", data.category.nmKategori)
 
                 intent.putExtras(bundle)
 
@@ -107,19 +108,20 @@ class HomeFragment : Fragment() {
         val projectListAdapter2 = ListAllProjectAdapter(listProject)
         binding.rvRecent.adapter = projectListAdapter2
 
-        projectListAdapter2.setOnItemClickCallback(object : ListAllProjectAdapter.OnItemClickCallback{
+        projectListAdapter2.setOnItemClickCallback(object :
+            ListAllProjectAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ProjectsItem) {
-                val intent = Intent(requireContext(),DetailProjectActivity::class.java)
+                val intent = Intent(requireContext(), DetailProjectActivity::class.java)
 
                 val bundle = Bundle()
-                bundle.putString("extra_name",data.nmProyek)
-                bundle.putString("extra_desc",data.deskripsi)
-                bundle.putString("extra_photo",data.gambar)
-                bundle.putString("extra_creator",data.creator)
-                bundle.putString("extra_status",data.status)
-                bundle.putString("extra_start",data.tanggalMulai)
-                bundle.putString("extra_end",data.tanggalSelesai)
-                bundle.putString("extra_category",data.category.nmKategori)
+                bundle.putString("extra_name", data.nmProyek)
+                bundle.putString("extra_desc", data.deskripsi)
+                bundle.putString("extra_photo", data.gambar)
+                bundle.putString("extra_creator", data.creator)
+                bundle.putString("extra_status", data.status)
+                bundle.putString("extra_start", data.tanggalMulai)
+                bundle.putString("extra_end", data.tanggalSelesai)
+                bundle.putString("extra_category", data.category.nmKategori)
 
                 intent.putExtras(bundle)
 
@@ -130,23 +132,24 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun showdata(){
+    private fun showdata() {
 
 
         //dummy project rekomen
-        val layoutManager2 = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+        val layoutManager2 =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvRekomendasi.layoutManager = layoutManager2
         val adapter2 = RecentProjectAdapter(DummyListHorizotal.getTheList() as ArrayList<Response>)
         binding.rvRekomendasi.adapter = adapter2
 
-        adapter2.setOnItemClickCallback(object : RecentProjectAdapter.OnItemClickCallback{
+        adapter2.setOnItemClickCallback(object : RecentProjectAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Response) {
-                val intent = Intent(requireContext(),DetailProjectActivity::class.java)
+                val intent = Intent(requireContext(), DetailProjectActivity::class.java)
 
                 val bundle = Bundle()
-                bundle.putString("extra_name",data.name)
-                bundle.putString("extra_desc",data.desc)
-                bundle.putInt("extra_photo",data.photo)
+                bundle.putString("extra_name", data.name)
+                bundle.putString("extra_desc", data.desc)
+                bundle.putInt("extra_photo", data.photo)
 
                 intent.putExtras(bundle)
 
@@ -165,7 +168,6 @@ class HomeFragment : Fragment() {
         binding.rvRecent.adapter = adapter
 
     }
-
 
 
 }

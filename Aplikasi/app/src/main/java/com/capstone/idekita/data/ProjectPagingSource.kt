@@ -5,16 +5,17 @@ import androidx.paging.PagingState
 import com.capstone.idekita.api.ApiService
 import com.capstone.idekita.response.ProjectsItem
 
-class ProjectPagingSource(private val apiService: ApiService,val token:String):PagingSource<Int,ProjectsItem>() {
+class ProjectPagingSource(private val apiService: ApiService, val token: String) :
+    PagingSource<Int, ProjectsItem>() {
 
-    private companion object{
+    private companion object {
         const val INITIAL_PAGE_INDEX = 1
     }
 
     override fun getRefreshKey(state: PagingState<Int, ProjectsItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?:anchorPage?.nextKey?.minus(1)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
@@ -23,14 +24,15 @@ class ProjectPagingSource(private val apiService: ApiService,val token:String):P
 
             val category = "Politik"
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = apiService.getProjectListPaging(token,position,params.loadSize,category)
+            val responseData =
+                apiService.getProjectListPaging(token, position, params.loadSize, category)
 
             LoadResult.Page(
-                data = responseData.body()?.projects?: emptyList(),
-                prevKey = if(position == INITIAL_PAGE_INDEX ) null else position -1,
-                nextKey = if (responseData.body()?.projects.isNullOrEmpty()) null else position +1
+                data = responseData.body()?.projects ?: emptyList(),
+                prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1,
+                nextKey = if (responseData.body()?.projects.isNullOrEmpty()) null else position + 1
             )
-        } catch (exception : Exception){
+        } catch (exception: Exception) {
             return LoadResult.Error(exception)
         }
     }

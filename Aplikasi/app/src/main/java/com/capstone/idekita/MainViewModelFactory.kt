@@ -7,14 +7,16 @@ import com.capstone.idekita.data.ProjectRepository
 import com.capstone.idekita.di.Injection
 import com.capstone.idekita.ui.home.HomeViewModel
 
-class MainViewModelFactory(private val project:ProjectRepository):ViewModelProvider.NewInstanceFactory() {
+class MainViewModelFactory(private val project: ProjectRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(MainViewModel::class.java) ->{
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(project) as T
-            }modelClass.isAssignableFrom(HomeViewModel::class.java) ->{
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(project) as T
             }
 
@@ -24,11 +26,11 @@ class MainViewModelFactory(private val project:ProjectRepository):ViewModelProvi
 
     companion object {
         @Volatile
-        private var INSTANCE : MainViewModelFactory? = null
+        private var INSTANCE: MainViewModelFactory? = null
 
-        fun getInstance (context: Context):MainViewModelFactory{
-            return  INSTANCE
-                ?: synchronized(this){
+        fun getInstance(context: Context): MainViewModelFactory {
+            return INSTANCE
+                ?: synchronized(this) {
                     MainViewModelFactory(
                         Injection.provideRepository(context)
                     )

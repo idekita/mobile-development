@@ -8,7 +8,6 @@ import com.capstone.idekita.dummy.data.DummyDataStore
 import kotlinx.coroutines.launch
 
 
-
 class DummyViewModel(private val pref: DummyDataStore) : ViewModel() {
     fun getToken(): LiveData<Boolean> {
         return pref.getToken().asLiveData()

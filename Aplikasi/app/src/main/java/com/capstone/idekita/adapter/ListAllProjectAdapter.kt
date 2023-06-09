@@ -1,24 +1,21 @@
 package com.capstone.idekita.adapter
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.idekita.R
-import com.capstone.idekita.model.wisataEntity
 import com.capstone.idekita.response.ProjectsItem
 
-class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):RecyclerView.Adapter<ListAllProjectAdapter.ViewHolder>() {
+class ListAllProjectAdapter(private val listProject: List<ProjectsItem>) :
+    RecyclerView.Adapter<ListAllProjectAdapter.ViewHolder>() {
 
-    private lateinit var onItemClickCallback :OnItemClickCallback
+    private lateinit var onItemClickCallback: OnItemClickCallback
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
@@ -31,12 +28,13 @@ class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):Recycler
 
         val imgPhoto: ImageView = itemView.findViewById(R.id.img_projectIV)
         val judul: TextView = itemView.findViewById(R.id.TitleProjectTV)
-        val date:TextView = itemView.findViewById(R.id.dateTV)
+        val date: TextView = itemView.findViewById(R.id.dateTV)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_row_latest_project,parent,false)
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_row_latest_project, parent, false)
         return ViewHolder(view)
     }
 
@@ -57,7 +55,7 @@ class ListAllProjectAdapter(private val listProject:List<ProjectsItem>):Recycler
 
     }
 
-    override fun getItemCount(): Int  = listProject.size
+    override fun getItemCount(): Int = listProject.size
 
 
 }

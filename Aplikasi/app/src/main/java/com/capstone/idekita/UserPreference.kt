@@ -1,23 +1,23 @@
 package com.capstone.idekita
 
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.capstone.idekita.model.UserModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import androidx.datastore.preferences.core.Preferences
 
-class UserPreference private constructor(private val dataStore: DataStore<Preferences>){
+class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
 
     fun getUser(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[NAME_KEY] ?:"",
-                preferences[GMAIL_KEY] ?:"",
-                preferences[TOKEN_KEY] ?:"",
+                preferences[NAME_KEY] ?: "",
+                preferences[GMAIL_KEY] ?: "",
+                preferences[TOKEN_KEY] ?: "",
                 preferences[STATE_KEY] ?: false
             )
         }
@@ -32,13 +32,13 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    suspend fun login(){
+    suspend fun login() {
         dataStore.edit { preferences ->
             preferences[STATE_KEY] = true
         }
     }
 
-    suspend fun logout(){
+    suspend fun logout() {
         dataStore.edit { preferences ->
             preferences[STATE_KEY] = false
             preferences.remove(STATE_KEY)

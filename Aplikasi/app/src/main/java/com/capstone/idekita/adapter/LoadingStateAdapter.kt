@@ -8,15 +8,17 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.idekita.databinding.ItemLoadingBinding
 
-class LoadingStateAdapter(private val retry:() ->Unit):LoadStateAdapter<LoadingStateAdapter.LoadingStateViewHolder>() {
-    class LoadingStateViewHolder(private val binding:ItemLoadingBinding,retry: () -> Unit):RecyclerView.ViewHolder(binding.root) {
+class LoadingStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<LoadingStateAdapter.LoadingStateViewHolder>() {
+    class LoadingStateViewHolder(private val binding: ItemLoadingBinding, retry: () -> Unit) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.retryButton.setOnClickListener { retry.invoke() }
         }
 
-        fun bind(loadState: LoadState){
-            if (loadState is LoadState.Error){
+        fun bind(loadState: LoadState) {
+            if (loadState is LoadState.Error) {
                 binding.errorMsg.text = loadState.error.localizedMessage
             }
             binding.progressBar.isVisible = loadState is LoadState.Loading
@@ -27,7 +29,7 @@ class LoadingStateAdapter(private val retry:() ->Unit):LoadStateAdapter<LoadingS
     }
 
     override fun onBindViewHolder(
-        holder:LoadingStateViewHolder,
+        holder: LoadingStateViewHolder,
         loadState: LoadState
     ) {
         holder.bind(loadState)

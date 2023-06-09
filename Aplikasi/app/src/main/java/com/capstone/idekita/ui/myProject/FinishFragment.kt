@@ -1,22 +1,26 @@
 package com.capstone.idekita.ui.myProject
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.databinding.FragmentFinishBinding
-import com.capstone.idekita.dummy.adapter.MyProjectAdapter
-import com.capstone.idekita.dummy.data.MyProject
-import com.capstone.idekita.dummy.data.Ongoing
+import com.capstone.idekita.result.TheResult
 
 
 class FinishFragment : Fragment() {
 
     private var _binding: FragmentFinishBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<MyProjectViewModel> {
+        MyProjectFactory.getInstance(requireContext())
+    }
+
+    val theAdapter = MyProjectAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,16 +33,42 @@ class FinishFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // dummy projek Finish
 
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvOngoing.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
-        binding.rvOngoing.addItemDecoration(itemDecoration)
-        val adapter = MyProjectAdapter(Ongoing.getTheDone() as ArrayList<MyProject>)
+        viewModel.getToken().observe(viewLifecycleOwner) { token ->
+            getData(token.token, "selesai")
 
-        binding.rvOngoing.adapter = adapter
+        }
 
+    }
+
+    private fun getData(token: String, status: String) {
+        viewModel.getMyproject(token, status).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+
+                when (result) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val myProjData = result.data
+                        if (myProjData.isEmpty()) {
+                            binding.tvNoData.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNoData.visibility = View.GONE
+                            theAdapter.submitList(myProjData)
+                            binding.rvOngoing.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = theAdapter
+                            }
+                        }
+
+
+                    }
+                    is TheResult.Error -> {
+                    }
+                }
+            }
+        }
     }
 
 }

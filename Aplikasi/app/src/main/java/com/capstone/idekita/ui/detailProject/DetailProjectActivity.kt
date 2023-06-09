@@ -1,10 +1,9 @@
 package com.capstone.idekita.ui.detailProject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.databinding.ActivityDetailProjectBinding
@@ -14,7 +13,7 @@ import com.capstone.idekita.ui.home.HomeViewModel
 
 class DetailProjectActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityDetailProjectBinding
+    private lateinit var binding: ActivityDetailProjectBinding
 
     private val homeViewModel by viewModels<HomeViewModel> {
         MainViewModelFactory.getInstance(this)
@@ -26,7 +25,7 @@ class DetailProjectActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val extras = intent.extras
-        if (extras != null){
+        if (extras != null) {
             val dataPhoto = extras.getString("extra_photo")
             binding.nameTV.text = extras.getString("extra_name")
             binding.descTV.text = extras.getString("extra_desc")
@@ -41,17 +40,16 @@ class DetailProjectActivity : AppCompatActivity() {
         }
 
 
-        homeViewModel.getUser().observe(this,{user ->
+        homeViewModel.getUser().observe(this, { user ->
             if (extras != null) {
-                if (user.name == extras.getString("extra_creator")){
+                if (user.name == extras.getString("extra_creator")) {
                     binding.btnDaftarContributor.visibility = View.VISIBLE
                     binding.btnJoin.visibility = View.GONE
-                }else{
+                } else {
                     binding.btnDaftarContributor.visibility = View.GONE
                 }
             }
         })
-
 
 
     }

@@ -1,8 +1,8 @@
 package com.capstone.idekita.ui.splashScreen
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.idekita.MainActivity
 import com.capstone.idekita.databinding.ActivityIntroBinding
@@ -10,11 +10,10 @@ import com.capstone.idekita.dummy.data.DummyDataStore
 import com.capstone.idekita.dummy.data.dataStore
 import com.capstone.idekita.dummy.vm.DummyFactory
 import com.capstone.idekita.dummy.vm.DummyViewModel
-import com.capstone.idekita.ui.login.LoginActivity
 
 class IntroActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityIntroBinding
+    private lateinit var binding: ActivityIntroBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +27,10 @@ class IntroActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        binding.btToLogin.setOnClickListener{
+        binding.btToLogin.setOnClickListener {
             viewModel.saveToken(true)
             startActivity(
-                Intent(this,MainActivity::class.java)
+                Intent(this, MainActivity::class.java)
             )
             finish()
         }

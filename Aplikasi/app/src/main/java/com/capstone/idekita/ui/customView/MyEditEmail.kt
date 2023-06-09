@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 
-class MyEditEmail :AppCompatEditText {
+class MyEditEmail : AppCompatEditText {
     constructor(context: Context) : super(context) {
         init()
     }
@@ -16,7 +16,12 @@ class MyEditEmail :AppCompatEditText {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
