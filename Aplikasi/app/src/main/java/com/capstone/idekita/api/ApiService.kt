@@ -38,11 +38,13 @@ interface ApiService {
         @Query("category") nmKategori: String
     ): Response<GetAllProjectResponse>
 
-    @GET("kontributor/:id_proyek")
-    fun geContributor(
+    @GET("kontributor/{id}")
+    fun getContributor(
         @Header("Authorization") token: String,
-        @Query("id_kontributor") id_kontributor: Int,
+        @Path("id") id: Int,
     ): Call<GetContributorProjectResponse>
+
+
 
     @Multipart
     @POST("proyek")

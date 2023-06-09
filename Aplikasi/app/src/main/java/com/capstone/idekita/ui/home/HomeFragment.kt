@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("extra_start", data.tanggalMulai)
                 bundle.putString("extra_end", data.tanggalSelesai)
                 bundle.putString("extra_category", data.category.nmKategori)
+                bundle.putInt("extra_id",data.id)
 
                 intent.putExtras(bundle)
 
@@ -122,6 +123,7 @@ class HomeFragment : Fragment() {
                 bundle.putString("extra_start", data.tanggalMulai)
                 bundle.putString("extra_end", data.tanggalSelesai)
                 bundle.putString("extra_category", data.category.nmKategori)
+                bundle.putInt("extra_id",data.id)
 
                 intent.putExtras(bundle)
 
