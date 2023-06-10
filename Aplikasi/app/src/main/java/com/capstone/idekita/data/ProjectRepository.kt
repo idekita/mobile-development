@@ -48,7 +48,6 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         deskripsi: String,
         dateStart: String,
         dateFinish: String,
-//        datePost: String,
         imgProj: MultipartBody.Part
     ): LiveData<TheResult<CreateProjectResponse>> = liveData {
         emit(TheResult.Loading)
@@ -58,7 +57,6 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
             val deskripsiTo = deskripsi.toRequestBody("text/plain".toMediaType())
             val dateStartTo = dateStart.toRequestBody("text/plain".toMediaType())
             val dateFinishTo = dateFinish.toRequestBody("text/plain".toMediaType())
-//            val datePostTo = datePost.toRequestBody("text/plain".toMediaType())
             val response = apiService.postAddProject(
                 "Bearer $token",
                 projNameTo,
@@ -66,7 +64,6 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
                 deskripsiTo,
                 dateStartTo,
                 dateFinishTo,
-//                datePostTo,
                 imgProj,
             )
             val successPost = TheResult.Success(response)
@@ -100,7 +97,8 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
     ): LiveData<TheResult<ChangeStatusResponse>> = liveData {
         emit(TheResult.Loading)
         try {
-            val response = apiService.changeStatus("Bearer $token", id, status)
+            val statusTo = status.toRequestBody("text/plain".toMediaType())
+            val response = apiService.changeStatus("Bearer $token", id, statusTo)
             val successPost = TheResult.Success(response)
             emit(successPost)
 
@@ -159,6 +157,64 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
 //            emit(TheResult.Error(errorMassage.toString()))
             }
         }
+
+    fun getProjById(token : String, idProj : Int):LiveData<TheResult<List<ProjectsItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getProjByid("Bearer $token", idProj)
+            val successPost = TheResult.Success(response.projects)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    // tes conflict
+
+    fun getProjById1(token : String, idProj : Int):LiveData<TheResult<List<ProjectsItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getProjByid("Bearer $token", idProj)
+            val successPost = TheResult.Success(response.projects)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    fun getProjById2(token : String, idProj : Int):LiveData<TheResult<List<ProjectsItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getProjByid("Bearer $token", idProj)
+            val successPost = TheResult.Success(response.projects)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    fun getProjById3(token : String, idProj : Int):LiveData<TheResult<List<ProjectsItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getProjByid("Bearer $token", idProj)
+            val successPost = TheResult.Success(response.projects)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
 
 
 }

@@ -16,6 +16,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_text_1">Berlangsung</string>
     <string name="tab_text_2">Selesai</string>
+    <string name="tab_cont_1">Kontributor</string>
+    <string name="tab_cont_2">Menunggu</string>
     <string name="tab_context">just a text</string>
     <string name="add_project">Buat Project</string>
     <string name="input_proj_name">Masukkan judul projek</string>

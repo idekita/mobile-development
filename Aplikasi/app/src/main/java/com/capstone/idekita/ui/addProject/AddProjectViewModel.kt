@@ -16,7 +16,6 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository) : Vi
         desc: String,
         dateStart: String,
         dateFinish: String,
-//        datePost : String,
         img: MultipartBody.Part
     ) = projectRepository.postAddProject(
         token,
@@ -25,7 +24,6 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository) : Vi
         desc,
         dateStart,
         dateFinish,
-//        datePost,
         img
     )
 
@@ -33,7 +31,7 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository) : Vi
     @SuppressLint("SimpleDateFormat")
     fun getTodayDate(): String {
         val calendar = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("yyyy/MM/dd HH:mm")
+        val formatter = SimpleDateFormat("yyyy/MM/dd")
 
         return formatter.format(calendar)
     }

@@ -68,7 +68,6 @@ interface ApiService {
         @Part("deskripsi") desc: RequestBody,
         @Part("tanggal_mulai") dateStart: RequestBody,
         @Part("tanggal_selesai") dateEnd: RequestBody,
-//        @Part("postedAt") datePost: RequestBody,
         @Part imgProj: MultipartBody.Part,
     ): CreateProjectResponse
 
@@ -84,12 +83,12 @@ interface ApiService {
         @Path("username") id: String,
     ): ProfilResponse
 
-    @FormUrlEncoded
+    @Multipart
     @PUT("proyek/{id}")
     suspend fun changeStatus(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Field("status") status: String
+        @Part("status") status: RequestBody,
     ): ChangeStatusResponse
 
     @FormUrlEncoded
@@ -107,5 +106,37 @@ interface ApiService {
         @Field("status_lamaran") status_lamaran: String,
         @Field("role") role: String,
     ): UpdateContributorResponse
+
+    @GET("proyek/{id}")
+    suspend fun getProjByid(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
+
+    // tes conflict
+
+    @GET("proyek/{id}")
+    suspend fun getProjByid2(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
+
+    @GET("proyek/{id}")
+    suspend fun getProjByid3(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
+
+    @GET("proyek/{id}")
+    suspend fun getProjByid4(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
+
+    @GET("proyek/{id}")
+    suspend fun getProjByid5(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
 
 }
