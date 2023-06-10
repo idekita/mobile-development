@@ -2,6 +2,7 @@ package com.capstone.idekita.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,12 +10,12 @@ import com.bumptech.glide.Glide
 import com.capstone.idekita.databinding.RvMyProjectBinding
 import com.capstone.idekita.response.ProjectsItem
 
-class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapter.MyViewHolder>(
-    DIFF_CALLBACK
-) {
+class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
 
     class MyViewHolder(private val binding: RvMyProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
 
         fun bind(data: ProjectsItem) {
             binding.tvName.text = data.nmProyek
@@ -24,7 +25,7 @@ class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapte
                 .into(binding.imgStory)
 
             itemView.setOnClickListener {
-
+                //Toast.makeText(,"ini teks",Toast.LENGTH_SHORT).show()
             }
         }
 

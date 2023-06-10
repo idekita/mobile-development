@@ -53,7 +53,10 @@ data class ProjectsItem(
     val status: String,
 
     @field:SerializedName("gambar")
-    val gambar: String
+    val gambar: String,
+
+    @field:SerializedName("postedAt")
+    val postedAt: String
 )
 
 data class Category(

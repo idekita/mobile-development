@@ -17,9 +17,9 @@
         android:title=""/>
 
     <item
-        android:id="@+id/navigation_favorite"
-        android:icon="@drawable/ic_favorite_full"
-        android:title="Favorite"/>
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search"
+        android:title="Cari"/>
 
     <item
         android:id="@+id/navigation_profile"

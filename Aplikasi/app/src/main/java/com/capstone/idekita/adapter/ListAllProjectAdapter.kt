@@ -43,7 +43,7 @@ class ListAllProjectAdapter(private val listProject: List<ProjectsItem>) :
 
         val item = listProject[position]
         holder.judul.text = item.nmProyek
-        holder.date.text = item.tanggalMulai
+        holder.date.text = item.postedAt
         holder.kategori.text = item.category.nmKategori
         Glide.with(holder.itemView.context)
             .load(item.gambar)

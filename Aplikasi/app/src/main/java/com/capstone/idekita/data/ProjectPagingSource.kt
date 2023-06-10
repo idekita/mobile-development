@@ -24,8 +24,7 @@ class ProjectPagingSource(private val apiService: ApiService, val token: String,
 
             //val category = "Politik"
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData =
-                apiService.getProjectByCategori(token, kategori,position, params.loadSize)
+            val responseData = apiService.getProjectByCategori(token, kategori,position, params.loadSize)
 
             LoadResult.Page(
                 data = responseData.body()?.projects ?: emptyList(),
