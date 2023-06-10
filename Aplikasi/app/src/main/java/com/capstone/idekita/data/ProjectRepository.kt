@@ -40,6 +40,18 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         ).liveData
     }
 
+    //get project by name
+    fun getProjectByName(token: String,nama:String): LiveData<PagingData<ProjectsItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                ProjectPagingSource(apiService, "Bearer ${token}",nama)
+            }
+        ).liveData
+    }
+
     // Fungsi add project
     fun postAddProject(
         token: String,

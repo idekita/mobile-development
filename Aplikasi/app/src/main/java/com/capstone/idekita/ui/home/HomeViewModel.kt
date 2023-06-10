@@ -28,6 +28,11 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         return projectRepository.getStoryPaging(token,kategori).cachedIn(viewModelScope)
     }
 
+    //get by name
+    fun getAllProjectByName(token: String,name:String): LiveData<PagingData<ProjectsItem>> {
+        return projectRepository.getProjectByName(token,name).cachedIn(viewModelScope)
+    }
+
 
     //listProject
     private val _listProject = MutableLiveData<List<ProjectsItem>>()

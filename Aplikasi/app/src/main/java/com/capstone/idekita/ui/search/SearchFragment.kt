@@ -35,12 +35,23 @@ class SearchFragment : Fragment() {
 
         val searchItem = binding.searchView
 
+//        val nama = "tes"
+//
+//        nama.toString()
+//
+//        searchViewModel.getUser().observe(viewLifecycleOwner){user ->
+//            getData(user.token,nama)
+//        }
+
         searchItem.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
                     binding.rvSearchProjecet.scrollToPosition(0)
+
+                    val nama = query
+
                     searchViewModel.getUser().observe(viewLifecycleOwner){user ->
-                        getData(user.token,query)
+                        getData(user.token,nama)
                     }
                 }
                 return true
@@ -57,7 +68,7 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun getData(token:String,query:String){
+    private fun getData(token:String,name:String){
         val adapter = ProjectPagingAdapter()
         binding.rvSearchProjecet.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchProjecet.adapter = adapter.withLoadStateFooter(
@@ -66,7 +77,7 @@ class SearchFragment : Fragment() {
             }
         )
 
-        searchViewModel.getAllProjectPaging(token,query).observe(this) {
+        searchViewModel.getAllProjectByName(token,name).observe(viewLifecycleOwner) {
             adapter.submitData(lifecycle, it)
         }
 

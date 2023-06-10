@@ -51,6 +51,14 @@ interface ApiService {
         @Header("Authorization") token: String,
     ):Call<ListKategoriResponse>
 
+    @GET("proyek/cari/{nm_proyek}")
+    suspend fun getProjectbyName(
+        @Header("Authorization") token: String,
+        @Path("nm_proyek") nama:String,
+        @Query("Page") page: Int?,
+        @Query("size") size: Int?,
+    ):Response<GetAllProjectResponse>
+
     @GET("kontributor/{id}")
     fun getContributor(
         @Header("Authorization") token: String,
