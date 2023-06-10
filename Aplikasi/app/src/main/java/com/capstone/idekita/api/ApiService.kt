@@ -139,4 +139,10 @@ interface ApiService {
         @Path("id")id : Int,
     ):GetAllProjectResponse
 
+    @GET("proyek/{id}")
+    suspend fun getProjByidFromDzul(
+        @Header("Authorization") token: String,
+        @Path("id")id : Int,
+    ):GetAllProjectResponse
+
 }
