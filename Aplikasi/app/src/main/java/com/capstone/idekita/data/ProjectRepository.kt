@@ -47,7 +47,7 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                ProjectPagingSource(apiService, "Bearer ${token}",nama)
+                SearchProjectPagingSource(apiService, "Bearer ${token}",nama)
             }
         ).liveData
     }
