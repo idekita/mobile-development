@@ -1,6 +1,7 @@
 package com.capstone.idekita.ui.detailProject
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -11,6 +12,9 @@ import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.adapter.ContributorProjectAdapter
 import com.capstone.idekita.databinding.ActivityDetailProjectBinding
 import com.capstone.idekita.response.ContributorsItem
+import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
+import com.capstone.idekita.ui.contributor.ContributorActivity
 import com.capstone.idekita.ui.home.HomeViewModel
 import java.net.IDN
 
@@ -19,9 +23,13 @@ import java.net.IDN
 class DetailProjectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailProjectBinding
+    //private var project:ProjectsItem = null
 
     private val homeViewModel by viewModels<HomeViewModel> {
         MainViewModelFactory.getInstance(this)
+    }
+    companion object{
+        val EXTRA_DATA1 = "OBJECT_INTENT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,44 +37,90 @@ class DetailProjectActivity : AppCompatActivity() {
         binding = ActivityDetailProjectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val extras = intent.extras
-        if (extras != null) {
-            val dataPhoto = extras.getString("extra_photo")
-            val idProyek = extras.getInt("extra_id")
+        val project = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(EXTRA_DATA1, ProjectsItem::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_DATA1)
+        }
+
+        //val  project = intent.getParcelableExtra<ProjectsItem>(EXTRA_DATA)
+
+        //val idProyek = project?.id
+
+
 
             homeViewModel.getUser().observe(this) { user ->
-                if (extras != null) {
-                    homeViewModel.listContributor.observe(this){
-                        showContributor(it)
-                    }
-                    homeViewModel.getAllContributor("Bearer ${user.token}",idProyek)
+                homeViewModel.listContributor.observe(this){
+                    showContributor(it)
                 }
+                homeViewModel.getAllContributor("Bearer ${user.token}",project?.id)
+
             }
 
-            binding.tvId.text = extras.getInt("extra_id").toString()
-            binding.nameTV.text = extras.getString("extra_name")
-            binding.descTV.text = extras.getString("extra_desc")
-            binding.creatorTV.text = extras.getString("extra_creator")
-            binding.statusTV.text = extras.getString("extra_status")
-            binding.mulaiTV.text = extras.getString("extra_start")
-            binding.endTV.text = extras.getString("extra_end")
-            binding.kategoriTV.text = extras.getString("extra_category")
+            binding.nameTV.text = project?.nmProyek
+            binding.descTV.text = project?.deskripsi
+            binding.creatorTV.text = project?.creator
+            binding.statusTV.text = project?.status
+            binding.mulaiTV.text = project?.tanggalMulai
+            binding.endTV.text = project?.tanggalSelesai
+            binding.kategoriTV.text = project?.category?.nmKategori
             Glide.with(this)
-                .load(dataPhoto)
+                .load(project?.gambar)
                 .into(binding.ivDetail)
-        }
 
 
-        homeViewModel.getUser().observe(this) { user ->
-            if (extras != null) {
-                if (user.name == extras.getString("extra_creator")) {
-                    binding.btnDaftarContributor.visibility = View.VISIBLE
-                    binding.btnJoin.visibility = View.GONE
-                } else {
-                    binding.btnDaftarContributor.visibility = View.GONE
-                }
-            }
-        }
+
+
+//        val extras = intent.extras
+//        if (extras != null) {
+//            val dataPhoto = extras.getString("extra_photo")
+//            val idProyek = extras.getInt("extra_id")
+//
+//            homeViewModel.getUser().observe(this) { user ->
+//                if (extras != null) {
+//                    homeViewModel.listContributor.observe(this){
+//                        showContributor(it)
+//                    }
+//                    homeViewModel.getAllContributor("Bearer ${user.token}",idProyek)
+//                }
+//            }
+//
+//            binding.btnDaftarContributor.setOnClickListener {
+//                val intent = Intent(this@DetailProjectActivity,PmDetailProjectActivity::class.java)
+//
+//                val idProyek = extras.getInt("extra_id")
+//                val bundle = Bundle()
+//                bundle.putInt("id_extra",idProyek)
+//                intent.putExtras(bundle)
+//                startActivity(intent)
+//
+//            }
+//
+//            binding.tvId.text = extras.getInt("extra_id").toString()
+//            binding.nameTV.text = extras.getString("extra_name")
+//            binding.descTV.text = extras.getString("extra_desc")
+//            binding.creatorTV.text = extras.getString("extra_creator")
+//            binding.statusTV.text = extras.getString("extra_status")
+//            binding.mulaiTV.text = extras.getString("extra_start")
+//            binding.endTV.text = extras.getString("extra_end")
+//            binding.kategoriTV.text = extras.getString("extra_category")
+//            Glide.with(this)
+//                .load(dataPhoto)
+//                .into(binding.ivDetail)
+//        }
+
+//
+//        homeViewModel.getUser().observe(this) { user ->
+//            if (extras != null) {
+//                if (user.name == extras.getString("extra_creator")) {
+//                    binding.btnDaftarContributor.visibility = View.VISIBLE
+//                    binding.btnJoin.visibility = View.GONE
+//                } else {
+//                    binding.btnDaftarContributor.visibility = View.GONE
+//                }
+//            }
+//        }
 
     }
 

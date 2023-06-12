@@ -22,6 +22,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("username") username: String,
+        @Field("pref_categories") PrefCategori:String
     ): Call<RegisterResponse>
 
     @GET("proyek")
@@ -62,7 +63,7 @@ interface ApiService {
     @GET("kontributor/{id}")
     fun getContributor(
         @Header("Authorization") token: String,
-        @Path("id") id: Int,
+        @Path("id") id: Int?,
     ): Call<GetContributorProjectResponse>
 
 

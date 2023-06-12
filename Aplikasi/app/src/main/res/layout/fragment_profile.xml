@@ -25,7 +25,7 @@
         android:layout_height="87dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/page_2_gabut_idekita"
+        android:src="@drawable/holder_person"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setViewModel() {
-        homeViewModel.getUser().observe(viewLifecycleOwner, { user ->
+        homeViewModel.getUser().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
                 binding.nameTV.text = user.name
                 binding.emailTV.text = user.gmail
@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
 
             }
-        })
+        }
     }
 
 

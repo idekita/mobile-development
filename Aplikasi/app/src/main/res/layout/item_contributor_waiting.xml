@@ -76,18 +76,28 @@
 
             <Button
                 android:id="@+id/btnTerima"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/green"
-                android:text="DiTerima"
+                android:text="Terima"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_contributor"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.843" />
+
+            <Button
+                android:id="@+id/btnTerima2"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/red"
+                android:text="Tolak"
+                app:layout_constraintBottom_toBottomOf="@+id/btnTerima"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnTerima"
+                app:layout_constraintTop_toTopOf="@+id/btnTerima" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

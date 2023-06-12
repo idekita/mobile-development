@@ -68,7 +68,7 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     val listContributor: LiveData<List<ContributorsItem>> = _listContributor
 
     private val result2 = MediatorLiveData<Result<List<ContributorsItem>>>()
-    fun getAllContributor(token: String,id: Int): LiveData<Result<List<ContributorsItem>>> {
+    fun getAllContributor(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
 
         val client = ApiConfig.getApiService().getContributor(token,id)
         client.enqueue(object : Callback<GetContributorProjectResponse> {

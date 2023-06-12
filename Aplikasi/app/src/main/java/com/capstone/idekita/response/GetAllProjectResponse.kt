@@ -1,6 +1,8 @@
 package com.capstone.idekita.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GetAllProjectResponse(
 
@@ -14,10 +16,11 @@ data class GetAllProjectResponse(
     val status: String
 )
 
+@Parcelize
 data class ProjectsItem(
 
-    @field:SerializedName("mean_rate")
-    val meanRate: Int,
+    @field:SerializedName("id")
+    val id: Int,
 
     @field:SerializedName("creator")
     val creator: String,
@@ -28,39 +31,45 @@ data class ProjectsItem(
     @field:SerializedName("id_kategori")
     val idKategori: Int,
 
-    @field:SerializedName("tanggal_selesai")
-    val tanggalSelesai: String,
-
-    @field:SerializedName("jumlah_raters")
-    val jumlahRaters: Int,
-
-    @field:SerializedName("tanggal_mulai")
-    val tanggalMulai: String,
-
-    @field:SerializedName("total_rate")
-    val totalRate: Int,
-
-    @field:SerializedName("id")
-    val id: Int,
-
     @field:SerializedName("deskripsi")
     val deskripsi: String,
-
-    @field:SerializedName("category")
-    val category: Category,
-
-    @field:SerializedName("status")
-    val status: String,
 
     @field:SerializedName("gambar")
     val gambar: String,
 
-    @field:SerializedName("postedAt")
-    val postedAt: String
-)
+    @field:SerializedName("tanggal_mulai")
+    val tanggalMulai: String,
 
+    @field:SerializedName("tanggal_selesai")
+    val tanggalSelesai: String,
+
+    @field:SerializedName("category")
+    val category: Category,
+
+    @field:SerializedName("postedAt")
+    val postedAt: String,
+
+    @field:SerializedName("status")
+    val status: String,
+
+    @field:SerializedName("total_rate")
+    val totalRate: Int,
+
+    @field:SerializedName("jumlah_raters")
+    val jumlahRaters: Int,
+
+    @field:SerializedName("mean_rate")
+    val meanRate: Int,
+
+
+
+):Parcelable
+
+@Parcelize
 data class Category(
 
     @field:SerializedName("nm_kategori")
     val nmKategori: String
-)
+
+):Parcelable
+

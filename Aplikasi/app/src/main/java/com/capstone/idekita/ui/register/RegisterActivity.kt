@@ -64,8 +64,10 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.EmailEditText.text.toString()
         val password = binding.PassworEditText.text.toString()
         val username = binding.UsernameEditText.text.toString()
+        //pref dummy
+        val pref = "Politik"
 
-        val client = ApiConfig.getApiService().postRegister(name, email, password, username)
+        val client = ApiConfig.getApiService().postRegister(name, email, password, username,pref)
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
