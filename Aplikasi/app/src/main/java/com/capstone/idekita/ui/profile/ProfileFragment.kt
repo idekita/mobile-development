@@ -39,6 +39,7 @@ class ProfileFragment : Fragment() {
             if (user.isLogin) {
                 binding.nameTV.text = user.name
                 binding.emailTV.text = user.gmail
+                //binding.idUser.text = user.id
                 binding.btnLogout.setOnClickListener {
                     homeViewModel.logout()
                 }

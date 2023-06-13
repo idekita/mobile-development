@@ -93,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
                             responseBody.user.username,
                             responseBody.user.email,
                             responseBody.user.token,
+                            //responseBody.user.,
                             isLogin = true
                         )
                     )

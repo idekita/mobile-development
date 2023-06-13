@@ -30,6 +30,12 @@ class ContributorAccActivity : AppCompatActivity() {
 
     }
 
+
+    private fun showData(){
+
+
+    }
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(

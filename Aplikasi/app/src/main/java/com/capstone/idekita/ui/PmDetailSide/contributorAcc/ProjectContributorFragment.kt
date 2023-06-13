@@ -33,31 +33,18 @@ class ProjectContributorFragment : Fragment() {
         MainViewModelFactory.getInstance(requireContext())
     }
 
-    companion object{
-        val EXTRA_DATA = "EXTRA_DATA"
-    }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProjectContributorBinding.inflate(inflater, container, false)
-//
-//        val project = if (Build.VERSION.SDK_INT >= 33) {
-//            intent.getParcelableExtra(PmDetailProjectActivity.EXTRA_DATA, ProjectsItem::class.java)
-//        } else {
-//            @Suppress("DEPRECATION")
-//            intent.getParcelableExtra(PmDetailProjectActivity.EXTRA_DATA)
-//        }
-
-//        val project = activity?.intent?.getParcelableArrayExtra(EXTRA_DATA)
-//        val id = project.
 
         val extras = requireActivity().intent.extras
         if (extras != null){
             val idProyek = extras.getInt("extra_id")
+
+            binding.parsingFromDetail.text = idProyek.toString()
 
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
                 homeViewModel.listContributor.observe(viewLifecycleOwner){
@@ -73,11 +60,6 @@ class ProjectContributorFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
 
     private fun showContributor(listContributor : List<ContributorsItem>) {
         binding.rvListContributor.layoutManager = LinearLayoutManager(requireContext())

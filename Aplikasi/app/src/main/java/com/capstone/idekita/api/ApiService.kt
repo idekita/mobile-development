@@ -66,7 +66,19 @@ interface ApiService {
         @Path("id") id: Int?,
     ): Call<GetContributorProjectResponse>
 
+    @GET("kontributor/menunggu/{id}")
+    fun getContributorWaiting(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int?,
+    ): Call<GetContributorProjectResponse>
 
+    @FormUrlEncoded
+    @POST("kontributor")
+    fun postKontributor(
+        @Header("Authorization") token: String,
+        @Field("id_proyek") id: Int,
+        //@Field("username") username: String
+    ): Call<RegisContributorResponse>
 
     @Multipart
     @POST("proyek")

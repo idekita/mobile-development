@@ -120,4 +120,32 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         return result3
     }
 
+
+    private val _listContributorWait = MutableLiveData<List<ContributorsItem>>()
+    val listContributorWait: LiveData<List<ContributorsItem>> = _listContributorWait
+
+    private val result4 = MediatorLiveData<Result<List<ContributorsItem>>>()
+    fun getAllContributorWait(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
+
+        val client = ApiConfig.getApiService().getContributorWaiting(token,id)
+        client.enqueue(object : Callback<GetContributorProjectResponse> {
+            override fun onResponse(
+                call: Call<GetContributorProjectResponse>,
+                response: Response<GetContributorProjectResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _listContributorWait.value = response.body()?.contributors
+                }
+                Log.e(ContentValues.TAG, response.message())
+
+            }
+
+            override fun onFailure(call: Call<GetContributorProjectResponse>, t: Throwable) {
+
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+            }
+        })
+        return result4
+    }
+
 }

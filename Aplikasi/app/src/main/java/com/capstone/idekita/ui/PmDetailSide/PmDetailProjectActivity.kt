@@ -5,21 +5,31 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
+import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.databinding.ActivityAddProjectBinding
 import com.capstone.idekita.databinding.ActivityPmDetailProjectBinding
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.response.RegisContributorResponse
+import com.capstone.idekita.response.RegisterResponse
 import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.PmDetailSide.contributorAcc.ContributorAccActivity
 import com.capstone.idekita.ui.PmDetailSide.contributorAcc.ProjectContributorFragment
 import com.capstone.idekita.ui.addProject.AddProjectFactory
 import com.capstone.idekita.ui.addProject.AddProjectViewModel
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
+import com.capstone.idekita.ui.home.HomeFragment
+import com.capstone.idekita.ui.login.LoginActivity
+import com.capstone.idekita.ui.register.RegisterActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PmDetailProjectActivity : AppCompatActivity() {
 
@@ -49,6 +59,8 @@ class PmDetailProjectActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_DATA)
         }
 
+        binding.idProyek.text = project?.id.toString()
+
         getDetail()
 
 
@@ -70,17 +82,11 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
 
         binding.btCont.setOnClickListener{
-            Toast.makeText(this,"button contributor",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this,ContributorAccActivity::class.java)
-
-            val project = if (Build.VERSION.SDK_INT >= 33) {
-                intent.getParcelableExtra(EXTRA_DATA, ProjectsItem::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                intent.getParcelableExtra(EXTRA_DATA)
-            }
 
             if (project != null){
+                Toast.makeText(this,"button contributor",Toast.LENGTH_SHORT).show()
+                val intent = Intent(this,ContributorAccActivity::class.java)
+
                 val IdProyek = project.id
                 val bundle = Bundle()
                 bundle.putInt("extra_id",IdProyek)
@@ -89,8 +95,15 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
                 startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this as Activity).toBundle())
             }
+        }
 
+        binding.btnJoin.setOnClickListener {
+            viewModel.getToken().observe(this){user->
+                if (project != null){
+                    joinKontributor(user.token,project.id)
+                }
 
+            }
         }
 
     }
@@ -106,15 +119,15 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
         val name = project?.creator
 
-        viewModel.getToken().observe(this){user ->
-            if (user.name == name){
-                binding.btCont.visibility = View.VISIBLE
-                binding.btSetFinish.visibility = View.VISIBLE
-            }else{
-                binding.btCont.visibility = View.GONE
-                binding.btSetFinish.visibility = View.GONE
-            }
-        }
+//        viewModel.getToken().observe(this){user ->
+//            if (user.name == name){
+//                binding.btCont.visibility = View.VISIBLE
+//                binding.btSetFinish.visibility = View.VISIBLE
+//            }else{
+//                binding.btCont.visibility = View.GONE
+//                binding.btSetFinish.visibility = View.GONE
+//            }
+//        }
 
         binding.apply {
             Glide.with(this@PmDetailProjectActivity)
@@ -169,6 +182,27 @@ class PmDetailProjectActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    private fun joinKontributor(token: String,idProj: Int){
+
+                viewModel.regisKon(token,idProj).observe(this){res->
+                    if (res != null) {
+                        when (res) {
+                            is TheResult.Loading -> {
+
+                            }
+                            is TheResult.Success -> {
+                                Toast.makeText(this, res.data.message, Toast.LENGTH_SHORT).show()
+                            }
+                            is TheResult.Error -> {
+                                Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+
     }
 
     companion object{

@@ -39,7 +39,7 @@ class OngoingFragment : Fragment() {
 
 
         viewModel.getToken().observe(viewLifecycleOwner) { token ->
-            getData(token.token, "berlangsung")
+            getData(token.token, "terbuka")
 
         }
 
