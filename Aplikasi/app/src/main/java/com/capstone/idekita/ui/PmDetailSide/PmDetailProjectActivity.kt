@@ -44,13 +44,13 @@ class PmDetailProjectActivity : AppCompatActivity() {
         binding = ActivityPmDetailProjectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getToken().observe(this){
-            val idProj = intent.getIntExtra(GET_ID,0)
-            if(idProj > 0){
-                getDetail(it.token,idProj)
-            }
-
-        }
+//        viewModel.getToken().observe(this){
+//            val idProj = intent.getIntExtra(GET_ID,0)
+//            if(idProj > 0){
+//                getDetail(it.token,idProj)
+//            }
+//
+//        }
 
         val project = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_DATA, ProjectsItem::class.java)

@@ -75,7 +75,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/btnTerima"
+                android:id="@+id/btnTerimaa"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
@@ -87,17 +87,17 @@
                 app:layout_constraintVertical_bias="0.843" />
 
             <Button
-                android:id="@+id/btnTerima2"
+                android:id="@+id/btnTolak"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/red"
                 android:text="Tolak"
-                app:layout_constraintBottom_toBottomOf="@+id/btnTerima"
+                app:layout_constraintBottom_toBottomOf="@+id/btnTerimaa"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnTerima"
-                app:layout_constraintTop_toTopOf="@+id/btnTerima" />
+                app:layout_constraintStart_toEndOf="@+id/btnTerimaa"
+                app:layout_constraintTop_toTopOf="@+id/btnTerimaa" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
@@ -13,7 +14,10 @@ import com.capstone.idekita.adapter.ContributorProjectAdapter
 import com.capstone.idekita.adapter.WaitingContributorProjectAdapter
 import com.capstone.idekita.databinding.FragmentProjectContributorBinding
 import com.capstone.idekita.databinding.FragmentWaitingContributorBinding
+import com.capstone.idekita.response.Contributor
 import com.capstone.idekita.response.ContributorsItem
+import com.capstone.idekita.response.ContributorsItemWait
+import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.home.HomeViewModel
 
 
@@ -37,15 +41,16 @@ class WaitingContributorFragment : Fragment() {
         val extras = requireActivity().intent.extras
         if(extras != null){
             val idProyek = extras.getInt("extra_id")
+            //val idContributor = extras.getInt("")
 
             //binding.parsingFromDetail.text = idProyek.toString()
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
                 homeViewModel.listContributorWait.observe(viewLifecycleOwner){
-                    showContributor(it)
+                    showContributor(it,user.token,"Anggota")
                 }
                 homeViewModel.getAllContributorWait(user.token,idProyek)
-
             }
+
 
         }
 
@@ -53,10 +58,58 @@ class WaitingContributorFragment : Fragment() {
     }
 
 
-    private fun showContributor(listContributor : List<ContributorsItem>) {
+    private fun accProject(token:String,id:Int,statLamar:String,role:String){
+        homeViewModel.AccProject(token, id, statLamar, role).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        Toast.makeText(requireContext(), result.data.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    is TheResult.Error -> {
+                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showContributor(listContributor : List<ContributorsItemWait>, token: String,role: String) {
         binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
-        val userListAdapter = WaitingContributorProjectAdapter(listContributor)
-        binding.rvWaitingContributor.adapter = userListAdapter
+        val userWaiting = WaitingContributorProjectAdapter(listContributor,token,role)
+        binding.rvWaitingContributor.adapter = userWaiting
+
+
+        userWaiting.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
+//            override fun onItemTolakClicked(data: ContributorsItemWait) {
+//                val idContributor = data.id
+//                accProject(token,idContributor,"ditolak",role)
+//            }
+
+            override fun onItemClicked(data: ContributorsItemWait) {
+                val idContributor = data.id
+                accProject(token,idContributor,"diterima",role)
+                Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onItemTolakClicked(data: ContributorsItemWait) {
+                Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
+                val idContributor = data.id
+                accProject(token,idContributor,"ditolak",role)
+            }
+
+        })
+
+//        userWaiting.setOnItemClickCallback2(object :WaitingContributorProjectAdapter.OnItemClickCallBackTolak{
+//            override fun onItemTolakClicked(data: ContributorsItemWait) {
+//                Toast.makeText(requireContext(),"Ini Tombol Tolakkkkkkkkkkkk",Toast.LENGTH_SHORT).show()
+//            }
+//
+//        })
 
 
     }

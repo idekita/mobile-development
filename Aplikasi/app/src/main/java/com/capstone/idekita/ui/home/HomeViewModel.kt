@@ -24,6 +24,9 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         }
     }
 
+    fun AccProject(token: String, id: Int, statLamaran: String, role: String) =
+        projectRepository.reqKon(token,id,statLamaran,role)
+
     fun getAllProjectPaging(token: String,kategori:String): LiveData<PagingData<ProjectsItem>> {
         return projectRepository.getStoryPaging(token,kategori).cachedIn(viewModelScope)
     }
@@ -121,26 +124,26 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     }
 
 
-    private val _listContributorWait = MutableLiveData<List<ContributorsItem>>()
-    val listContributorWait: LiveData<List<ContributorsItem>> = _listContributorWait
+    private val _listContributorWait = MutableLiveData<List<ContributorsItemWait>>()
+    val listContributorWait: LiveData<List<ContributorsItemWait>> = _listContributorWait
 
-    private val result4 = MediatorLiveData<Result<List<ContributorsItem>>>()
-    fun getAllContributorWait(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
+    private val result4 = MediatorLiveData<Result<List<ContributorsItemWait>>>()
+    fun getAllContributorWait(token: String,id: Int?): LiveData<Result<List<ContributorsItemWait>>> {
 
         val client = ApiConfig.getApiService().getContributorWaiting(token,id)
-        client.enqueue(object : Callback<GetContributorProjectResponse> {
+        client.enqueue(object : Callback<WaitListKontributorResponse> {
             override fun onResponse(
-                call: Call<GetContributorProjectResponse>,
-                response: Response<GetContributorProjectResponse>
+                call: Call<WaitListKontributorResponse>,
+                response: Response<WaitListKontributorResponse>
             ) {
                 if (response.isSuccessful) {
-                    _listContributorWait.value = response.body()?.contributors
+                    _listContributorWait.value= response.body()?.contributorsWait
                 }
                 Log.e(ContentValues.TAG, response.message())
 
             }
 
-            override fun onFailure(call: Call<GetContributorProjectResponse>, t: Throwable) {
+            override fun onFailure(call: Call<WaitListKontributorResponse>, t: Throwable) {
 
                 Log.e(ContentValues.TAG, "onFailure: ${t.message}")
             }

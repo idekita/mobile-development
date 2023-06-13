@@ -70,7 +70,7 @@ interface ApiService {
     fun getContributorWaiting(
         @Header("Authorization") token: String,
         @Path("id") id: Int?,
-    ): Call<GetContributorProjectResponse>
+    ): Call<WaitListKontributorResponse>
 
     @FormUrlEncoded
     @POST("kontributor")

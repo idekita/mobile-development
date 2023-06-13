@@ -109,11 +109,11 @@ class AddProjectActivity : AppCompatActivity() {
                         is TheResult.Success -> {
                             Toast.makeText(this, "berhasil dikirim", Toast.LENGTH_SHORT).show()
                             Log.i("create :", "berhasil dikirim")
-                            val theId = result.data.project
-                            changeStatus(token, theId.id, "berlangsung")
-                            Log.i("change id",theId.id.toString())
-                            regisKontributor(token, theId.id)
-                            getProfile(token, theId.creator)
+//                            val theId = result.data.project
+//                            changeStatus(token, theId.id, "berlangsung")
+//                            Log.i("change id",theId.id.toString())
+//                            regisKontributor(token, theId.id)
+//                            getProfile(token, theId.creator)
 
                         }
                         is TheResult.Error -> {
