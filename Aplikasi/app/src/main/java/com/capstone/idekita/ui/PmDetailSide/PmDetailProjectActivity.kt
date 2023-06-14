@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
+import com.capstone.idekita.R
 import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.databinding.ActivityAddProjectBinding
 import com.capstone.idekita.databinding.ActivityPmDetailProjectBinding
@@ -147,15 +148,15 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
         val name = project?.creator
 
-//        viewModel.getToken().observe(this){user ->
-//            if (user.name == name){
-//                binding.btCont.visibility = View.VISIBLE
-//                binding.btSetFinish.visibility = View.VISIBLE
-//            }else{
-//                binding.btCont.visibility = View.GONE
-//                binding.btSetFinish.visibility = View.GONE
-//            }
-//        }
+        viewModel.getToken().observe(this){user ->
+            if (user.name == name){
+                binding.btCont.visibility = View.VISIBLE
+                binding.btSetFinish.visibility = View.VISIBLE
+            }else{
+                binding.btCont.visibility = View.GONE
+                binding.btSetFinish.visibility = View.GONE
+            }
+        }
 
         binding.apply {
             Glide.with(this@PmDetailProjectActivity)
@@ -168,6 +169,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
             mulaiTV.text = project?.tanggalMulai
             endTV.text = project?.tanggalSelesai
             statusTV.text = project?.status
+            imgPm.setImageResource(R.drawable.holder_person)
 
         }
     }

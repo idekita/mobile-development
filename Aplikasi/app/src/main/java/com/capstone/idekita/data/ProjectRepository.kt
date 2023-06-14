@@ -1,13 +1,14 @@
 package com.capstone.idekita.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
+import android.content.ContentValues
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.capstone.idekita.UserPreference
+import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.api.ApiService
 import com.capstone.idekita.model.UserModel
 import com.capstone.idekita.response.*
@@ -16,7 +17,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
+import retrofit2.Response
 
 class ProjectRepository(private val apiService: ApiService, private val pref: UserPreference) {
 
@@ -188,6 +192,47 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
 //            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
 //            emit(TheResult.Error(errorMassage.toString()))
         }
+    }
+
+//    fun getProjectRecomendation(token : String):LiveData<TheResult<List<RecommendationsItem>>> = liveData{
+//        emit(TheResult.Loading)
+//        try {
+//            val response = apiService.getRecomendation("Bearer $token")
+//            val successPost = TheResult.Success(response.recommendations)
+//            emit(successPost)
+//
+//        } catch (e: HttpException) {
+////            val errorBody = e.response()?.errorBody()?.string()
+////            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+////            emit(TheResult.Error(errorMassage.toString()))
+//        }
+//    }
+
+    //private val _listProjectRecomendation = MutableLiveData<List<RecommendationsItem>>()
+
+    private val result = MediatorLiveData<Result<List<RecommendationsItem>>>()
+    fun getAllProjectRekomen(token: String): LiveData<Result<List<RecommendationsItem>>> {
+        val _listProjectRecomendation =  MutableLiveData<List<RecommendationsItem>>()
+        val client = ApiConfig.getApiService().getRecomendation(token)
+        client.enqueue(object : Callback<GetRecomendationResponse> {
+            override fun onResponse(
+                call: Call<GetRecomendationResponse>,
+                response: Response<GetRecomendationResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _listProjectRecomendation.value = response.body()?.recommendations
+                }
+                Log.e(ContentValues.TAG, response.message())
+
+            }
+
+            override fun onFailure(call: Call<GetRecomendationResponse>, t: Throwable) {
+
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+            }
+
+        })
+        return result
     }
 
     // tes conflict

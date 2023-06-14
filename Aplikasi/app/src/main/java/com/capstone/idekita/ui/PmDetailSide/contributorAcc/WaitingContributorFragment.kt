@@ -43,14 +43,12 @@ class WaitingContributorFragment : Fragment() {
             val idProyek = extras.getInt("extra_id")
             //val idContributor = extras.getInt("")
 
-            //binding.parsingFromDetail.text = idProyek.toString()
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
                 homeViewModel.listContributorWait.observe(viewLifecycleOwner){
                     showContributor(it,user.token,"Anggota")
                 }
                 homeViewModel.getAllContributorWait(user.token,idProyek)
             }
-
 
         }
 
@@ -82,12 +80,7 @@ class WaitingContributorFragment : Fragment() {
         val userWaiting = WaitingContributorProjectAdapter(listContributor,token,role)
         binding.rvWaitingContributor.adapter = userWaiting
 
-
         userWaiting.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
-//            override fun onItemTolakClicked(data: ContributorsItemWait) {
-//                val idContributor = data.id
-//                accProject(token,idContributor,"ditolak",role)
-//            }
 
             override fun onItemClicked(data: ContributorsItemWait) {
                 val idContributor = data.id
@@ -103,14 +96,6 @@ class WaitingContributorFragment : Fragment() {
             }
 
         })
-
-//        userWaiting.setOnItemClickCallback2(object :WaitingContributorProjectAdapter.OnItemClickCallBackTolak{
-//            override fun onItemTolakClicked(data: ContributorsItemWait) {
-//                Toast.makeText(requireContext(),"Ini Tombol Tolakkkkkkkkkkkk",Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
-
 
     }
 

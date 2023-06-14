@@ -2,15 +2,18 @@ package com.capstone.idekita.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.adapter.ListAllProjectAdapter
+import com.capstone.idekita.adapter.ListAllRecomendationProjectAdapter
 import com.capstone.idekita.adapter.ListKategoriAdapter
 import com.capstone.idekita.databinding.FragmentHomeBinding
 import com.capstone.idekita.dummy.adapter.RecentProjectAdapter
@@ -19,6 +22,8 @@ import com.capstone.idekita.dummy.data.DummyListHorizotal
 import com.capstone.idekita.dummy.data.Response
 import com.capstone.idekita.response.CategoriesItem
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.response.RecommendationsItem
+import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
 import com.capstone.idekita.ui.listKategori.ListKategoriActivity
@@ -55,15 +60,18 @@ class HomeFragment : Fragment() {
     private fun setViewModel() {
         homeViewModel.getUser().observe(viewLifecycleOwner) { user ->
             if (user.isLogin) {
+                //get list LatestProyek
                 homeViewModel.listProject.observe(viewLifecycleOwner) {
-                    ShowRecycleList(it)
+                    ShowRecycleListLatestProject(it)
                 }
                 homeViewModel.getAllProject("Bearer ${user.token}")
 
-                homeViewModel.listCategori.observe(viewLifecycleOwner){
-                    showKategori(it)
+                homeViewModel.listProjectRekomen.observe(viewLifecycleOwner){
+                    showRekomenProject(it)
                 }
-                homeViewModel.getAllCategori("Bearer ${user.token}")
+                homeViewModel.getAllProjectRekomen("Bearer ${user.token}")
+
+                goToCategory()
 
             } else {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -74,58 +82,46 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun showKategori(listKategori:List<CategoriesItem>){
-        binding.rvKategori.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val kategoriAdapter = ListKategoriAdapter(listKategori)
-        binding.rvKategori.adapter = kategoriAdapter
-
-        kategoriAdapter.setOnItemClickCallback(object : ListKategoriAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: CategoriesItem) {
-                val intent = Intent(requireContext(), ListKategoriActivity::class.java)
-
-                val bundle = Bundle()
-                bundle.putString("extra_kategori",data.nmKategori)
-                intent.putExtras(bundle)
-                startActivity(intent)
-
-            }
-
-        })
+    private fun goToCategory(){
+        binding.ivSosial.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Sosial")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivKesehatan.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Kesehatan")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivPolitik.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Politik")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivBudaya.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Budaya")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivPendidikan.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Pendidikan")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
 
     }
 
-    private fun ShowRecycleList(listProject: List<ProjectsItem>) {
-
-        //Recycle View Rekomendasi
-        binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val projectListAdapter = ListAllProjectAdapter(listProject)
-        binding.rvRekomendasi.adapter = projectListAdapter
-
-        projectListAdapter.setOnItemClickCallback(object :
-            ListAllProjectAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ProjectsItem) {
-
-                val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
-//                val bundle = Bundle()
-//                bundle.putString("extra_name", data.nmProyek)
-//                bundle.putString("extra_desc", data.deskripsi)
-//                bundle.putString("extra_photo", data.gambar)
-//                bundle.putString("extra_creator", data.creator)
-//                bundle.putString("extra_status", data.status)
-//                bundle.putString("extra_start", data.tanggalMulai)
-//                bundle.putString("extra_end", data.tanggalSelesai)
-//                bundle.putString("extra_category", data.category.nmKategori)
-//                bundle.putInt("extra_id",data.id)
-
-                intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
-                //intent.putExtra("data",data)
-                //intent.putExtras(bundle)
-                startActivity(intent)
-
-
-            }
-        })
-
+    private fun ShowRecycleListLatestProject(listProject: List<ProjectsItem>) {
 
         //Recycle View Latest
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -138,18 +134,6 @@ class HomeFragment : Fragment() {
             override fun onItemClicked(data: ProjectsItem) {
                 val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
 
-//                val bundle = Bundle()
-//                bundle.putString("extra_name", data.nmProyek)
-//                bundle.putString("extra_desc", data.deskripsi)
-//                bundle.putString("extra_photo", data.gambar)
-//                bundle.putString("extra_creator", data.creator)
-//                bundle.putString("extra_status", data.status)
-//                bundle.putString("extra_start", data.tanggalMulai)
-//                bundle.putString("extra_end", data.tanggalSelesai)
-//                bundle.putString("extra_category", data.category.nmKategori)
-//                bundle.putInt("extra_id",data.id)
-
-
                 intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
 
                 startActivity(intent)
@@ -158,61 +142,23 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun ShowRecycleList2(listProject: List<ProjectsItem>) {
+
+    private fun showRekomenProject(listProjectRekomen: List<RecommendationsItem>){
 
         //Recycle View Rekomendasi
         binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val projectListAdapter = ListAllProjectAdapter(listProject)
-        binding.rvRekomendasi.adapter = projectListAdapter
+        val projectListRecomenAdapter = ListAllRecomendationProjectAdapter(listProjectRekomen)
+        binding.rvRekomendasi.adapter = projectListRecomenAdapter
 
-        projectListAdapter.setOnItemClickCallback(object :
-            ListAllProjectAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ProjectsItem) {
+        projectListRecomenAdapter.setOnItemClickCallback(object :
+            ListAllRecomendationProjectAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: RecommendationsItem) {
 
                 val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
-                val bundle = Bundle()
-                bundle.putString("extra_name", data.nmProyek)
-                bundle.putString("extra_desc", data.deskripsi)
-                bundle.putString("extra_photo", data.gambar)
-                bundle.putString("extra_creator", data.creator)
-                bundle.putString("extra_status", data.status)
-                bundle.putString("extra_start", data.tanggalMulai)
-                bundle.putString("extra_end", data.tanggalSelesai)
-                bundle.putString("extra_category", data.category.nmKategori)
-                bundle.putInt("extra_id",data.id)
-                intent.putExtras(bundle)
+
+                //intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
                 startActivity(intent)
 
-
-            }
-        })
-
-
-        //Recycle View Latest
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvRecent.layoutManager = layoutManager
-        val projectListAdapter2 = ListAllProjectAdapter(listProject)
-        binding.rvRecent.adapter = projectListAdapter2
-
-        projectListAdapter2.setOnItemClickCallback(object :
-            ListAllProjectAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ProjectsItem) {
-                val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
-
-                val bundle = Bundle()
-                bundle.putString("extra_name", data.nmProyek)
-                bundle.putString("extra_desc", data.deskripsi)
-                bundle.putString("extra_photo", data.gambar)
-                bundle.putString("extra_creator", data.creator)
-                bundle.putString("extra_status", data.status)
-                bundle.putString("extra_start", data.tanggalMulai)
-                bundle.putString("extra_end", data.tanggalSelesai)
-                bundle.putString("extra_category", data.category.nmKategori)
-                bundle.putInt("extra_id",data.id)
-
-                intent.putExtras(bundle)
-
-                startActivity(intent)
             }
         })
 
@@ -221,42 +167,6 @@ class HomeFragment : Fragment() {
 
 
 
-//    private fun showdata() {
-//
-//
-//        //dummy project rekomen
-//        val layoutManager2 =
-//            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        binding.rvRekomendasi.layoutManager = layoutManager2
-//        val adapter2 = RecentProjectAdapter(DummyListHorizotal.getTheList() as ArrayList<Response>)
-//        binding.rvRekomendasi.adapter = adapter2
-//
-//        adapter2.setOnItemClickCallback(object : RecentProjectAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: Response) {
-//                val intent = Intent(requireContext(), DetailProjectActivity::class.java)
-//
-//                val bundle = Bundle()
-//                bundle.putString("extra_name", data.name)
-//                bundle.putString("extra_desc", data.desc)
-//                bundle.putInt("extra_photo", data.photo)
-//
-//                intent.putExtras(bundle)
-//
-//                startActivity(intent)
-//
-//            }
-//
-//        })
-//
-//
-//        //  dummy rv projek terbaru
-//        val layoutManager = GridLayoutManager(requireContext(), 2)
-//        binding.rvRecent.layoutManager = layoutManager
-//        val adapter = RecentProjectAdapter(DummyList.getTheList() as ArrayList<Response>)
-//
-//        binding.rvRecent.adapter = adapter
-//
-//    }
 
 
 }

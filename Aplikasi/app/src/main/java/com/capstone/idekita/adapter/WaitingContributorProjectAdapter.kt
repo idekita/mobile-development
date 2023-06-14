@@ -16,14 +16,10 @@ class WaitingContributorProjectAdapter(private val listContributor: List<Contrib
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
-    private lateinit var onItemClickCallback2: OnItemClickCallBackTolak
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun setOnItemClickCallback2(onItemClickCallback2: OnItemClickCallBackTolak) {
-        this.onItemClickCallback2 = onItemClickCallback2
-    }
 
     class ViewHolder(binding: ItemContributorWaitingBinding): RecyclerView.ViewHolder(binding.root) {
         val nama: TextView = binding.nameContributor
@@ -60,10 +56,6 @@ class WaitingContributorProjectAdapter(private val listContributor: List<Contrib
 
     }
 
-    interface OnItemClickCallBackTolak {
-        //fun onItemTolakClicked(data: ContributorsItemWait)
-
-    }
 
 
 }
