@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.capstone.idekita.R
 import com.capstone.idekita.databinding.RvMyProjectBinding
 import com.capstone.idekita.response.DProjectsItem
+import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 
 
@@ -39,9 +40,41 @@ class MyProjectAdapter :
             binding.tvCategory.text = data.category.nmKategori
             binding.tvStatus.text = data.status
 
+
+            val listToDetail = ProjectsItem(
+                data.id,
+                data.creator,
+                data.nmProyek,
+                data.idKategori,
+                data.deskripsi,
+                data.gambar,
+                data.tanggalMulai,
+                data.tanggalSelesai,
+                data.category,
+                "tanggal",
+                data.status,
+                data.totalRate,
+                data.jumlahRaters,
+                data.meanRate
+            )
+//            val id: Int,
+//            val creator: String,
+//            val nmProyek: String,
+//            val idKategori: Int,
+//            val deskripsi: String,
+//            val gambar: String,
+//            val tanggalMulai: String,
+//            val tanggalSelesai: String,
+//            val category: Category,
+//            val postedAt: String,
+//            val status: String,
+//            val totalRate: Int,
+//            val jumlahRaters: Int,
+//            val meanRate: Int
+
             itemView.setOnClickListener {
             val intent = Intent(itemView.context, PmDetailProjectActivity::class.java)
-            intent.putExtra(PmDetailProjectActivity.GET_ID,data.id)
+            intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,listToDetail)
             itemView.context.startActivity(intent)
                 Toast.makeText(itemView.context,data.id.toString(), Toast.LENGTH_SHORT).show()
             }

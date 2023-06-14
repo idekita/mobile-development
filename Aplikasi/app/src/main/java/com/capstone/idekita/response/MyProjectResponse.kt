@@ -14,11 +14,7 @@ data class MyProjectResponse(
     val status: String
 )
 
-data class DCategory(
 
-    @field:SerializedName("nm_kategori")
-    val nmKategori: String
-)
 
 data class DContributorsItem(
 
@@ -41,7 +37,7 @@ data class DContributorsItem(
 data class DProjectsItem(
 
     @field:SerializedName("mean_rate")
-    val meanRate: Int,
+    val meanRate: Double,
 
     @field:SerializedName("creator")
     val creator: String,
@@ -77,7 +73,7 @@ data class DProjectsItem(
     val contributors: List<DContributorsItem>,
 
     @field:SerializedName("category")
-    val category: DCategory,
+    val category: Category,
 
     @field:SerializedName("status")
     val status: String

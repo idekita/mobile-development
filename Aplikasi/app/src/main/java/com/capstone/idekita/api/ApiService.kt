@@ -166,4 +166,18 @@ interface ApiService {
         @Path("id")id : Int,
     ):GetAllProjectResponse
 
+    // perratingan
+
+    @GET("rating")
+    suspend fun getUserRating(
+        @Header("Authorization") token: String,
+    ):GetUserRatingResponse
+
+    @FormUrlEncoded
+    @POST("rating")
+    suspend fun setRating(
+        @Header("Authorization") token: String,
+        @Field("id_proyek") idProj: Int,
+        @Field("nilai") role: Int,
+    ) : CreateRatingResponse
 }

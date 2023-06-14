@@ -59,11 +59,11 @@ data class ProjectsItem(
     val jumlahRaters: Int,
 
     @field:SerializedName("mean_rate")
-    val meanRate: Int,
+    val meanRate: Double,
 
 
 
-):Parcelable
+    ):Parcelable
 
 @Parcelize
 data class Category(

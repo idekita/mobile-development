@@ -234,5 +234,35 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         }
     }
 
+    // per ratingan
+
+    fun getUserRating(token : String):LiveData<TheResult<List<RatingsItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getUserRating("Bearer $token")
+            val successPost = TheResult.Success(response.ratings)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    fun setRating(token : String,idProj : Int,nilai : Int):LiveData<TheResult<CreateRatingResponse>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.setRating("Bearer $token",idProj,nilai)
+            val successPost = TheResult.Success(response)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
 
 }

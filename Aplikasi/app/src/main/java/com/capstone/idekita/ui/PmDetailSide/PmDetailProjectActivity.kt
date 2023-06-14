@@ -69,7 +69,9 @@ class PmDetailProjectActivity : AppCompatActivity() {
                 .setTitle("Menyelesaikan Proyek")
                 .setMessage("Anda tidak dapat mengubah lagi status proyek saat proyek itu selesai")
                 .setPositiveButton("OK") { dialog, _ ->
-                    finish()
+                    viewModel.getToken().observe(this){
+                        setThisFinish(it.token,project?.id)
+                    }
                     dialog.dismiss()
                 }
                 .setNegativeButton("Batal") { dialog, _ ->
@@ -105,6 +107,32 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
             }
         }
+
+        binding.btSend.setOnClickListener {
+            if(binding.rbRating.rating > 1){
+
+                viewModel.getToken().observe(this){
+                    if (project != null) {
+                        setRating(it.token,project.id,binding.rbRating.rating.toInt())
+                    }
+                }
+            }
+        }
+
+//         Set tombol berdasarkan siapa yang menekan project
+        viewModel.getToken().observe(this){token ->
+            if (project?.creator == token.name){
+                binding.btSetFinish.visibility = View.VISIBLE
+                binding.btnJoin.visibility = View.GONE
+            }else{
+                binding.btSetFinish.visibility = View.GONE
+                binding.btnJoin.visibility = View.VISIBLE
+            }
+            removeButtonWhenStatusSelesai(project?.status)
+            cekIsRating(token.token,token.name,project?.id)
+        }
+
+
 
     }
 
@@ -203,6 +231,89 @@ class PmDetailProjectActivity : AppCompatActivity() {
                     }
                 }
 
+    }
+
+    private fun removeButtonWhenStatusSelesai(statusProj : String?){
+        if(statusProj == "selesai"){
+            binding.tvUlasan.visibility = View.VISIBLE
+            binding.rbRating.visibility = View.VISIBLE
+            binding.btSend.visibility = View.VISIBLE
+            binding.btnJoin.visibility = View.GONE
+            binding.btSetFinish.visibility = View.GONE
+        }
+    }
+
+    // rating
+
+    private fun cekIsRating(token : String,userName : String, id_proyek : Int?){
+
+        viewModel.getUserRating(token).observe(this){res ->
+            if (res != null) {
+                when (res) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val cekRate = res.data
+                        for(i in cekRate){
+                            Toast.makeText(this,"${id_proyek.toString()} asdasdas",Toast.LENGTH_SHORT).show()
+                            if(i.username == userName && i.id_proyek == id_proyek){
+                                binding.btSend.visibility = View.GONE
+                                binding.rbRating.visibility = View.GONE
+                                binding.tvUlasan.text = "Kamu sudah memberi rating"
+                                Toast.makeText(this,"${i.username} + ${i.id_proyek}",Toast.LENGTH_SHORT).show()
+                                Log.i("idProj","${i.id_proyek}")
+                                break
+                            }
+
+                        }
+                    }
+                    is TheResult.Error -> {
+//                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+    fun setThisFinish(token : String,id : Int?){
+        if (id != null) {
+            viewModel.setThisProjFinish(token,id,"selesai").observe(this){result ->
+                if (result != null) {
+                    when (result) {
+                        is TheResult.Loading -> {
+
+                        }
+                        is TheResult.Success -> {
+                            finish()
+
+                        }
+                        is TheResult.Error -> {
+    //                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun setRating(token : String, idProj : Int,nilai : Int){
+        viewModel.setRating(token,idProj,nilai).observe(this){result ->
+            if (result != null) {
+                when (result) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        finish()
+//                        Toast.makeText(this, binding.rbRating.rating.toString(),Toast.LENGTH_SHORT).show()
+
+                    }
+                    is TheResult.Error -> {
+                        //                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     companion object{
