@@ -88,7 +88,7 @@ class AddProjectActivity : AppCompatActivity() {
     ) {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
-            val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
+            val requestImageFile = file.asRequestBody("image/*".toMediaType())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "file", file.name, requestImageFile
             )
@@ -109,11 +109,7 @@ class AddProjectActivity : AppCompatActivity() {
                         is TheResult.Success -> {
                             Toast.makeText(this, "berhasil dikirim", Toast.LENGTH_SHORT).show()
                             Log.i("create :", "berhasil dikirim")
-//                            val theId = result.data.project
-//                            changeStatus(token, theId.id, "berlangsung")
-//                            Log.i("change id",theId.id.toString())
-//                            regisKontributor(token, theId.id)
-//                            getProfile(token, theId.creator)
+                            getProfile(token,result.data.project.creator,result.data.project.id)
 
                         }
                         is TheResult.Error -> {
@@ -154,7 +150,7 @@ class AddProjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun getProfile(token: String, username: String) {
+    private fun getProfile(token: String, username: String,id_proj: Int) {
         viewModel.getProfil(token, username).observe(this) { result ->
             if (result != null) {
                 when (result) {
@@ -164,7 +160,7 @@ class AddProjectActivity : AppCompatActivity() {
                     is TheResult.Success -> {
                         val userName = result.data.user.id
                         Toast.makeText(this, "profile : $userName", Toast.LENGTH_SHORT).show()
-                        reqKon(token, userName, "diterima", "Project Manager")
+                        regisKontributor(token,id_proj,result.data.user.id)
                     }
                     is TheResult.Error -> {
                         Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
@@ -174,7 +170,7 @@ class AddProjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun regisKontributor(token: String, id_proj: Int) {
+    private fun regisKontributor(token: String, id_proj: Int,id_pm : Int) {
         viewModel.regisKon(token, id_proj).observe(this) { res ->
             if (res != null) {
                 when (res) {
@@ -183,6 +179,7 @@ class AddProjectActivity : AppCompatActivity() {
                     }
                     is TheResult.Success -> {
                         Toast.makeText(this, res.data.message, Toast.LENGTH_SHORT).show()
+                        reqKon(token,id_pm,"diterima","PM")
                     }
                     is TheResult.Error -> {
                         Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()

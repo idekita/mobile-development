@@ -35,14 +35,14 @@ class FinishFragment : Fragment() {
 
 
         viewModel.getToken().observe(viewLifecycleOwner) { token ->
-            getData(token.token, "selesai")
+            getData(token.token)
 
         }
 
     }
 
-    private fun getData(token: String, status: String) {
-        viewModel.getMyproject(token, status).observe(viewLifecycleOwner) { result ->
+    private fun getData(token: String) {
+        viewModel.getMyproject(token,"selesai").observe(viewLifecycleOwner) { result ->
             if (result != null) {
 
                 when (result) {

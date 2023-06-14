@@ -14,6 +14,7 @@
 
     <color name="bg_login_register">#D7E3FC</color>
     <color name="btn_color">#37639C</color>
+    <color name="default_grey">#E1E1E1</color>
 
     <color name="judul_register_login">#107DAC</color>
 

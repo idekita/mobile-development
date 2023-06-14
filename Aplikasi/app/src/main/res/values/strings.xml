@@ -32,6 +32,7 @@
     <string name="text_kategori">Kategori</string>
     <string name="hint_pilih_kategori">Pilih Kategori</string>
     <string name="desc_proj_image">proj_image</string>
+    <string name="desc_chose_category_chips_activity">Pilih minimal satu kategori agar kami dapat memberi rekomendasi kategori yang sesuai dengan anda</string>
 
     <string-array name="kategori">
         <item>Sosial</item>

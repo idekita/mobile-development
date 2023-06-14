@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.databinding.FragmentOngoingBinding
+import com.capstone.idekita.response.DProjectsItem
 import com.capstone.idekita.result.TheResult
 
 
@@ -19,7 +20,7 @@ class OngoingFragment : Fragment() {
     private val viewModel by viewModels<MyProjectViewModel> {
         MyProjectFactory.getInstance(requireContext())
     }
-
+    val justList = ArrayList<List<DProjectsItem>>()
     val theAdapter = MyProjectAdapter()
 
     override fun onCreateView(
@@ -39,15 +40,16 @@ class OngoingFragment : Fragment() {
 
 
         viewModel.getToken().observe(viewLifecycleOwner) { token ->
-            getData(token.token, "terbuka")
+
+            getData(token.token)
 
         }
 
 
     }
 
-    private fun getData(token: String, status: String) {
-        viewModel.getMyproject(token, status).observe(viewLifecycleOwner) { result ->
+    private fun getData(token: String) {
+        viewModel.getMyproject(token,"berlangsung").observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is TheResult.Loading -> {
@@ -55,16 +57,14 @@ class OngoingFragment : Fragment() {
                     }
                     is TheResult.Success -> {
                         val myProjData = result.data
-                        if (myProjData.isEmpty()) {
-                            binding.tvNoData.visibility = View.VISIBLE
-                        } else {
+
                             binding.tvNoData.visibility = View.GONE
                             theAdapter.submitList(myProjData)
                             binding.rvOngoing.apply {
                                 layoutManager = LinearLayoutManager(context)
                                 adapter = theAdapter
                             }
-                        }
+
 
                     }
                     is TheResult.Error -> {

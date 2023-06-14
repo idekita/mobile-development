@@ -155,12 +155,18 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         }
     }
 
-    fun getMyProjectItem(token: String, status: String): LiveData<TheResult<List<DProjectsItem>>> =
+    fun getMyProjectItem(token: String, status : String): LiveData<TheResult<List<DProjectsItem>>> =
         liveData {
             emit(TheResult.Loading)
             try {
-                val response = apiService.myProject("Bearer $token", status)
-                val successPost = TheResult.Success(response.projects)
+                lateinit var response : List<DProjectsItem>
+                if(status == "berlangsung"){
+                    response = apiService.myProject("Bearer $token", "berlangsung").projects + apiService.myProject("Bearer $token", "terbuka").projects
+                }else{
+                    response = apiService.myProject("Bearer $token", "selesai").projects
+                }
+
+                val successPost = TheResult.Success(response )
                 emit(successPost)
 
             } catch (e: HttpException) {

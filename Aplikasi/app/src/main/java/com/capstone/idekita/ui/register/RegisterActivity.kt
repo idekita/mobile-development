@@ -9,6 +9,7 @@ import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.databinding.ActivityRegisterBinding
 import com.capstone.idekita.response.RegisterResponse
 import com.capstone.idekita.ui.login.LoginActivity
+import com.capstone.idekita.ui.register.chips_category.ChipsActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,11 +53,21 @@ class RegisterActivity : AppCompatActivity() {
                     binding.UsernameInputLayout.error = "Masukkan Username"
                 }
                 else -> {
-                    register()
+                    val intent = Intent(this, ChipsActivity::class.java)
+                    val listDataRegister = listOf(
+                        binding.nameEditText.text.toString(),
+                        binding.EmailEditText.text.toString(),
+                        binding.PassworEditText.text.toString(),
+                        binding.UsernameEditText.text.toString()
+                    )
+                    intent.putStringArrayListExtra(ChipsActivity.LIST_DATA_REGISTER,ArrayList(listDataRegister))
+                    startActivity(intent)
                 }
             }
         }
     }
+
+
 
     private fun register() {
         //showLoading(true)

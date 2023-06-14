@@ -89,7 +89,7 @@ interface ApiService {
         @Part("deskripsi") desc: RequestBody,
         @Part("tanggal_mulai") dateStart: RequestBody,
         @Part("tanggal_selesai") dateEnd: RequestBody,
-        @Part imgProj: MultipartBody.Part,
+        @Part file: MultipartBody.Part,
     ): CreateProjectResponse
 
     @GET("proyek/status/{status}")

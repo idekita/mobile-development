@@ -18,4 +18,5 @@
         <item name="android:windowExitTransition">@android:transition/slide_top</item>
 
     </style>
+
 </resources>
