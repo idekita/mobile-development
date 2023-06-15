@@ -60,6 +60,12 @@ interface ApiService {
         @Query("size") size: Int?,
     ):Response<GetAllProjectResponse>
 
+    @GET("proyek/cari/{nm_proyek}")
+    fun getProjectbyNames(
+        @Header("Authorization") token: String,
+        @Path("nm_proyek") nama:String,
+    ):Call<GetAllProjectResponse>
+
     @GET("kontributor/{id}")
     fun getContributor(
         @Header("Authorization") token: String,
@@ -103,6 +109,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("username") id: String,
     ): ProfilResponse
+
+    @GET("rekomendasi")
+    fun getRecomendation(
+        @Header("Authorization") token: String,
+    ):Call<GetRecomendationResponse>
 
     @Multipart
     @PUT("proyek/{id}")

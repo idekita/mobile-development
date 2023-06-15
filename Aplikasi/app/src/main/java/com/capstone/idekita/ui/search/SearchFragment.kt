@@ -1,5 +1,6 @@
 package com.capstone.idekita.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -8,9 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.R
+import com.capstone.idekita.adapter.ListAllProjectAdapter
+import com.capstone.idekita.adapter.ListAllSearchProjectAdapter
 import com.capstone.idekita.adapter.LoadingStateAdapter
 import com.capstone.idekita.adapter.ProjectPagingAdapter
 import com.capstone.idekita.databinding.FragmentSearchBinding
+import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 import com.capstone.idekita.ui.home.HomeViewModel
 
 
@@ -43,6 +48,10 @@ class SearchFragment : Fragment() {
 //            getData(user.token,nama)
 //        }
 
+        searchViewModel.listProjectByName.observe(viewLifecycleOwner){
+            getData(it)
+        }
+
         searchItem.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
@@ -50,9 +59,10 @@ class SearchFragment : Fragment() {
 
                     val nama = query
 
-                    searchViewModel.getUser().observe(viewLifecycleOwner){user ->
-                        getData(user.token,nama)
+                    searchViewModel.getUser().observe(viewLifecycleOwner){user->
+                        searchViewModel.getProjectByName("Bearer ${user.token}",nama)
                     }
+
                 }
                 return true
             }
@@ -68,18 +78,38 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun getData(token:String,name:String){
-        val adapter = ProjectPagingAdapter()
-        binding.rvSearchProjecet.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvSearchProjecet.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter{
-                adapter.retry()
-            }
-        )
+//    private fun getData(token:String,name:String){
+//        val adapter = ProjectPagingAdapter()
+//        binding.rvSearchProjecet.layoutManager = LinearLayoutManager(requireContext())
+//        binding.rvSearchProjecet.adapter = adapter.withLoadStateFooter(
+//            footer = LoadingStateAdapter{
+//                adapter.retry()
+//            }
+//        )
+//
+//        searchViewModel.getAllProjectByName(token,name).observe(viewLifecycleOwner) {
+//            adapter.submitData(lifecycle, it)
+//        }
+//
+//    }
 
-        searchViewModel.getAllProjectByName(token,name).observe(viewLifecycleOwner) {
-            adapter.submitData(lifecycle, it)
-        }
+    private fun getData(listProject : List<ProjectsItem>){
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSearchProjecet.layoutManager = layoutManager
+        val searchAdapter = ListAllSearchProjectAdapter(listProject)
+        binding.rvSearchProjecet.adapter = searchAdapter
+
+        searchAdapter.setOnItemClickCallback(object : ListAllSearchProjectAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: ProjectsItem) {
+                val intent = Intent(requireContext(),PmDetailProjectActivity::class.java)
+                intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
+
+                startActivity(intent)
+
+            }
+
+        })
+
 
     }
 

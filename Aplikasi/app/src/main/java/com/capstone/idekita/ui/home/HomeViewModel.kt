@@ -1,6 +1,7 @@
 package com.capstone.idekita.ui.home
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
@@ -13,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel(private val projectRepository: ProjectRepository) : ViewModel() {
+class HomeViewModel(private val projectRepository: ProjectRepository) : ViewModel(){
 
 
     fun getUser() = projectRepository.getUser()
@@ -23,6 +24,42 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
             projectRepository.logout()
         }
     }
+
+    companion object{
+       // val LifecycleOwner:LifecycleOwner
+    }
+
+    fun getRecomendation(token: String) = projectRepository.getAllProjectRekomen(token)
+
+    val _listProjectRecomendation =  MutableLiveData<List<RecommendationsItem>>()
+    val listProjectRekomen: LiveData<List<RecommendationsItem>> =_listProjectRecomendation
+
+
+    private val resultRekomen = MediatorLiveData<Result<List<RecommendationsItem>>>()
+    fun getAllProjectRekomen(token: String): LiveData<Result<List<RecommendationsItem>>> {
+
+        val client = ApiConfig.getApiService().getRecomendation(token)
+        client.enqueue(object : Callback<GetRecomendationResponse> {
+            override fun onResponse(
+                call: Call<GetRecomendationResponse>,
+                response: Response<GetRecomendationResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _listProjectRecomendation.value = response.body()?.recommendations
+                }
+                Log.e(ContentValues.TAG, response.message())
+
+            }
+
+            override fun onFailure(call: Call<GetRecomendationResponse>, t: Throwable) {
+
+                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+            }
+
+        })
+        return resultRekomen
+    }
+
 
     fun AccProject(token: String, id: Int, statLamaran: String, role: String) =
         projectRepository.reqKon(token,id,statLamaran,role)
@@ -34,6 +71,37 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     //get by name
     fun getAllProjectByName(token: String,name:String): LiveData<PagingData<ProjectsItem>> {
         return projectRepository.getProjectByName(token,name).cachedIn(viewModelScope)
+    }
+
+
+    init {
+        val token = projectRepository.getUser().value?.token
+
+        getProjectByName("Bearer ${token}","test")
+    }
+
+    private val _listProjectByName = MutableLiveData<List<ProjectsItem>>()
+    val listProjectByName: LiveData<List<ProjectsItem>> = _listProjectByName
+    fun getProjectByName(token: String,name: String){
+        val client = ApiConfig.getApiService().getProjectbyNames(token,name)
+        client.enqueue(object: Callback<GetAllProjectResponse> {
+            override fun onResponse(
+                call: Call<GetAllProjectResponse>,
+                response: Response<GetAllProjectResponse>
+            ) {
+                //_isLoading.value = false
+                if (response.isSuccessful){
+                    _listProjectByName.value = response.body()?.projects
+                    //_listProjectByName.postValue(response.body()?.items)
+                }
+            }
+
+            override fun onFailure(call: Call<GetAllProjectResponse>, t: Throwable) {
+              //  _isLoading.value = false
+                Log.e(TAG,"onFailure: ${t.message}")
+            }
+
+        })
     }
 
 
