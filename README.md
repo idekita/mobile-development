@@ -26,4 +26,4 @@ This Application having the following features:
 
 This is android architecure using on application Ide Kita
 * #### Android Architecture
-
+![Android Travens drawio (1)](https://raw.githubusercontent.com/luzd628/AssetImage/main/Android%20Architecture(2).png)
