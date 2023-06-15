@@ -16,13 +16,19 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.capstone.idekita.databinding.ActivityAddProjectBinding
 import com.capstone.idekita.databinding.ActivityChatBinding
+import com.capstone.idekita.response.Message
 import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 import com.capstone.idekita.ui.addProject.AddProjectFactory
 import com.capstone.idekita.ui.addProject.AddProjectViewModel
 import com.capstone.idekita.ui.myProject.MyProjectAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import okhttp3.internal.notify
+import java.util.*
 
 class ChatActivity : AppCompatActivity() {
 
@@ -31,112 +37,69 @@ class ChatActivity : AppCompatActivity() {
         ChatRoomFactory.getInstance(this)
     }
 
-    private lateinit var handler: Handler
-    private lateinit var runnable: Runnable
 
-    private val adapter = ChatRoomAdapter("")
+    private lateinit var adapter: ChatRoomAdapter
+    private lateinit var db: FirebaseDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // tes fire base
+        db = Firebase.database
+        val projId = intent.getIntExtra(PROJ_ID,1)
+        val messagesRef = db.reference.child(projId.toString())
 
-
-        handler = Handler()
-        runnable = object : Runnable {
-            override fun run() {
-                tes()
-                handler.postDelayed(this, 3000)
-            }
-        }
-        handler.post(runnable)
-
-        binding.btSend.setOnClickListener{
-            if(binding.edChatBox.text.isNotEmpty()){
-                viewModel.getToken().observe(this){
-                    val chatBox = binding.edChatBox.text
-                    val projId = intent.getIntExtra(PROJ_ID,1)
-                    sendChat(it.token,projId,"$chatBox")
+        binding.btSend.setOnClickListener {
+            val username = intent.getStringExtra(USER_NAME)
+            val friendlyMessage = Message(
+                binding.edChatBox.text.toString(),
+                username,
+                Date().time
+            )
+            messagesRef.push().setValue(friendlyMessage) { error, _ ->
+                if (error != null) {
+                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "sukses mengirim chat", Toast.LENGTH_SHORT).show()
                 }
             }
+            binding.edChatBox.setText("")
         }
 
+        val manager = LinearLayoutManager(this)
+        manager.stackFromEnd = true
+        binding.rvChat.layoutManager = manager
+
+        val options = FirebaseRecyclerOptions.Builder<Message>()
+            .setQuery(messagesRef, Message::class.java)
+            .build()
+
+
+
+        val username = intent.getStringExtra(USER_NAME)
+           adapter = ChatRoomAdapter(username!!,options)
+            binding.rvChat.adapter = adapter
+
 
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(runnable)
+    public override fun onResume() {
+        super.onResume()
+        adapter.startListening()
+    }
+    public override fun onPause() {
+        adapter.stopListening()
+        super.onPause()
     }
 
-    fun tes(){
 
-
-        viewModel.getToken().observe(this){
-            val adapter = ChatRoomAdapter(it.name)
-            val projId = intent.getIntExtra(PROJ_ID,1)
-            getChatRoom(it.token,projId,it.name)
-
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun getChatRoom(token : String, projId : Int, userName : String){
-        viewModel.getChatRoom(token,projId).observe(this){ result ->
-            if(result != null){
-                when(result){
-                    is TheResult.Loading ->{
-
-                    }
-                    is TheResult.Success -> {
-
-                        val myProjData = result.data
-                        val theAdapter = ChatRoomAdapter(userName)
-
-                        theAdapter.submitList(myProjData)
-                            binding.rvChat.apply {
-                                layoutManager = LinearLayoutManager(context)
-                                (layoutManager as LinearLayoutManager).stackFromEnd = true
-                                (layoutManager as LinearLayoutManager).reverseLayout = true
-                                adapter = theAdapter
-                            }
-                    }
-                    is TheResult.Error -> {
-
-                    }
-                }
-            }
-        }
-    }
-
-    private fun sendChat(token : String, projId : Int, pesan : String){
-        viewModel.sendChat(token,projId,pesan).observe(this){ result ->
-            if(result != null){
-                when(result){
-                    is TheResult.Loading ->{
-
-                    }
-                    is TheResult.Success -> {
-
-                        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        val view = this.currentFocus
-                        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-
-                        binding.edChatBox.text.clear()
-                        val myProjData = result.data
-                        Log.i("send_chat","berhasil dikirim")
-                    }
-                    is TheResult.Error -> {
-
-                    }
-                }
-            }
-        }
-    }
 
     companion object{
         const val PROJ_ID = "proyek_id"
+        const val USER_NAME = "user_name"
     }
 }

@@ -13,39 +13,43 @@ import com.capstone.idekita.R
 import com.capstone.idekita.databinding.RvChatbubbleBinding
 import com.capstone.idekita.databinding.RvMyProjectBinding
 import com.capstone.idekita.response.DProjectsItem
+import com.capstone.idekita.response.Message
 import com.capstone.idekita.response.MessagesItem
 import com.capstone.idekita.response.ProjectsItem
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 
 
-class ChatRoomAdapter(private val thisAccountUsername : String) :
-    ListAdapter<MessagesItem, ChatRoomAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class ChatRoomAdapter(private val thisAccountUsername : String, options: FirebaseRecyclerOptions<Message>) :
+
+FirebaseRecyclerAdapter<Message, ChatRoomAdapter.MyViewHolder>(options)
+{
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = RvChatbubbleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding,thisAccountUsername)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val data = getItem(position)
-        holder.bind(data)
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int,model : Message) {
+        holder.bind(model)
     }
 
     class MyViewHolder(private val binding: RvChatbubbleBinding,private val accountUsername: String) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: MessagesItem) {
-           if(data.username == accountUsername){
+        fun bind(data: Message) {
+           if(data.name == accountUsername){
                binding.conChatSender.visibility = View.GONE
                binding.conChatMine.visibility = View.VISIBLE
                binding.tvNameMine.visibility = View.VISIBLE
-               binding.tvNameMine.text = "${data.username} (PM)"
-               binding.tvChatMine.text = data.message
+               binding.tvNameMine.text = "${data.name} (PM)"
+               binding.tvChatMine.text = data.text
            }else{
                binding.conChatMine.visibility = View.GONE
                binding.conChatSender.visibility = View.VISIBLE
                binding.tvNameSender.visibility = View.VISIBLE
-               binding.tvNameSender.text = data.username
-               binding.tvChatSender.text = data.message
+               binding.tvNameSender.text = data.name
+               binding.tvChatSender.text = data.text
            }
 
 
@@ -53,18 +57,6 @@ class ChatRoomAdapter(private val thisAccountUsername : String) :
 
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessagesItem>() {
-            override fun areItemsTheSame(oldItem: MessagesItem, newItem: MessagesItem): Boolean {
-                return oldItem == newItem
-            }
 
-            override fun areContentsTheSame(
-                oldItem: MessagesItem,
-                newItem: MessagesItem
-            ): Boolean {
-                return oldItem.message == newItem.message
-            }
-        }
-    }
 }
+

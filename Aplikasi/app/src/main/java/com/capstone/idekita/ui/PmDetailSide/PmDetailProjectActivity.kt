@@ -86,9 +86,12 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
 
         binding.btChat.setOnClickListener{
-            val intent = Intent(this,ChatActivity::class.java)
-            intent.putExtra(ChatActivity.PROJ_ID,project!!.id)
-            startActivity(intent)
+           viewModel.getToken().observe(this){
+               val intent = Intent(this,ChatActivity::class.java)
+               intent.putExtra(ChatActivity.PROJ_ID,project!!.id)
+            intent.putExtra(ChatActivity.USER_NAME,it.name)
+               startActivity(intent)
+           }
         }
 
         binding.btCont.setOnClickListener{
