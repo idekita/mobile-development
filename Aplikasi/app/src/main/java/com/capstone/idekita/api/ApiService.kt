@@ -191,4 +191,19 @@ interface ApiService {
         @Field("id_proyek") idProj: Int,
         @Field("nilai") role: Int,
     ) : CreateRatingResponse
+
+    // chat room
+    @GET("obrolan/{id_proyek}")
+    suspend fun getChatRoom(
+        @Header("Authorization") token: String,
+        @Path("id_proyek") idProj: Int,
+    ) : ChatRoomResponse
+
+    @FormUrlEncoded
+    @POST("obrolan/{id_proyek}")
+    suspend fun sendChat(
+        @Header("Authorization") token: String,
+        @Path("id_proyek") idProj: Int,
+        @Field("message") pesan : String
+    ) : SendChatResponse
 }

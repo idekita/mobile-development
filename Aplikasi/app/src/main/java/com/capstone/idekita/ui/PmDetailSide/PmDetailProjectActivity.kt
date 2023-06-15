@@ -24,6 +24,7 @@ import com.capstone.idekita.ui.PmDetailSide.contributorAcc.ContributorAccActivit
 import com.capstone.idekita.ui.PmDetailSide.contributorAcc.ProjectContributorFragment
 import com.capstone.idekita.ui.addProject.AddProjectFactory
 import com.capstone.idekita.ui.addProject.AddProjectViewModel
+import com.capstone.idekita.ui.chatroom.ChatActivity
 import com.capstone.idekita.ui.detailProject.DetailProjectActivity
 import com.capstone.idekita.ui.home.HomeFragment
 import com.capstone.idekita.ui.login.LoginActivity
@@ -82,6 +83,12 @@ class PmDetailProjectActivity : AppCompatActivity() {
                 .create()
 
             alertDialog.show()
+        }
+
+        binding.btChat.setOnClickListener{
+            val intent = Intent(this,ChatActivity::class.java)
+            intent.putExtra(ChatActivity.PROJ_ID,project!!.id)
+            startActivity(intent)
         }
 
         binding.btCont.setOnClickListener{
@@ -150,10 +157,10 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
         viewModel.getToken().observe(this){user ->
             if (user.name == name){
-                binding.btCont.visibility = View.VISIBLE
+//                binding.btCont.visibility = View.VISIBLE
                 binding.btSetFinish.visibility = View.VISIBLE
             }else{
-                binding.btCont.visibility = View.GONE
+//                binding.btCont.visibility = View.GONE
                 binding.btSetFinish.visibility = View.GONE
             }
         }
@@ -236,12 +243,15 @@ class PmDetailProjectActivity : AppCompatActivity() {
     }
 
     private fun removeButtonWhenStatusSelesai(statusProj : String?){
-        if(statusProj == "selesai"){
+        val isMine = intent.getBooleanExtra(IS_MINE,false)
+        if(statusProj == "selesai" && isMine){
             binding.tvUlasan.visibility = View.VISIBLE
             binding.rbRating.visibility = View.VISIBLE
             binding.btSend.visibility = View.VISIBLE
             binding.btnJoin.visibility = View.GONE
             binding.btSetFinish.visibility = View.GONE
+        }else if(statusProj == "selesai"){
+            binding.btnJoin.visibility = View.GONE
         }
     }
 
@@ -319,7 +329,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
     }
 
     companion object{
-        const val GET_ID = "id"
+        const val IS_MINE = "boolean"
         const val EXTRA_DATA = "EXTRA_DATA"
     }
 }

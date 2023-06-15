@@ -75,6 +75,7 @@ class MyProjectAdapter :
             itemView.setOnClickListener {
             val intent = Intent(itemView.context, PmDetailProjectActivity::class.java)
             intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,listToDetail)
+                intent.putExtra(PmDetailProjectActivity.IS_MINE,true)
             itemView.context.startActivity(intent)
                 Toast.makeText(itemView.context,data.id.toString(), Toast.LENGTH_SHORT).show()
             }

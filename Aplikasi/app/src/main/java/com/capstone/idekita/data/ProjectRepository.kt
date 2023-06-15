@@ -309,5 +309,35 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         }
     }
 
+    // chatroom
+
+    fun getChatRoom(token : String,idProj : Int):LiveData<TheResult<List<MessagesItem>>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getChatRoom("Bearer $token",idProj)
+            val successPost = TheResult.Success(response.messages)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    fun sendChat(token : String,idProj : Int,pesan : String):LiveData<TheResult<SendChatResponse>> = liveData{
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.sendChat("Bearer $token",idProj,pesan)
+            val successPost = TheResult.Success(response)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+//            val errorBody = e.response()?.errorBody()?.string()
+//            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+//            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
 
 }
