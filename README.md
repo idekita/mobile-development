@@ -6,6 +6,9 @@ The development of this application uses Android Studio with the Kotlin programm
 * #### Dependencies :
   - [Lifecycle & Livedata](https://developer.android.com/jetpack/androidx/releases/lifecycle)
   - [Navigation Component](https://developer.android.com/jetpack/androidx/releases/navigation)
+  - [Glide]()
+  - [Paging3]()
+  - [Data Store]()
   - [kotlinx-coroutines](https://developer.android.com/kotlin/coroutines)    
   - [Retrofit 2](https://square.github.io/retrofit/)      
   - [Ok Http 3](https://square.github.io/okhttp/) 
