@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
@@ -42,6 +43,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPmDetailProjectBinding.inflate(layoutInflater)
@@ -63,7 +65,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
 
 
-        binding.idProyek.text = project?.id.toString()
+
 
         val isFromRekom = intent.getBooleanExtra(REKOM,false)
 
@@ -159,6 +161,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun getDetail(){
         val project = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_DATA, ProjectsItem::class.java)
@@ -192,6 +195,12 @@ class PmDetailProjectActivity : AppCompatActivity() {
             statusTV.text = project?.status
             imgPm.setImageResource(R.drawable.holder_person)
 
+            if(project?.status == "selesai"){
+                binding.cardStatus.setCardBackgroundColor(getColor(R.color.green))
+            }else if(project?.status == "terbuka"){
+                binding.cardStatus.setCardBackgroundColor(getColor(R.color.default_grey))
+                binding.statusTV.setTextColor(getColor(R.color.black))
+            }
         }
     }
 

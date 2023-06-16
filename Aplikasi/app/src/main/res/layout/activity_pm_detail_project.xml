@@ -22,6 +22,32 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"/>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/blue_primary"
+                    app:cardCornerRadius="10dp"
+                    android:layout_gravity="bottom|end">
+
+                    <TextView
+                        android:id="@+id/statusTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="60dp"
+                        android:layout_margin="4dp"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="selesai"
+                        android:textSize="14sp" />
+                </androidx.cardview.widget.CardView>
+
+
+
             </FrameLayout>
 
             <TextView
@@ -37,6 +63,22 @@
                 android:textColor="#1B1919"
                 android:textSize="32sp" />
 
+            <TextView
+                android:id="@+id/kategoriTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:text="kategori"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +90,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:padding="8dp"
-                    android:background="#1E4798"
                     android:src="@drawable/baseline_chat_24"
                     android:layout_marginRight="16dp"
                     />
@@ -81,8 +122,7 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pembuat : "
-                        android:textColor="#1B1919"
+                        android:text="Creator"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -90,13 +130,13 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
 
                     <LinearLayout
                         android:id="@+id/cv_img_pm"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
                         app:layout_constraintStart_toStartOf="@+id/tv_name"
                         app:layout_constraintTop_toBottomOf="@+id/tv_name">
 
@@ -106,19 +146,19 @@
 
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/card"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                app:cardCornerRadius="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardCornerRadius="20dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <ImageView
                                     android:id="@+id/img_pm"
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
                                     android:scaleType="centerInside"
-                                    android:src="@color/teal_200"
+                                    android:src="@drawable/holder_person"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
@@ -133,7 +173,8 @@
                                 android:layout_marginBottom="1dp"
                                 android:layout_weight="1"
                                 android:text="nama Pembuat"
-                                android:textSize="14sp"
+                                android:textColor="#1B1A1A"
+                                android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/card"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -142,42 +183,6 @@
                     </LinearLayout>
 
                 </TableRow>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="8dp">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kategori : "
-                        android:textColor="#1B1919"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/kategoriTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="1dp"
-                        android:layout_weight="1"
-                        android:text="kategori"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView9"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <TableRow
@@ -190,8 +195,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="Tentang Project :"
-                        android:textColor="#1B1A1A"
+                        android:layout_marginTop="30dp"
+                        android:text="Deskripsi"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -215,14 +220,14 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="Time Line :"
-                        android:textColor="#1B1A1A"
+                        android:text="Time Line"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </TableRow>
@@ -270,32 +275,13 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="Status Project :"
-                        android:textColor="#1B1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </TableRow>
 
                 <TableRow
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:layout_marginBottom="8dp">
-                    <TextView
-                        android:id="@+id/statusTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Terbuka"
-                        android:textSize="14sp" />
+
                 </TableRow>
 
 
@@ -328,15 +314,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/id_proyek"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="TextView"
-                    app:layout_constraintEnd_toStartOf="@+id/bt_set_finish"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/tv_ulasan"
