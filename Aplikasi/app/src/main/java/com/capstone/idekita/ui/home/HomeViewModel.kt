@@ -44,13 +44,13 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
                 if (response.isSuccessful) {
                     _listProjectRecomendation.value = response.body()?.recommendations
                 }
-                Log.e(ContentValues.TAG, response.message())
+                Log.e(TAG, response.message())
 
             }
 
             override fun onFailure(call: Call<GetRecomendationResponse>, t: Throwable) {
 
-                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+                Log.e(TAG, "onFailure: ${t.message}")
             }
 
         })
@@ -101,34 +101,6 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     fun getContributorAcc(token: String,Id: Int?) = projectRepository.getContributorAcc(token,Id)
 
     fun getWaitingContributor(token: String,Id:Int) = projectRepository.getContributorWaiting(token,Id)
-
-    //listContributor
-    private val _listContributor = MutableLiveData<List<ContributorsItem>>()
-    val listContributor: LiveData<List<ContributorsItem>> = _listContributor
-
-    private val result2 = MediatorLiveData<Result<List<ContributorsItem>>>()
-//    fun getAllContributor(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
-//
-//        val client = ApiConfig.getApiService().getContributor(token,id)
-//        client.enqueue(object : Callback<GetContributorProjectResponse> {
-//            override fun onResponse(
-//                call: Call<GetContributorProjectResponse>,
-//                response: Response<GetContributorProjectResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    _listContributor.value = response.body()?.contributors
-//                }
-//                Log.e(ContentValues.TAG, response.message())
-//
-//            }
-//
-//            override fun onFailure(call: Call<GetContributorProjectResponse>, t: Throwable) {
-//
-//                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
-//            }
-//        })
-//        return result2
-//    }
 
 
     //listKategori

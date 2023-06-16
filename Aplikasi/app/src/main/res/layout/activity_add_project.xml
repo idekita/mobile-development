@@ -181,7 +181,7 @@
                     android:gravity="top"
                     android:minHeight="200dp"
                     android:autofillHints="@string/input_proj_name"
-                    android:hint="@string/input_proj_name" />
+                    android:hint="@string/input_proj_desc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

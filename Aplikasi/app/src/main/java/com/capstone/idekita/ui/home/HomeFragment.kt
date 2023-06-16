@@ -64,18 +64,15 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.getAllProject("Bearer ${user.token}")
 
-//                homeViewModel.listProjectRekomen.observe(viewLifecycleOwner){
-//                   showRekomenProject(it)
-//                }
-//
-//                homeViewModel.getAllProjectRekomen("Bearer ${user.token}")
                 showRekomendasi(user.token)
                 goToCategory()
 
-            } else {
+            } else if (user.token == "expiredToken"){
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
-
+            }else{
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
             }
         }
     }
@@ -177,6 +174,28 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun showLatestWhenRekomEmpty(listProject: List<ProjectsItem>) {
+
+        //Recycle View Latest
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvRekomendasi.layoutManager = layoutManager
+        val projectListAdapter = ListAllProjectAdapter(listProject)
+        binding.rvRekomendasi.adapter = projectListAdapter
+
+
+        projectListAdapter.setOnItemClickCallback(object :
+            ListAllProjectAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ProjectsItem) {
+                val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
+
+                intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
+
+                startActivity(intent)
+            }
+        })
+
+    }
+
 
     private fun showRekomenProject(listProjectRekomen: List<RecommendationsItem>){
 
@@ -199,7 +218,6 @@ class HomeFragment : Fragment() {
 
 
     private fun showRekomendasi(token:String){
-        //binding.emptyData.visibility = View.VISIBLE
         binding.progressBar2.visibility = View.VISIBLE
         homeViewModel.getRecomendation(token).observe(viewLifecycleOwner){
             if (it != null){
@@ -213,7 +231,15 @@ class HomeFragment : Fragment() {
                         val adapter = ListAllRecomendationProjectAdapter()
                         val data = it.data
                         if (data.isEmpty()){
-                            binding.emptyData.visibility = View.VISIBLE
+                            //binding.emptyData.visibility = View.VISIBLE
+                            homeViewModel.getUser().observe(viewLifecycleOwner){user->
+                                homeViewModel.getAllProject("Bearer ${user.token}")
+                                homeViewModel.listProject.observe(viewLifecycleOwner){
+                                    showLatestWhenRekomEmpty(it)
+                                }
+
+                            }
+
                         }else{
                             binding.emptyData.visibility = View.GONE
                             binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

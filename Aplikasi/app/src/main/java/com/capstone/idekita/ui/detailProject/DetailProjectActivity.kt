@@ -48,18 +48,17 @@ class DetailProjectActivity : AppCompatActivity() {
 
 
         val project = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra(DetailProjectActivity.EXTRA_DATA, RecommendationsItem::class.java)
+            intent.getParcelableExtra(EXTRA_DATA, RecommendationsItem::class.java)
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableExtra(DetailProjectActivity.EXTRA_DATA)
+            intent.getParcelableExtra(EXTRA_DATA)
         }
 
         //val project2 = intent.getParcelableExtra(EXTRA_DATA)
 
-        binding.idProyek.text = project?.id.toString()
+        binding.idProyek.text = project?.project?.id.toString()
 
         getDetail()
-
 
         binding.btSetFinish.setOnClickListener{
             val alertDialog = AlertDialog.Builder(this)
@@ -67,7 +66,7 @@ class DetailProjectActivity : AppCompatActivity() {
                 .setMessage("Anda tidak dapat mengubah lagi status proyek saat proyek itu selesai")
                 .setPositiveButton("OK") { dialog, _ ->
                     viewModel.getToken().observe(this){
-                        setThisFinish(it.token,project?.id)
+                        setThisFinish(it.token,project?.project?.id)
                     }
                     dialog.dismiss()
                 }
@@ -83,7 +82,7 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.btChat.setOnClickListener{
             viewModel.getToken().observe(this){
                 val intent = Intent(this, ChatActivity::class.java)
-                intent.putExtra(ChatActivity.PROJ_ID,project!!.id)
+                intent.putExtra(ChatActivity.PROJ_ID,project!!.project.id)
                 intent.putExtra(ChatActivity.USER_NAME,it.name)
                 startActivity(intent)
             }
@@ -95,7 +94,7 @@ class DetailProjectActivity : AppCompatActivity() {
                 Toast.makeText(this,"button contributor", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, ContributorAccActivity::class.java)
 
-                val IdProyek = project.id
+                val IdProyek = project.project.id
                 val bundle = Bundle()
                 bundle.putInt("extra_id",IdProyek)
                 intent.putExtras(bundle)
@@ -108,7 +107,7 @@ class DetailProjectActivity : AppCompatActivity() {
         binding.btnJoin.setOnClickListener {
             viewModel.getToken().observe(this){user->
                 if (project != null){
-                    joinKontributor(user.token,project.id)
+                    joinKontributor(user.token,project.project.id)
                 }
 
             }
@@ -119,7 +118,7 @@ class DetailProjectActivity : AppCompatActivity() {
 
                 viewModel.getToken().observe(this){
                     if (project != null) {
-                        setRating(it.token,project.id,binding.rbRating.rating.toInt())
+                        setRating(it.token,project.project.id,binding.rbRating.rating.toInt())
                     }
                 }
             }
