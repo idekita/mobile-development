@@ -57,7 +57,7 @@
         android:layout_marginTop="192dp"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="Belum ada hasil Pencairan"
+        android:text="DATA KOSONG"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

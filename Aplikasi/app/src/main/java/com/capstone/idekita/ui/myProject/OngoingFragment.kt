@@ -57,14 +57,18 @@ class OngoingFragment : Fragment() {
                     }
                     is TheResult.Success -> {
                         val myProjData = result.data
+                            if (myProjData.isEmpty()){
+                                binding.tvNoData.visibility = View.VISIBLE
+                            }else{
+                                binding.tvNoData.visibility = View.GONE
+                                theAdapter.submitList(myProjData)
+                                binding.rvOngoing.apply {
+                                    layoutManager = LinearLayoutManager(context)
+                                    adapter = theAdapter
+                                }
 
-                            binding.tvNoData.visibility = View.GONE
-                            theAdapter.submitList(myProjData)
-                            binding.rvOngoing.apply {
-                                layoutManager = LinearLayoutManager(context)
-                                adapter = theAdapter
+
                             }
-
 
                     }
                     is TheResult.Error -> {

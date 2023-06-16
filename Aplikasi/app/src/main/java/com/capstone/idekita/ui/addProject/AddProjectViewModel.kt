@@ -53,7 +53,12 @@ class AddProjectViewModel(private val projectRepository: ProjectRepository) : Vi
             "Pendidikan" -> ret = "2"
             "Kesehatan" -> ret = "3"
             "Budaya" -> ret = "4"
-            "Politik" -> ret = "5"
+            "Pemerintahan" -> ret = "5"
+            "Sains" ->ret = "6"
+            "Lingkungan" ->ret = "7"
+            "Olahraga" ->ret = "8"
+            "Kesejahteraan" ->ret = "9"
+            "Hukum" ->ret = "10"
         }
         return ret
     }

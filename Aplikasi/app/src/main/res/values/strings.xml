@@ -21,6 +21,7 @@
     <string name="tab_context">just a text</string>
     <string name="add_project">Buat Project</string>
     <string name="input_proj_name">Masukkan judul projek</string>
+    <string name="input_proj_desc">Masukkan deskripsi projek</string>
     <string name="judul_projek">Judul Projek</string>
     <string name="bt_buat_projek">Buat Projek</string>
     <string name="date_finish">Finish</string>
@@ -39,7 +40,12 @@
         <item>Pendidikan</item>
         <item>Kesehatan</item>
         <item>Budaya</item>
-        <item>Politik</item>
+        <item>Pemerintahan</item>
+        <item>Sains</item>
+        <item>Lingkungan</item>
+        <item>Olahraga</item>
+        <item>Kesejahteraaan</item>
+        <item>Hukum</item>
     </string-array>
 
 </resources>
