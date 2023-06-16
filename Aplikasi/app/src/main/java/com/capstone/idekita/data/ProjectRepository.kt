@@ -44,17 +44,65 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
         ).liveData
     }
 
-    //get project by name
-    fun getProjectByName(token: String,nama:String): LiveData<PagingData<ProjectsItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            pagingSourceFactory = {
-                SearchProjectPagingSource(apiService, "Bearer ${token}",nama)
-            }
-        ).liveData
+    fun getProjectRekomen(token: String): LiveData<TheResult<List<RecommendationsItem>>> = liveData {
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getRecomendation("Bearer $token")
+            val successPost = TheResult.Success(response.recommendations)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+            emit(TheResult.Error(errorMassage.toString()))
+        }
     }
+
+    //get project by name
+    fun getProjectByName(token: String,nama:String): LiveData<TheResult<List<ProjectsItem>>> = liveData {
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getProjectbyNames("Bearer $token", nama)
+            val successPost = TheResult.Success(response.projects)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    //Fungsi Contributor Waiting
+    fun getContributorWaiting(token: String, Id: Int): LiveData<TheResult<List<ContributorsItemWait>>> = liveData {
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getContributorWaiting("Bearer $token", Id)
+            val successPost = TheResult.Success(response.contributorsWait)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
+    //Get Contributor Acc
+    fun getContributorAcc(token: String, Id: Int?): LiveData<TheResult<List<ContributorsItem>>> = liveData {
+        emit(TheResult.Loading)
+        try {
+            val response = apiService.getContributor("Bearer ${token}", Id)
+            val successPost = TheResult.Success(response.contributors)
+            emit(successPost)
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMassage = errorBody?.let { JSONObject(it).getString("message") }
+            emit(TheResult.Error(errorMassage.toString()))
+        }
+    }
+
 
     // Fungsi add project
     fun postAddProject(
@@ -210,30 +258,7 @@ class ProjectRepository(private val apiService: ApiService, private val pref: Us
 
     //private val _listProjectRecomendation = MutableLiveData<List<RecommendationsItem>>()
 
-    private val result = MediatorLiveData<Result<List<RecommendationsItem>>>()
-    fun getAllProjectRekomen(token: String): LiveData<Result<List<RecommendationsItem>>> {
-        val _listProjectRecomendation =  MutableLiveData<List<RecommendationsItem>>()
-        val client = ApiConfig.getApiService().getRecomendation(token)
-        client.enqueue(object : Callback<GetRecomendationResponse> {
-            override fun onResponse(
-                call: Call<GetRecomendationResponse>,
-                response: Response<GetRecomendationResponse>
-            ) {
-                if (response.isSuccessful) {
-                    _listProjectRecomendation.value = response.body()?.recommendations
-                }
-                Log.e(ContentValues.TAG, response.message())
 
-            }
-
-            override fun onFailure(call: Call<GetRecomendationResponse>, t: Throwable) {
-
-                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
-            }
-
-        })
-        return result
-    }
 
     // tes conflict
 

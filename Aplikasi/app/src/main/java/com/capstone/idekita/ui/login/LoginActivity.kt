@@ -3,7 +3,10 @@ package com.capstone.idekita.ui.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -40,6 +43,22 @@ class LoginActivity : AppCompatActivity() {
         setAction()
         setViewModel()
 
+        val password = binding.PassworEditText
+
+        password.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //
+            }
+
+            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                //
+            }
+
+        })
     }
 
 
@@ -75,25 +94,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        //showLoading(true)
+
         val username = binding.UsernameEditText.text.toString()
         val pasword = binding.PassworEditText.text.toString()
-
+        showLoading(true)
         val client = ApiConfig.getApiService().postLogin(username, pasword)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null) {
-                    // showLoading(false)
+                     showLoading(false)
 
-//                    responseBody.user.username
-//                    responseBody.user.password
                     loginViewModel.saveUser(
                         UserModel(
                             responseBody.user.username,
                             responseBody.user.email,
                             responseBody.user.token,
-                            //responseBody.user.,
                             isLogin = true
                         )
                     )
@@ -101,17 +117,32 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
-                    //showLoading(false)
+                    showLoading(false)
                     Log.e(RegisterActivity.TAG, "onFailure ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                //showLoading(false)
+                showLoading(false)
                 Log.e(TAG, "onFailure ${t.message}")
             }
 
         })
+    }
+
+    private fun showLoading(isLoading: Boolean){
+        if (isLoading){
+            binding.progressBar3.visibility =View.VISIBLE
+        }else{
+            binding.progressBar3.visibility =View.GONE
+        }
+    }
+
+    private fun setMyButtonEnable() {
+        val result = binding.PassworEditText.text
+        if (result != null) {
+            binding.btnLogin.isEnabled = result.length >= 8
+        }
     }
 
 

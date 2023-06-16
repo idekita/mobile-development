@@ -17,6 +17,7 @@ import com.capstone.idekita.api.ApiConfig
 import com.capstone.idekita.databinding.ActivityAddProjectBinding
 import com.capstone.idekita.databinding.ActivityPmDetailProjectBinding
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.response.RecommendationsItem
 import com.capstone.idekita.response.RegisContributorResponse
 import com.capstone.idekita.response.RegisterResponse
 import com.capstone.idekita.result.TheResult
@@ -61,9 +62,11 @@ class PmDetailProjectActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_DATA)
         }
 
+
         binding.idProyek.text = project?.id.toString()
 
         getDetail()
+        getDetailFromRekomen()
 
 
         binding.btSetFinish.setOnClickListener{
@@ -224,6 +227,41 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
     }
 
+    private fun getDetailFromRekomen(){
+        val rekomen = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(EXTRA_DATA, RecommendationsItem::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_DATA)
+        }
+
+        val name = rekomen?.project?.creator
+
+        viewModel.getToken().observe(this){user ->
+            if (user.name == name){
+//                binding.btCont.visibility = View.VISIBLE
+                binding.btSetFinish.visibility = View.VISIBLE
+            }else{
+//                binding.btCont.visibility = View.GONE
+                binding.btSetFinish.visibility = View.GONE
+            }
+        }
+
+        binding.apply {
+            Glide.with(this@PmDetailProjectActivity)
+                .load(rekomen?.project?.gambar)
+                .into(ivDetail)
+            nameTV.text = rekomen?.project?.nmProyek
+            creatorTV.text = rekomen?.project?.creator
+            kategoriTV.text = rekomen?.project?.category?.nmKategori
+            descTV.text = rekomen?.project?.deskripsi
+            mulaiTV.text = rekomen?.project?.tanggalMulai
+            endTV.text = rekomen?.project?.tanggalSelesai
+            statusTV.text = rekomen?.project?.status
+            imgPm.setImageResource(R.drawable.holder_person)
+
+        }
+    }
 
     private fun joinKontributor(token: String,idProj: Int){
 

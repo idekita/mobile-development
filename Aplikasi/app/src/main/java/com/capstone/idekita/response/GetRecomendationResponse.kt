@@ -1,6 +1,8 @@
 package com.capstone.idekita.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GetRecomendationResponse(
 
@@ -13,7 +15,7 @@ data class GetRecomendationResponse(
 	@field:SerializedName("status")
 	val status: String
 )
-
+@Parcelize
 data class RecommendationsItem(
 
 	@field:SerializedName("project")
@@ -33,12 +35,13 @@ data class RecommendationsItem(
 
 	@field:SerializedName("id_project")
 	val idProject: Int
-)
+):Parcelable
 
+@Parcelize
 data class ProjectRecomendation(
 
 	@field:SerializedName("mean_rate")
-	val meanRate: Int,
+	val meanRate: Double,
 
 	@field:SerializedName("creator")
 	val creator: String,
@@ -78,8 +81,9 @@ data class ProjectRecomendation(
 
 	@field:SerializedName("status")
 	val status: String
-)
+):Parcelable
 
+@Parcelize
 data class CategoryRecomendation(
 
 	@field:SerializedName("id")
@@ -87,8 +91,8 @@ data class CategoryRecomendation(
 
 	@field:SerializedName("nm_kategori")
 	val nmKategori: String
-)
-
+):Parcelable
+@Parcelize
 data class UserRecomendation(
 
 	@field:SerializedName("id_user")
@@ -96,4 +100,4 @@ data class UserRecomendation(
 
 	@field:SerializedName("username")
 	val username: String
-)
+):Parcelable

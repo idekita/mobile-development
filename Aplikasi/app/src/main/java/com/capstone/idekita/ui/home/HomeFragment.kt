@@ -12,9 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
-import com.capstone.idekita.adapter.ListAllProjectAdapter
-import com.capstone.idekita.adapter.ListAllRecomendationProjectAdapter
-import com.capstone.idekita.adapter.ListKategoriAdapter
+import com.capstone.idekita.adapter.*
 import com.capstone.idekita.databinding.FragmentHomeBinding
 import com.capstone.idekita.dummy.adapter.RecentProjectAdapter
 import com.capstone.idekita.dummy.data.DummyList
@@ -66,11 +64,12 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.getAllProject("Bearer ${user.token}")
 
-                homeViewModel.listProjectRekomen.observe(viewLifecycleOwner){
-                    showRekomenProject(it)
-                }
-                homeViewModel.getAllProjectRekomen("Bearer ${user.token}")
-
+//                homeViewModel.listProjectRekomen.observe(viewLifecycleOwner){
+//                   showRekomenProject(it)
+//                }
+//
+//                homeViewModel.getAllProjectRekomen("Bearer ${user.token}")
+                showRekomendasi(user.token)
                 goToCategory()
 
             } else {
@@ -100,7 +99,7 @@ class HomeFragment : Fragment() {
         binding.ivPolitik.setOnClickListener {
             val intent = Intent(requireContext(),ListKategoriActivity::class.java)
             val bundle = Bundle()
-            bundle.putString("extra_kategori","Politik")
+            bundle.putString("extra_kategori","Pemerintahan")
             intent.putExtras(bundle)
             startActivity(intent)
         }
@@ -118,6 +117,41 @@ class HomeFragment : Fragment() {
             intent.putExtras(bundle)
             startActivity(intent)
         }
+        binding.ivLingkungan.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Lingkungan")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivKesejahteraan.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Kesejeahteraan")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivSains.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Sains")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivOlahraga.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Olahraga")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        binding.ivHukum.setOnClickListener {
+            val intent = Intent(requireContext(),ListKategoriActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("extra_kategori","Hukum")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
 
     }
 
@@ -126,10 +160,11 @@ class HomeFragment : Fragment() {
         //Recycle View Latest
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvRecent.layoutManager = layoutManager
-        val projectListAdapter2 = ListAllProjectAdapter(listProject)
-        binding.rvRecent.adapter = projectListAdapter2
+        val projectListAdapter = ListAllProjectAdapter(listProject)
+        binding.rvRecent.adapter = projectListAdapter
 
-        projectListAdapter2.setOnItemClickCallback(object :
+
+        projectListAdapter.setOnItemClickCallback(object :
             ListAllProjectAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ProjectsItem) {
                 val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
@@ -147,21 +182,54 @@ class HomeFragment : Fragment() {
 
         //Recycle View Rekomendasi
         binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val projectListRecomenAdapter = ListAllRecomendationProjectAdapter(listProjectRekomen)
+        val projectListRecomenAdapter = RekomenListAdapter(listProjectRekomen)
         binding.rvRekomendasi.adapter = projectListRecomenAdapter
 
-        projectListRecomenAdapter.setOnItemClickCallback(object :
-            ListAllRecomendationProjectAdapter.OnItemClickCallback {
+        projectListRecomenAdapter.setOnItemClickCallback(object :RekomenListAdapter.OnItemClickCallback{
             override fun onItemClicked(data: RecommendationsItem) {
+                val intent = Intent(requireContext(),PmDetailProjectActivity::class.java)
 
-                val intent = Intent(requireContext(), PmDetailProjectActivity::class.java)
-
-                //intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
+                intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
                 startActivity(intent)
-
             }
+
         })
 
+    }
+
+
+    private fun showRekomendasi(token:String){
+        //binding.emptyData.visibility = View.VISIBLE
+        binding.progressBar2.visibility = View.VISIBLE
+        homeViewModel.getRecomendation(token).observe(viewLifecycleOwner){
+            if (it != null){
+                when(it){
+                    is TheResult.Loading->{
+
+                    }
+                    is TheResult.Success ->{
+                        binding.emptyData.visibility = View.GONE
+                        binding.progressBar2.visibility = View.GONE
+                        val adapter = ListAllRecomendationProjectAdapter()
+                        val data = it.data
+                        if (data.isEmpty()){
+                            binding.emptyData.visibility = View.VISIBLE
+                        }else{
+                            binding.emptyData.visibility = View.GONE
+                            binding.rvRekomendasi.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                            binding.rvRekomendasi.adapter = adapter
+                            adapter.submitList(data)
+                        }
+
+
+                    }
+                    is TheResult.Error ->{
+
+                    }
+                }
+
+            }
+        }
     }
 
 

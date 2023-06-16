@@ -17,6 +17,7 @@ import com.capstone.idekita.databinding.FragmentMyProjectBinding
 import com.capstone.idekita.databinding.FragmentProjectContributorBinding
 import com.capstone.idekita.response.ContributorsItem
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 import com.capstone.idekita.ui.home.HomeViewModel
 import com.capstone.idekita.ui.myProject.MyProjectFragment
@@ -44,30 +45,43 @@ class ProjectContributorFragment : Fragment() {
         if (extras != null){
             val idProyek = extras.getInt("extra_id")
 
-            binding.parsingFromDetail.text = idProyek.toString()
-
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
-                homeViewModel.listContributor.observe(viewLifecycleOwner){
-                    showContributor(it)
-                }
-                homeViewModel.getAllContributor("Bearer ${user.token}",idProyek)
+                getContributorAcc(user.token,idProyek)
             }
 
-
         }
-
 
         return binding.root
     }
 
+    private fun getContributorAcc(token:String,Id:Int?){
+        homeViewModel.getContributorAcc(token,Id).observe(viewLifecycleOwner){
+            if (it != null){
+                when(it){
+                    is TheResult.Loading->{
 
-    private fun showContributor(listContributor : List<ContributorsItem>) {
-        binding.rvListContributor.layoutManager = LinearLayoutManager(requireContext())
-        val userListAdapter = ContributorProjectAdapter(listContributor)
-        binding.rvListContributor.adapter = userListAdapter
+                    }
+                    is TheResult.Success ->{
+                        val adapter = ContributorProjectAdapter()
+                        val data = it.data
+                        binding.rvListContributor.layoutManager = LinearLayoutManager(requireContext())
+                        binding.rvListContributor.adapter = adapter
+                        adapter.submitList(data)
+
+                    }
+                    is TheResult.Error ->{
+
+                    }
+                }
+
+            }
+
+        }
 
 
     }
+
+
 
 
 

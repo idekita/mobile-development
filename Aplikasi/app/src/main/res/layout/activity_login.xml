@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_login_register"
+    android:background="@color/white"
     tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,25 +17,26 @@
             android:layout_width="195dp"
             android:layout_height="197dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/logo_ide_kita_ik"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:src="@drawable/logo_ide_kita_ik" />
+            app:layout_constraintVertical_bias="0.047" />
 
         <TextView
             android:id="@+id/JudulHalaman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:layout_marginTop="28dp"
             android:text="MASUK"
             android:textColor="@color/judul_register_login"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.416"
+            app:layout_constraintHorizontal_bias="0.344"
             app:layout_constraintStart_toEndOf="@id/Emailjudul"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -45,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="Email"
+            android:text="Username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +62,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:startIconDrawable="@drawable/ic_account"
-            android:elevation="100dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Emailjudul">
@@ -118,8 +119,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:alpha="1"
+            android:enabled="false"
             android:text="Masuk"
-            android:backgroundTint="@color/btn_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -153,6 +157,19 @@
             app:layout_constraintStart_toEndOf="@+id/ataujudul"
             app:layout_constraintTop_toTopOf="@+id/ataujudul"
             app:layout_constraintVertical_bias="0.0" />
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.512" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

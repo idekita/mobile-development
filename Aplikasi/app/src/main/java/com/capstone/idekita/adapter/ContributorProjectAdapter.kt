@@ -4,19 +4,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.idekita.R
+import com.capstone.idekita.databinding.ItemContributorBinding
 import com.capstone.idekita.response.ContributorsItem
+import com.capstone.idekita.response.DContributorsItem
+import com.capstone.idekita.response.DProjectsItem
+import com.capstone.idekita.ui.myProject.MyProjectAdapter
 
-class ContributorProjectAdapter(private val listContributor: List<ContributorsItem>) :
-    RecyclerView.Adapter<ContributorProjectAdapter.ViewHolder>() {
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ContributorProjectAdapter: ListAdapter<ContributorsItem, ContributorProjectAdapter.ViewHolder>(DIFF_CALLBACK){
+    class ViewHolder(private val binding: ItemContributorBinding):
+    RecyclerView.ViewHolder(binding.root){
 
-        //val imgPhoto: ImageView = itemView.findViewById(R.id.iv_contributor)
-        val nama: TextView = itemView.findViewById(R.id.name_contributor)
-        val role: TextView = itemView.findViewById(R.id.role_contributor)
-
+        fun bind(data: ContributorsItem){
+            binding.ivContributor.setImageResource(R.drawable.holder_person)
+            binding.nameContributor.text = data.username
+            binding.roleContributor.text = data.role
+        }
 
     }
 
@@ -24,18 +32,34 @@ class ContributorProjectAdapter(private val listContributor: List<ContributorsIt
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_contributor, parent, false)
-        return ViewHolder(view)
+        val binding = ItemContributorBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = listContributor[position]
-
-        holder.nama.text = item.name
-        holder.role.text = item.role
-
+        val data = getItem(position)
+        if (data != null){
+            holder.bind(data)
+        }
     }
 
-    override fun getItemCount(): Int = listContributor.size
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ContributorsItem>() {
+            override fun areItemsTheSame(
+                oldItem: ContributorsItem,
+                newItem: ContributorsItem
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ContributorsItem,
+                newItem: ContributorsItem
+            ): Boolean {
+                return oldItem.name == newItem.name
+            }
+
+        }
+    }
+
 }

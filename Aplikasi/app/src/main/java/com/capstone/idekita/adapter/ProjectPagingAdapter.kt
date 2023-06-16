@@ -15,10 +15,8 @@ import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 
 class ProjectPagingAdapter : PagingDataAdapter<ProjectsItem, ProjectPagingAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
-
     class MyViewHolder(private val binding: RvMyProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
 
         fun bind(data: ProjectsItem) {
             binding.tvName.text = data.nmProyek

@@ -9,12 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.idekita.MainViewModelFactory
 import com.capstone.idekita.R
-import com.capstone.idekita.adapter.ListAllProjectAdapter
-import com.capstone.idekita.adapter.ListAllSearchProjectAdapter
-import com.capstone.idekita.adapter.LoadingStateAdapter
-import com.capstone.idekita.adapter.ProjectPagingAdapter
+import com.capstone.idekita.adapter.*
 import com.capstone.idekita.databinding.FragmentSearchBinding
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.result.TheResult
 import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 import com.capstone.idekita.ui.home.HomeViewModel
 
@@ -36,21 +34,7 @@ class SearchFragment : Fragment() {
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-
-
         val searchItem = binding.searchView
-//
-//        val nama = "tes"
-//
-//        nama.toString()
-//
-//        searchViewModel.getUser().observe(viewLifecycleOwner){user ->
-//            getData(user.token,nama)
-//        }
-
-        searchViewModel.listProjectByName.observe(viewLifecycleOwner){
-            getData(it)
-        }
 
         searchItem.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -60,7 +44,7 @@ class SearchFragment : Fragment() {
                     val nama = query
 
                     searchViewModel.getUser().observe(viewLifecycleOwner){user->
-                        searchViewModel.getProjectByName("Bearer ${user.token}",nama)
+                        getData(user.token,nama)
                     }
 
                 }
@@ -70,7 +54,7 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
-//
+
         })
 
         return binding.root
@@ -78,44 +62,38 @@ class SearchFragment : Fragment() {
 
     }
 
-//    private fun getData(token:String,name:String){
-//        val adapter = ProjectPagingAdapter()
-//        binding.rvSearchProjecet.layoutManager = LinearLayoutManager(requireContext())
-//        binding.rvSearchProjecet.adapter = adapter.withLoadStateFooter(
-//            footer = LoadingStateAdapter{
-//                adapter.retry()
-//            }
-//        )
-//
-//        searchViewModel.getAllProjectByName(token,name).observe(viewLifecycleOwner) {
-//            adapter.submitData(lifecycle, it)
-//        }
-//
-//    }
+    private fun getData(token:String,name:String){
+        binding.progressBar.visibility = View.VISIBLE
+        searchViewModel.getSearchProject(token,name).observe(viewLifecycleOwner){
+            if (it != null){
+                when(it){
+                    is TheResult.Loading->{
 
-    private fun getData(listProject : List<ProjectsItem>){
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvSearchProjecet.layoutManager = layoutManager
-        val searchAdapter = ListAllSearchProjectAdapter(listProject)
-        binding.rvSearchProjecet.adapter = searchAdapter
+                    }
+                    is TheResult.Success ->{
+                        binding.progressBar.visibility = View.GONE
+                        val adapter = ListAllSearchProjectAdapter()
+                        val data = it.data
+                        if (data.isEmpty()){
+                            binding.emptyData.visibility = View.VISIBLE
+                            binding.rvSearchProjecet.visibility = View.GONE
+                        }else{
+                            binding.emptyData.visibility = View.GONE
+                            binding.rvSearchProjecet.layoutManager = LinearLayoutManager(requireContext())
+                            binding.rvSearchProjecet.adapter = adapter
+                            adapter.submitList(data)
+                        }
 
-        searchAdapter.setOnItemClickCallback(object : ListAllSearchProjectAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: ProjectsItem) {
-                val intent = Intent(requireContext(),PmDetailProjectActivity::class.java)
-                intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
+                    }
+                    is TheResult.Error ->{
 
-                startActivity(intent)
+                    }
+                }
 
             }
-
-        })
-
+        }
 
     }
-
-
-
-
 
 
 

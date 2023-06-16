@@ -1,37 +1,36 @@
 package com.capstone.idekita.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.idekita.R
-import com.capstone.idekita.databinding.ItemContributorWaitingBinding
 import com.capstone.idekita.databinding.RvMyProjectBinding
-import com.capstone.idekita.response.ContributorsItemWait
 import com.capstone.idekita.response.ProjectsItem
+import com.capstone.idekita.ui.PmDetailSide.PmDetailProjectActivity
 
-class ListAllSearchProjectAdapter(private val listProject: List<ProjectsItem>):
-    RecyclerView.Adapter<ListAllSearchProjectAdapter.ViewHolder>(){
-
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
+class ListAllSearchProjectAdapter: ListAdapter<ProjectsItem,ListAllSearchProjectAdapter.ViewHolder>(DIFF_CALLBACK){
 
 
-    class ViewHolder(binding: RvMyProjectBinding): RecyclerView.ViewHolder(binding.root) {
-        val judulProyek: TextView = binding.tvName
-        val imgProject:ImageView = binding.imgStory
-        val namaCreator:TextView = binding.tvPmName
-        val imgCreator:ImageView = binding.imgPm
-        val status:TextView = binding.tvStatus
-        val kategori:TextView = binding.isiCategory
+    class ViewHolder(private val binding: RvMyProjectBinding): RecyclerView.ViewHolder(binding.root) {
+       fun bind(data : ProjectsItem){
+           binding.tvName.text = data.nmProyek
+           binding.tvPmName.text = data.creator
+           binding.imgPm.setImageResource(R.drawable.holder_person)
+           binding.tvStatus.text = data.status
+           binding.isiCategory.text = data.category.nmKategori
+           Glide.with(itemView.context)
+               .load(data.gambar)
+               .into(binding.imgStory)
+           itemView.setOnClickListener {
+               val intent = Intent(itemView.context,PmDetailProjectActivity::class.java)
+               intent.putExtra(PmDetailProjectActivity.EXTRA_DATA,data)
+               itemView.context.startActivity(intent)
+           }
+       }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) :ViewHolder{
@@ -41,25 +40,26 @@ class ListAllSearchProjectAdapter(private val listProject: List<ProjectsItem>):
 
 
     override fun onBindViewHolder(holder:ViewHolder,position: Int) {
-        holder.judulProyek.text = listProject[position].nmProyek
-        holder.namaCreator.text = listProject[position].creator
-        holder.status.text = listProject[position].status
-        holder.kategori.text = listProject[position].category.nmKategori
-        holder.imgCreator.setImageResource(R.drawable.holder_person)
-        Glide.with(holder.itemView.context)
-            .load(listProject[position].gambar)
-            .into(holder.imgProject)
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listProject[position])
+        val data = getItem(position)
+        if (data != null){
+            holder.bind(data)
         }
 
     }
 
-    override fun getItemCount() = listProject.size
 
-    interface OnItemClickCallback {
-        fun onItemClicked(data: ProjectsItem)
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ProjectsItem>() {
+            override fun areItemsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
+                return oldItem == newItem
+            }
 
+            override fun areContentsTheSame(oldItem: ProjectsItem, newItem: ProjectsItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+
+        }
     }
 
 }

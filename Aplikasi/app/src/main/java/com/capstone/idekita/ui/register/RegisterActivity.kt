@@ -2,6 +2,8 @@ package com.capstone.idekita.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,22 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         setAction()
+        val password = binding.PassworEditText
+
+        password.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //
+            }
+
+            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                //
+            }
+
+        })
 
     }
 
@@ -114,6 +132,13 @@ class RegisterActivity : AppCompatActivity() {
         })
 
 
+    }
+
+    private fun setMyButtonEnable() {
+        val result = binding.PassworEditText.text
+        if (result != null) {
+            binding.btnRegister.isEnabled = result.length >= 8
+        }
     }
 
 

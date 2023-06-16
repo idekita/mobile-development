@@ -4,15 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.idekita.R
+import com.capstone.idekita.databinding.ItemContributorBinding
 import com.capstone.idekita.response.Contributor
 import com.capstone.idekita.response.ContributorsItem
 import com.capstone.idekita.databinding.ItemContributorWaitingBinding
 import com.capstone.idekita.response.ContributorsItemWait
 
-class WaitingContributorProjectAdapter(private val listContributor: List<ContributorsItemWait>,val token:String,val Role:String):
-    RecyclerView.Adapter<WaitingContributorProjectAdapter.ViewHolder>(){
+class WaitingContributorProjectAdapter:
+    ListAdapter<ContributorsItemWait,WaitingContributorProjectAdapter.ViewHolder>(DIFF_CALLBACK){
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -20,41 +23,54 @@ class WaitingContributorProjectAdapter(private val listContributor: List<Contrib
         this.onItemClickCallback = onItemClickCallback
     }
 
-
-    class ViewHolder(binding: ItemContributorWaitingBinding): RecyclerView.ViewHolder(binding.root) {
-        val nama: TextView = binding.nameContributor
-        val role: TextView = binding.roleContributor
-        val btnTerima:Button = binding.btnTerimaa
-        val btnTolak:Button = binding.btnTolak
+    class ViewHolder(private val binding: ItemContributorWaitingBinding):
+    RecyclerView.ViewHolder(binding.root){
+        fun bind(data:ContributorsItemWait){
+            binding.ivContributor.setImageResource(R.drawable.holder_person)
+            binding.nameContributor.text = data.username
+            binding.roleContributor.text = data.role
+            binding.btnTolak.setOnClickListener {
+            }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) :ViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemContributorWaitingBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
-
-    override fun onBindViewHolder(
-        holder:ViewHolder,
-        position: Int
-    ) {
-        holder.nama.text = listContributor[position].username
-        holder.role.text = listContributor[position].role
-        holder.btnTerima.setOnClickListener {
-            onItemClickCallback.onItemClicked(listContributor[position])
-        }
-        holder.btnTolak.setOnClickListener {
-            onItemClickCallback.onItemTolakClicked(listContributor[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = getItem(position)
+        if (data != null){
+            holder.bind(data)
         }
     }
-
-    override fun getItemCount() = listContributor.size
 
     interface OnItemClickCallback {
         fun onItemClicked(data: ContributorsItemWait)
         fun onItemTolakClicked(data: ContributorsItemWait)
 
     }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ContributorsItemWait>() {
+            override fun areItemsTheSame(
+                oldItem: ContributorsItemWait,
+                newItem: ContributorsItemWait
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ContributorsItemWait,
+                newItem: ContributorsItemWait
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+        }
+    }
+
 
 
 

@@ -58,25 +58,25 @@ interface ApiService {
         @Path("nm_proyek") nama:String,
         @Query("Page") page: Int?,
         @Query("size") size: Int?,
-    ):Response<GetAllProjectResponse>
+    ):GetAllProjectResponse
 
     @GET("proyek/cari/{nm_proyek}")
-    fun getProjectbyNames(
+    suspend fun getProjectbyNames(
         @Header("Authorization") token: String,
         @Path("nm_proyek") nama:String,
-    ):Call<GetAllProjectResponse>
+    ):GetAllProjectResponse
 
     @GET("kontributor/{id}")
-    fun getContributor(
+    suspend fun getContributor(
         @Header("Authorization") token: String,
         @Path("id") id: Int?,
-    ): Call<GetContributorProjectResponse>
+    ): GetContributorProjectResponse
 
     @GET("kontributor/menunggu/{id}")
-    fun getContributorWaiting(
+    suspend fun getContributorWaiting(
         @Header("Authorization") token: String,
         @Path("id") id: Int?,
-    ): Call<WaitListKontributorResponse>
+    ): WaitListKontributorResponse
 
     @FormUrlEncoded
     @POST("kontributor")
@@ -111,7 +111,12 @@ interface ApiService {
     ): ProfilResponse
 
     @GET("rekomendasi")
-    fun getRecomendation(
+    suspend fun getRecomendation(
+        @Header("Authorization") token: String,
+    ):GetRecomendationResponse
+
+    @GET("rekomendasi")
+    fun getRecomendations(
         @Header("Authorization") token: String,
     ):Call<GetRecomendationResponse>
 

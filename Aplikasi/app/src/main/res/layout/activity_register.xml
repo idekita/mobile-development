@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_login_register"
+    android:background="@color/white"
     tools:context=".ui.register.RegisterActivity">
 
 
@@ -58,7 +58,7 @@
                 android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="masukkan nama" />
+                android:hint="Masukkan Namamu" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -66,41 +66,43 @@
             android:id="@+id/emailInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameInputLayout"
             app:startIconDrawable="@drawable/ic_email">
 
-            <com.capstone.idekita.ui.customView.MyEditEmail
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EmailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="Masukkan Email"
                 android:inputType="textEmailAddress" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Masukkan Password"
+            android:background="@color/white"
+            android:hint=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/UsernameInputLayout"
             app:startIconDrawable="@drawable/ic_lock_password">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.capstone.idekita.ui.customView.MyEditPassword
                 android:id="@+id/PassworEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,15 +114,15 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/UsernameInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/emailInputLayout"
             app:startIconDrawable="@drawable/ic_account">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -138,12 +140,12 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:enabled="false"
             android:text="DAFTAR"
-            android:backgroundTint="@color/btn_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/UsernameInputLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

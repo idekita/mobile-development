@@ -25,11 +25,8 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         }
     }
 
-    companion object{
-       // val LifecycleOwner:LifecycleOwner
-    }
 
-    fun getRecomendation(token: String) = projectRepository.getAllProjectRekomen(token)
+    fun getRecomendation(token: String) = projectRepository.getProjectRekomen(token)
 
     val _listProjectRecomendation =  MutableLiveData<List<RecommendationsItem>>()
     val listProjectRekomen: LiveData<List<RecommendationsItem>> =_listProjectRecomendation
@@ -38,7 +35,7 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     private val resultRekomen = MediatorLiveData<Result<List<RecommendationsItem>>>()
     fun getAllProjectRekomen(token: String): LiveData<Result<List<RecommendationsItem>>> {
 
-        val client = ApiConfig.getApiService().getRecomendation(token)
+        val client = ApiConfig.getApiService().getRecomendations(token)
         client.enqueue(object : Callback<GetRecomendationResponse> {
             override fun onResponse(
                 call: Call<GetRecomendationResponse>,
@@ -68,41 +65,8 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         return projectRepository.getStoryPaging(token,kategori).cachedIn(viewModelScope)
     }
 
-    //get by name
-    fun getAllProjectByName(token: String,name:String): LiveData<PagingData<ProjectsItem>> {
-        return projectRepository.getProjectByName(token,name).cachedIn(viewModelScope)
-    }
+    fun getSearchProject(token: String,nama:String) = projectRepository.getProjectByName(token,nama)
 
-
-    init {
-        val token = projectRepository.getUser().value?.token
-
-        getProjectByName("Bearer ${token}","test")
-    }
-
-    private val _listProjectByName = MutableLiveData<List<ProjectsItem>>()
-    val listProjectByName: LiveData<List<ProjectsItem>> = _listProjectByName
-    fun getProjectByName(token: String,name: String){
-        val client = ApiConfig.getApiService().getProjectbyNames(token,name)
-        client.enqueue(object: Callback<GetAllProjectResponse> {
-            override fun onResponse(
-                call: Call<GetAllProjectResponse>,
-                response: Response<GetAllProjectResponse>
-            ) {
-                //_isLoading.value = false
-                if (response.isSuccessful){
-                    _listProjectByName.value = response.body()?.projects
-                    //_listProjectByName.postValue(response.body()?.items)
-                }
-            }
-
-            override fun onFailure(call: Call<GetAllProjectResponse>, t: Throwable) {
-              //  _isLoading.value = false
-                Log.e(TAG,"onFailure: ${t.message}")
-            }
-
-        })
-    }
 
 
     //listProject
@@ -134,33 +98,37 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
         return result
     }
 
+    fun getContributorAcc(token: String,Id: Int?) = projectRepository.getContributorAcc(token,Id)
+
+    fun getWaitingContributor(token: String,Id:Int) = projectRepository.getContributorWaiting(token,Id)
+
     //listContributor
     private val _listContributor = MutableLiveData<List<ContributorsItem>>()
     val listContributor: LiveData<List<ContributorsItem>> = _listContributor
 
     private val result2 = MediatorLiveData<Result<List<ContributorsItem>>>()
-    fun getAllContributor(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
-
-        val client = ApiConfig.getApiService().getContributor(token,id)
-        client.enqueue(object : Callback<GetContributorProjectResponse> {
-            override fun onResponse(
-                call: Call<GetContributorProjectResponse>,
-                response: Response<GetContributorProjectResponse>
-            ) {
-                if (response.isSuccessful) {
-                    _listContributor.value = response.body()?.contributors
-                }
-                Log.e(ContentValues.TAG, response.message())
-
-            }
-
-            override fun onFailure(call: Call<GetContributorProjectResponse>, t: Throwable) {
-
-                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
-            }
-        })
-        return result2
-    }
+//    fun getAllContributor(token: String,id: Int?): LiveData<Result<List<ContributorsItem>>> {
+//
+//        val client = ApiConfig.getApiService().getContributor(token,id)
+//        client.enqueue(object : Callback<GetContributorProjectResponse> {
+//            override fun onResponse(
+//                call: Call<GetContributorProjectResponse>,
+//                response: Response<GetContributorProjectResponse>
+//            ) {
+//                if (response.isSuccessful) {
+//                    _listContributor.value = response.body()?.contributors
+//                }
+//                Log.e(ContentValues.TAG, response.message())
+//
+//            }
+//
+//            override fun onFailure(call: Call<GetContributorProjectResponse>, t: Throwable) {
+//
+//                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+//            }
+//        })
+//        return result2
+//    }
 
 
     //listKategori
@@ -196,27 +164,28 @@ class HomeViewModel(private val projectRepository: ProjectRepository) : ViewMode
     val listContributorWait: LiveData<List<ContributorsItemWait>> = _listContributorWait
 
     private val result4 = MediatorLiveData<Result<List<ContributorsItemWait>>>()
-    fun getAllContributorWait(token: String,id: Int?): LiveData<Result<List<ContributorsItemWait>>> {
-
-        val client = ApiConfig.getApiService().getContributorWaiting(token,id)
-        client.enqueue(object : Callback<WaitListKontributorResponse> {
-            override fun onResponse(
-                call: Call<WaitListKontributorResponse>,
-                response: Response<WaitListKontributorResponse>
-            ) {
-                if (response.isSuccessful) {
-                    _listContributorWait.value= response.body()?.contributorsWait
-                }
-                Log.e(ContentValues.TAG, response.message())
-
-            }
-
-            override fun onFailure(call: Call<WaitListKontributorResponse>, t: Throwable) {
-
-                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
-            }
-        })
-        return result4
-    }
+    val _result = result4
+//    fun getAllContributorWait(token: String,id: Int?): LiveData<Result<List<ContributorsItemWait>>> {
+//
+//        val client = ApiConfig.getApiService().getContributorWaiting(token,id)
+//        client.enqueue(object : Callback<WaitListKontributorResponse> {
+//            override fun onResponse(
+//                call: Call<WaitListKontributorResponse>,
+//                response: Response<WaitListKontributorResponse>
+//            ) {
+//                if (response.isSuccessful) {
+//                    _listContributorWait.value= response.body()?.contributorsWait
+//                }
+//                Log.e(ContentValues.TAG, response.message())
+//
+//            }
+//
+//            override fun onFailure(call: Call<WaitListKontributorResponse>, t: Throwable) {
+//
+//                Log.e(ContentValues.TAG, "onFailure: ${t.message}")
+//            }
+//        })
+//        return result4
+//    }
 
 }

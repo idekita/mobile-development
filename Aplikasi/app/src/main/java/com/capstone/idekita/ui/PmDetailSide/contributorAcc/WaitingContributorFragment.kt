@@ -44,10 +44,12 @@ class WaitingContributorFragment : Fragment() {
             //val idContributor = extras.getInt("")
 
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
-                homeViewModel.listContributorWait.observe(viewLifecycleOwner){
-                    showContributor(it,user.token,"Anggota")
-                }
-                homeViewModel.getAllContributorWait(user.token,idProyek)
+                showContributorWaiting(user.token,idProyek,"Anggota")
+//                homeViewModel.listContributorWait.observe(viewLifecycleOwner){
+//                    //showContributor(it,user.token,"Anggota")
+//                }
+//                homeViewModel.getWaitingContributor(user.token,idProyek)
+//                //homeViewModel.getAllContributorWait(user.token,idProyek)
             }
 
         }
@@ -75,29 +77,76 @@ class WaitingContributorFragment : Fragment() {
         }
     }
 
-    private fun showContributor(listContributor : List<ContributorsItemWait>, token: String,role: String) {
-        binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
-        val userWaiting = WaitingContributorProjectAdapter(listContributor,token,role)
-        binding.rvWaitingContributor.adapter = userWaiting
+    private fun showContributorWaiting(token: String,Id:Int,role: String){
+        homeViewModel.getWaitingContributor(token,Id).observe(viewLifecycleOwner){
+            if (it != null){
+                when(it){
+                    is TheResult.Loading->{
 
-        userWaiting.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
+                    }
+                    is TheResult.Success ->{
+                        val adapter = WaitingContributorProjectAdapter()
+                        val data = it.data
+                        if (data.isEmpty()){
+                            binding.emptyData.visibility = View.VISIBLE
+                        } else{
+                            binding.emptyData.visibility = View.GONE
+                            binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
+                            binding.rvWaitingContributor.adapter = adapter
+                            adapter.submitList(data)
+                            adapter.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
 
-            override fun onItemClicked(data: ContributorsItemWait) {
-                val idContributor = data.id
-                accProject(token,idContributor,"diterima",role)
-                Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
+                                override fun onItemClicked(data: ContributorsItemWait) {
+                                    val idContributor = data.id
+                                    accProject(token,idContributor,"diterima",role)
+                                    Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
 
+                                }
+
+                                override fun onItemTolakClicked(data: ContributorsItemWait) {
+                                    Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
+                                    val idContributor = data.id
+                                    accProject(token,idContributor,"ditolak",role)
+                                }
+
+                            })
+                        }
+
+
+                    }
+                    is TheResult.Error ->{
+
+                    }
+                }
             }
 
-            override fun onItemTolakClicked(data: ContributorsItemWait) {
-                Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
-                val idContributor = data.id
-                accProject(token,idContributor,"ditolak",role)
-            }
 
-        })
-
+        }
     }
+
+//    private fun showContributor(listContributor : List<ContributorsItemWait>, token: String,role: String) {
+//        binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
+//        val userWaiting = WaitingContributorProjectAdapter(listContributor,token,role)
+//        binding.rvWaitingContributor.adapter = userWaiting
+//
+//        userWaiting.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
+//
+//            override fun onItemClicked(data: ContributorsItemWait) {
+//                val idContributor = data.id
+//                accProject(token,idContributor,"diterima",role)
+//                Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//            override fun onItemTolakClicked(data: ContributorsItemWait) {
+//                Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
+//                val idContributor = data.id
+//                accProject(token,idContributor,"ditolak",role)
+//            }
+//
+//        })
+//
+//    }
 
 
 
