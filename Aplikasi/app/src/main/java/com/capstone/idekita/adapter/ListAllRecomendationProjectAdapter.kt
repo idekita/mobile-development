@@ -32,6 +32,7 @@ class ListAllRecomendationProjectAdapter :ListAdapter<RecommendationsItem,ListAl
 
                 val intent = Intent(itemView.context,DetailProjectActivity::class.java)
                 intent.putExtra(DetailProjectActivity.EXTRA_DATA,data)
+                intent.putExtra(PmDetailProjectActivity.REKOM,true)
                 itemView.context.startActivity(intent)
             }
         }

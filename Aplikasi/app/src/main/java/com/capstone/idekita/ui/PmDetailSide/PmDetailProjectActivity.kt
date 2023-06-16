@@ -65,8 +65,16 @@ class PmDetailProjectActivity : AppCompatActivity() {
 
         binding.idProyek.text = project?.id.toString()
 
-        getDetail()
-        getDetailFromRekomen()
+        val isFromRekom = intent.getBooleanExtra(REKOM,false)
+
+        if(isFromRekom){
+            getDetailFromRekomen()
+        }else{
+            getDetail()
+        }
+
+
+
 
 
         binding.btSetFinish.setOnClickListener{
@@ -370,6 +378,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
     }
 
     companion object{
+        const val REKOM = "dari_rekomendasi"
         const val IS_MINE = "boolean"
         const val EXTRA_DATA = "EXTRA_DATA"
     }
