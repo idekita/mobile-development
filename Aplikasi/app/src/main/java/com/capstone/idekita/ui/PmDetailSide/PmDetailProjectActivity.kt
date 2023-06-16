@@ -154,6 +154,8 @@ class PmDetailProjectActivity : AppCompatActivity() {
             }
             removeButtonWhenStatusSelesai(project?.status)
             cekIsRating(token.token,token.name,project?.id)
+            setButtonWaiting(token.token,project!!.id,token.name)
+            getKon(token.token,project.id,token.name)
         }
 
 
@@ -280,7 +282,8 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun joinKontributor(token: String,idProj: Int){
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun joinKontributor(token: String, idProj: Int){
 
                 viewModel.regisKon(token,idProj).observe(this){res->
                     if (res != null) {
@@ -290,6 +293,9 @@ class PmDetailProjectActivity : AppCompatActivity() {
                             }
                             is TheResult.Success -> {
                                 Toast.makeText(this, res.data.message, Toast.LENGTH_SHORT).show()
+                                binding.btnJoin.setBackgroundColor(getColor(R.color.default_grey))
+                                binding.btnJoin.isClickable = false
+                                binding.btnJoin.text = "Sedang Menunggu"
                             }
                             is TheResult.Error -> {
                                 Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
@@ -298,6 +304,32 @@ class PmDetailProjectActivity : AppCompatActivity() {
                     }
                 }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setButtonWaiting(token : String, idProj : Int, name : String){
+        viewModel.getWaiting(token,idProj).observe(this){res ->
+            if (res != null) {
+                when (res) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val dList = res.data
+                        for (i in dList){
+                            if(i.username == name && i.statusLamaran == "menunggu"){
+                                binding.btnJoin.setBackgroundColor(getColor(R.color.default_grey))
+                                binding.btnJoin.isClickable = false
+                                binding.btnJoin.text = "Sedang Menunggu"
+                            }
+                        }
+                    }
+                    is TheResult.Error -> {
+//                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun removeButtonWhenStatusSelesai(statusProj : String?){
@@ -310,6 +342,33 @@ class PmDetailProjectActivity : AppCompatActivity() {
             binding.btSetFinish.visibility = View.GONE
         }else if(statusProj == "selesai"){
             binding.btnJoin.visibility = View.GONE
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun getKon(token : String, idProj : Int, userName : String){
+        viewModel.getContributor(token,idProj).observe(this){res ->
+            if (res != null) {
+                when (res) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val cekRate = res.data
+                        for(i in cekRate){
+                            if(i.username == userName){
+                                binding.btnJoin.setBackgroundColor(getColor(R.color.default_grey))
+                                binding.btnJoin.isClickable = false
+                                binding.btnJoin.text = "Anda adalah kontributor"
+                            }
+
+                        }
+                    }
+                    is TheResult.Error -> {
+//                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 

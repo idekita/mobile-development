@@ -92,7 +92,7 @@
             android:id="@+id/isi_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="2dp"
             android:text="Ini Kategori"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_category"

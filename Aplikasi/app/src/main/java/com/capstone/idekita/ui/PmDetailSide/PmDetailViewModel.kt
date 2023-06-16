@@ -14,6 +14,8 @@ class PmDetailViewModel(private val projectRepository: ProjectRepository) : View
     fun getUserRating(token : String) = projectRepository.getUserRating(token)
     fun regisKon(token: String,idProj: Int) = projectRepository.regisKon(token,idProj)
 
-    fun getContributorAcc(token: String,Id: Int?) = projectRepository.getContributorAcc(token,Id)
+    fun getContributor(token: String,Id: Int?) = projectRepository.getContributorAcc(token,Id)
+
+    fun getWaiting(token : String,id: Int)=projectRepository.getContributorWaiting(token,id)
 
 }

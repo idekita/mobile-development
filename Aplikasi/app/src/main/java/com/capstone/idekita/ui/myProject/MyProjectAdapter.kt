@@ -37,7 +37,7 @@ class MyProjectAdapter :
                 .load(data.gambar)
                 .into(binding.imgStory)
             binding.imgPm.setImageResource(R.drawable.holder_person)
-            binding.tvCategory.text = data.category.nmKategori
+            binding.isiCategory.text = data.category.nmKategori
             binding.tvStatus.text = data.status
 
 
