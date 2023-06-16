@@ -109,6 +109,7 @@ class AddProjectActivity : AppCompatActivity() {
                         is TheResult.Success -> {
                             Toast.makeText(this, "berhasil dikirim", Toast.LENGTH_SHORT).show()
                             Log.i("create :", "berhasil dikirim")
+                            finish()
 
                         }
                         is TheResult.Error -> {

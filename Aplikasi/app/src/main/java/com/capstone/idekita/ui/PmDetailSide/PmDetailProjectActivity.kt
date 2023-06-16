@@ -49,13 +49,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
         binding = ActivityPmDetailProjectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        viewModel.getToken().observe(this){
-//            val idProj = intent.getIntExtra(GET_ID,0)
-//            if(idProj > 0){
-//                getDetail(it.token,idProj)
-//            }
-//
-//        }
+
 
         val project = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(EXTRA_DATA, ProjectsItem::class.java)
@@ -63,9 +57,6 @@ class PmDetailProjectActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_DATA)
         }
-
-
-
 
         val isFromRekom = intent.getBooleanExtra(REKOM,false)
 
@@ -153,9 +144,9 @@ class PmDetailProjectActivity : AppCompatActivity() {
                 binding.btnJoin.visibility = View.VISIBLE
             }
             removeButtonWhenStatusSelesai(project?.status)
-            cekIsRating(token.token,token.name,project?.id)
             setButtonWaiting(token.token,project!!.id,token.name)
             getKon(token.token,project.id,token.name)
+            cekIsRating(token.token,token.name,project?.id)
         }
 
 
