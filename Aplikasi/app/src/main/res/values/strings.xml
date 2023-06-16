@@ -39,7 +39,12 @@
         <item>Pendidikan</item>
         <item>Kesehatan</item>
         <item>Budaya</item>
-        <item>Politik</item>
+        <item>Pemerintahan</item>
+        <item>Sains</item>
+        <item>Lingkungan</item>
+        <item>Olahraga</item>
+        <item>Kesejahteraan</item>
+        <item>Hukum</item>
     </string-array>
 
 </resources>

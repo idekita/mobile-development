@@ -40,12 +40,14 @@ FirebaseRecyclerAdapter<Message, ChatRoomAdapter.MyViewHolder>(options)
         fun bind(data: Message) {
            if(data.name == accountUsername){
                binding.conChatSender.visibility = View.GONE
+               binding.tvNameSender.visibility = View.GONE
                binding.conChatMine.visibility = View.VISIBLE
                binding.tvNameMine.visibility = View.VISIBLE
                binding.tvNameMine.text = "${data.name} (PM)"
                binding.tvChatMine.text = data.text
            }else{
                binding.conChatMine.visibility = View.GONE
+               binding.tvNameMine.visibility = View.GONE
                binding.conChatSender.visibility = View.VISIBLE
                binding.tvNameSender.visibility = View.VISIBLE
                binding.tvNameSender.text = data.name

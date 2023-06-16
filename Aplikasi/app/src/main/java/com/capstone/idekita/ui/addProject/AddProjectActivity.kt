@@ -109,7 +109,6 @@ class AddProjectActivity : AppCompatActivity() {
                         is TheResult.Success -> {
                             Toast.makeText(this, "berhasil dikirim", Toast.LENGTH_SHORT).show()
                             Log.i("create :", "berhasil dikirim")
-                            getProfile(token,result.data.project.creator,result.data.project.id)
 
                         }
                         is TheResult.Error -> {
@@ -129,85 +128,7 @@ class AddProjectActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeStatus(token: String, id: Int, setStatus: String) {
-        viewModel.changeStatus(token, id, setStatus).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is TheResult.Loading -> {
 
-                    }
-                    is TheResult.Success -> {
-                        Toast.makeText(this, result.data.message, Toast.LENGTH_SHORT).show()
-                        Log.i("change id",id.toString())
-                        Log.i("change status :", result.data.message)
-                    }
-                    is TheResult.Error -> {
-                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                        Log.i("change status :", result.error)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getProfile(token: String, username: String,id_proj: Int) {
-        viewModel.getProfil(token, username).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is TheResult.Loading -> {
-
-                    }
-                    is TheResult.Success -> {
-                        val userName = result.data.user.id
-                        Toast.makeText(this, "profile : $userName", Toast.LENGTH_SHORT).show()
-                        regisKontributor(token,id_proj,result.data.user.id)
-                    }
-                    is TheResult.Error -> {
-                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun regisKontributor(token: String, id_proj: Int,id_pm : Int) {
-        viewModel.regisKon(token, id_proj).observe(this) { res ->
-            if (res != null) {
-                when (res) {
-                    is TheResult.Loading -> {
-
-                    }
-                    is TheResult.Success -> {
-                        Toast.makeText(this, res.data.message, Toast.LENGTH_SHORT).show()
-                        reqKon(token,id_pm,"diterima","PM")
-                    }
-                    is TheResult.Error -> {
-                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun reqKon(token: String, id: Int, statLamar: String, role: String) {
-        viewModel.reqKon(token, id, statLamar, role).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is TheResult.Loading -> {
-
-                    }
-                    is TheResult.Success -> {
-                        Toast.makeText(this, result.data.message, Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, id.toString(), Toast.LENGTH_SHORT).show()
-                    }
-                    is TheResult.Error -> {
-                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
 
     // set Tanggal proyek selesai
     private fun setDate(edText: EditText) {
