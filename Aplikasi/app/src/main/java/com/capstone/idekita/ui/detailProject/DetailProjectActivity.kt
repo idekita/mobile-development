@@ -134,7 +134,7 @@ class DetailProjectActivity : AppCompatActivity() {
                 binding.btnJoin.visibility = View.VISIBLE
             }
             removeButtonWhenStatusSelesai(project?.project?.status)
-            cekIsRating(token.token,token.name,project?.id)
+            cekIsRating(token.token,token.name,project?.project?.id)
         }
 
     }

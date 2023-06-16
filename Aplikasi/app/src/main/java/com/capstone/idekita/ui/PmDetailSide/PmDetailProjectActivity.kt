@@ -63,7 +63,7 @@ class PmDetailProjectActivity : AppCompatActivity() {
         }
 
 
-        binding.idProyek.text = project?.id.toString()
+        //binding.idProyek.text = project?.id.toString()
 
         val isFromRekom = intent.getBooleanExtra(REKOM,false)
 
@@ -112,8 +112,10 @@ class PmDetailProjectActivity : AppCompatActivity() {
                 val intent = Intent(this,ContributorAccActivity::class.java)
 
                 val IdProyek = project.id
+                val creator = project.creator
                 val bundle = Bundle()
                 bundle.putInt("extra_id",IdProyek)
+                bundle.putString("extra_creator",creator)
                 intent.putExtras(bundle)
                 //intent.putExtra(ProjectContributorFragment.EXTRA_DATA,IdProyek)
 
@@ -152,10 +154,61 @@ class PmDetailProjectActivity : AppCompatActivity() {
             }
             removeButtonWhenStatusSelesai(project?.status)
             cekIsRating(token.token,token.name,project?.id)
+            cekIsContributor(token.token,token.name,project?.id)
         }
 
 
 
+    }
+
+//    private fun getContributor(token:String,Id:Int){
+//        viewModel.getContributorAcc(token,Id).observe(this){
+//            if
+//        }
+//    }
+
+    private fun cekIsContributor(token : String,name: String,id_proyek:Int?){
+
+        viewModel.getContributorAcc(token,id_proyek).observe(this){res ->
+            if (res != null) {
+                when (res) {
+                    is TheResult.Loading -> {
+
+                    }
+                    is TheResult.Success -> {
+                        val cekContributor = res.data
+
+                        if (cekContributor.isEmpty()){
+                            Toast.makeText(this@PmDetailProjectActivity,"Kontributor kosong",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            for(i in cekContributor){
+                                //Toast.makeText(this,"${id_proyek.toString()} asdasdas",Toast.LENGTH_SHORT).show()
+                                val project = if (Build.VERSION.SDK_INT >= 33) {
+                                    intent.getParcelableExtra(EXTRA_DATA, ProjectsItem::class.java)
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    intent.getParcelableExtra(EXTRA_DATA)
+                                }
+                                if(i.username == name &&  project?.id == id_proyek){
+                                    binding.btCont.visibility = View.VISIBLE
+                                    binding.btChat.visibility = View.VISIBLE
+                                    Toast.makeText(this@PmDetailProjectActivity,"Kamu Contributor disini",Toast.LENGTH_SHORT).show()
+                                    //binding.tvUlasan.text = "Kamu sudah memberi rating"
+                                    //Toast.makeText(this,"${i.username} + ${i.id_proyek}",Toast.LENGTH_SHORT).show()
+                                    //Log.i("idProj","${i.id_proyek}")
+                                    // break
+                                }
+                            }
+                        }
+
+                    }
+                    is TheResult.Error -> {
+//                        Toast.makeText(this, res.error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
 

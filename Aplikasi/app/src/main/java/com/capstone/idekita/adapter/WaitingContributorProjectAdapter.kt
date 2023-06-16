@@ -1,8 +1,10 @@
 package com.capstone.idekita.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -25,14 +27,24 @@ class WaitingContributorProjectAdapter:
 
     class ViewHolder(private val binding: ItemContributorWaitingBinding):
     RecyclerView.ViewHolder(binding.root){
+
+        val imgContributor:ImageView = binding.ivContributor
+        val nameContributor:TextView = binding.nameContributor
+        val btnTolak:Button = binding.btnTolak
+        val btnTerima:Button = binding.btnTerimaa
         fun bind(data:ContributorsItemWait){
             binding.ivContributor.setImageResource(R.drawable.holder_person)
             binding.nameContributor.text = data.username
             binding.roleContributor.text = data.role
             binding.btnTolak.setOnClickListener {
+
+            }
+            binding.btnTerimaa.setOnClickListener {
+
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemContributorWaitingBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -42,7 +54,16 @@ class WaitingContributorProjectAdapter:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         if (data != null){
-            holder.bind(data)
+
+            holder.imgContributor.setImageResource(R.drawable.holder_person)
+            holder.nameContributor.text = data.username
+            holder.btnTolak.setOnClickListener {
+                onItemClickCallback.onItemTolakClicked(data)
+            }
+            holder.btnTerima.setOnClickListener {
+                onItemClickCallback.onItemClicked(data)
+            }
+            //holder.bind(data)
         }
     }
 
