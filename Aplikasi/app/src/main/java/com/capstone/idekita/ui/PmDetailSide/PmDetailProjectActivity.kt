@@ -326,12 +326,12 @@ class PmDetailProjectActivity : AppCompatActivity() {
                     is TheResult.Success -> {
                         val cekRate = res.data
                         for(i in cekRate){
-                            Toast.makeText(this,"${id_proyek.toString()} asdasdas",Toast.LENGTH_SHORT).show()
                             if(i.username == userName && i.id_proyek == id_proyek){
                                 binding.btSend.visibility = View.GONE
                                 binding.rbRating.visibility = View.GONE
-                                binding.tvUlasan.text = "Kamu sudah memberi rating"
-                                Toast.makeText(this,"${i.username} + ${i.id_proyek}",Toast.LENGTH_SHORT).show()
+                                binding.rbRatingRead.visibility = View.VISIBLE
+                                binding.rbRatingRead.rating = i.nilai.toFloat()
+                                binding.tvUlasan.text = "Rating proyek"
                                 Log.i("idProj","${i.id_proyek}")
                                 break
                             }

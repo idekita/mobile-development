@@ -100,7 +100,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:padding="8dp"
-                    android:background="#1E4798"
                     android:src="@drawable/baseline_handshake_24"
                     android:layout_marginRight="16dp"
                     />
@@ -325,7 +324,7 @@
                     android:textStyle="bold"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/id_proyek" />
+                    app:layout_constraintTop_toBottomOf="@+id/endTV" />
 
                 <RatingBar
                     android:id="@+id/rb_rating"
@@ -333,6 +332,19 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:stepSize="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_ulasan"
+                    android:visibility="gone"
+                    />
+
+                <RatingBar
+                    android:id="@+id/rb_rating_read"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:isIndicator="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_ulasan"
@@ -351,7 +363,9 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
 
         </LinearLayout>
 

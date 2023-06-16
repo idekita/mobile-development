@@ -54,8 +54,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:autofillHints="@string/input_proj_name"
-                    android:hint="@string/input_proj_name" />
+                    android:autofillHints="Your Message"
+                    android:hint="Your Message" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
