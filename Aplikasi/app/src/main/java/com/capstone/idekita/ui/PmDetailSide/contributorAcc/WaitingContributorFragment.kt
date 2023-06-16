@@ -41,15 +41,9 @@ class WaitingContributorFragment : Fragment() {
         val extras = requireActivity().intent.extras
         if(extras != null){
             val idProyek = extras.getInt("extra_id")
-            //val idContributor = extras.getInt("")
 
             homeViewModel.getUser().observe(viewLifecycleOwner){user->
                 showContributorWaiting(user.token,idProyek,"Anggota")
-//                homeViewModel.listContributorWait.observe(viewLifecycleOwner){
-//                    //showContributor(it,user.token,"Anggota")
-//                }
-//                homeViewModel.getWaitingContributor(user.token,idProyek)
-//                //homeViewModel.getAllContributorWait(user.token,idProyek)
             }
 
         }
@@ -66,7 +60,7 @@ class WaitingContributorFragment : Fragment() {
 
                     }
                     is TheResult.Success -> {
-                        Toast.makeText(requireContext(), result.data.message, Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(requireContext(), result.data.message, Toast.LENGTH_SHORT).show()
                         Toast.makeText(requireContext(), id.toString(), Toast.LENGTH_SHORT).show()
                     }
                     is TheResult.Error -> {
@@ -90,26 +84,36 @@ class WaitingContributorFragment : Fragment() {
                         if (data.isEmpty()){
                             binding.emptyData.visibility = View.VISIBLE
                         } else{
-                            binding.emptyData.visibility = View.GONE
-                            binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
-                            binding.rvWaitingContributor.adapter = adapter
-                            adapter.submitList(data)
-                            adapter.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
+                            homeViewModel.getUser().observe(viewLifecycleOwner){user->
+                                val extras = requireActivity().intent.extras
 
-                                override fun onItemClicked(data: ContributorsItemWait) {
-                                    val idContributor = data.id
-                                    accProject(token,idContributor,"diterima",role)
-                                    Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
+                                if (user.name != extras?.getString("extra_creator")){
+                                    binding.rvWaitingContributor.visibility = View.GONE
+                                    binding.emptyData.text = "anda tidak bisa mengakses Halaman ini"
+                                }else{
+                                    binding.emptyData.visibility = View.GONE
+                                    binding.rvWaitingContributor.layoutManager = LinearLayoutManager(requireContext())
+                                    binding.rvWaitingContributor.adapter = adapter
+                                    adapter.submitList(data)
+                                    adapter.setOnItemClickCallback(object :WaitingContributorProjectAdapter.OnItemClickCallback{
 
+                                        override fun onItemClicked(data: ContributorsItemWait) {
+                                            val idContributor = data.id
+                                            accProject(token,idContributor,"diterima",role)
+                                            Toast.makeText(requireContext(),"Ini Tombol Terima",Toast.LENGTH_SHORT).show()
+
+                                        }
+
+                                        override fun onItemTolakClicked(data: ContributorsItemWait) {
+                                            Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
+                                            val idContributor = data.id
+                                            accProject(token,idContributor,"ditolak",role)
+                                        }
+
+                                    })
                                 }
+                            }
 
-                                override fun onItemTolakClicked(data: ContributorsItemWait) {
-                                    Toast.makeText(requireContext(),"Ini Tombol TOLAKKK",Toast.LENGTH_SHORT).show()
-                                    val idContributor = data.id
-                                    accProject(token,idContributor,"ditolak",role)
-                                }
-
-                            })
                         }
 
 
