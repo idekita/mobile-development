@@ -199,7 +199,6 @@ class HomeFragment : Fragment() {
 
 
     private fun showRekomendasi(token:String){
-        //binding.emptyData.visibility = View.VISIBLE
         binding.progressBar2.visibility = View.VISIBLE
         homeViewModel.getRecomendation(token).observe(viewLifecycleOwner){
             if (it != null){
